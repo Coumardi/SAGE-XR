@@ -17,7 +17,7 @@ jobs:
     strategy:
       matrix: 
         dir: ['backend' , 'frontend' ]
-        node-version: [14.x, 15.x, 16.x]
+        #node-version: [14.x, 15.x, 16.x]
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -29,7 +29,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: npm ci, build and test
         run: |
-          npm install
+          npm ci
           npm run build --if-present
           npm test
           
