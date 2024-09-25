@@ -15,7 +15,8 @@ jobs:
     runs-on: ubuntu-latest
 
     strategy:
-      matrix:
+      matrix: 
+        dir: ['backend' , 'frontend' ]
         node-version: [14.x, 15.x, 16.x]
 
     # Steps represent a sequence of tasks that will be executed as part of the job
@@ -26,9 +27,10 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node-version }}
-      - name: npm ci, build and test
+      - name: npm ci, build and test backend
         run: |
-          npm i --package-lock-only
           npm ci
           npm run build --if-present
-          npm test      
+          npm test
+          
+        
