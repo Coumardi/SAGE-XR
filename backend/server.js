@@ -10,6 +10,7 @@ const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const queryRoutes = require('./routes/queryRoutes');
+const keywordRoutes = require('./routes/keywordRoutes');
 
 const app = express();
 
@@ -23,6 +24,7 @@ app.get('/', (req, res) => {
 });
 
 app.use('/api', queryRoutes);
+app.use('/api', keywordRoutes);
 
 // Only start the server if not running tests
 if (process.env.NODE_ENV !== 'test') {

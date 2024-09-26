@@ -25,4 +25,4 @@ const openaiService = async (prompt) => {
     }
 };
 
-module.exports = { openaiService };
+module.exports = openaiService;
