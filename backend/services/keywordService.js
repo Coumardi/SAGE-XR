@@ -16,6 +16,11 @@ const extractKeywords = async (text) => {
                 'Content-Type': 'application/json'
             }
         });
+
+        if (!response.data.choices || response.data.choices.length === 0) {
+            throw new Error('Invalid response from OpenAI');
+        }
+
         return response.data.choices[0].message.content.trim();
     } catch (error) {
         console.error('Error response from OpenAI:', error.response ? error.response.data : error.message);

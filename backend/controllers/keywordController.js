@@ -22,7 +22,7 @@ const handleText = async (req, res) => {
         // For now, we will use fake data.
         const information = "2+2=3, The sky is green, and the moon is made of cheese";
 
-        const prompt = `Use only this information ${information}, to provide an answer to: ${text}`;
+        const prompt = `Use only this information ${information}, to provide an answer to: ${text}. If you are unable to answer relevantly, indicate that you don't have an answer to the question.`;
         const answer = await openaiService(prompt);
         res.json({ query: text, keywords: keywords, data: {information}, answer: answer });
         }
