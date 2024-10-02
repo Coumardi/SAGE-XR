@@ -2,22 +2,54 @@ import './App.css';
 import React, { useState, useEffect } from 'react';
 
 function App() {
-  const [message, setMessage] = useState('');
+  const [messages, setMessages] = useState([]); // To store chat messages
+  const [userInput, setUserInput] = useState(''); // To store user input
+  const [backendMessage, setBackendMessage] = useState(''); // To store message from backend
 
   useEffect(() => {
-    // Fetch data from the backend
-    fetch('http://localhost:5000/')  // Assuming your backend is running on port 5000
+    // Fetch data from the backend when the component mounts
+    fetch('http://localhost:5000/')  //  backend URL
       .then(response => response.text())
-      .then(data => setMessage(data))
+      .then(data => setBackendMessage(data))
       .catch(error => console.error('Error fetching data from backend:', error));
   }, []);
 
+  // Function to handle sending a message
+  const sendMessage = () => {
+    if (userInput.trim() !== "") {
+      setMessages([...messages, { type: 'user', text: userInput }]); // Add user message to chat
+      setMessages(prev => [...prev, { type: 'ai', text: backendMessage }]); // Add backend response
+      setUserInput(''); // Clear input
+    }
+  };
+
   return (
-    <div className="App">
-      <h1>React Frontend</h1>
-      <p>Message from backend: {message}</p>
+    <div className="chat-container">
+      <div className="chat-box">
+        {messages.map((message, index) => (
+          <div
+            key={index}
+            className={message.type === 'user' ? 'user-message' : 'ai-message'}
+          >
+            {message.text}
+          </div>
+        ))}
+      </div>
+
+      <div className="input-area">
+        <input
+          type="text"
+          id="chat-input"
+          value={userInput}
+          onChange={(e) => setUserInput(e.target.value)}
+          placeholder="Type your message..."
+          autoComplete="off"
+        />
+        <button id="send-btn" onClick={sendMessage}>Send</button>
+      </div>
     </div>
   );
 }
 
 export default App;
+
