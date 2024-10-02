@@ -20,5 +20,5 @@ After pulling from main:
 
 
 **Notes on commiting to github**
-Please utilize the Jira issue number when doing any commits to wither branches or the staging which will be used as a temporary holding until vetted and tested.
-Code should be reviewed befopre being placed into main and signed off.
+Please utilize JIRA Issue numbers with a message in the commits so we can see changes done and get the commit revision.
+
