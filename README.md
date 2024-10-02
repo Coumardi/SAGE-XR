@@ -5,15 +5,15 @@ Ensure you have Node.js installed.
 
 After pulling from main:
 
-cd into the root directory of the project, wherever you pulled it to
-cd backend
-npm install
-cd ..
-cd frontend
-npm install
-cd ..
-cd backend
-npm start
-cd ..
-10.cd frontend
-npm start
+1. cd into the root directory of the project, wherever you pulled it to
+2. cd backend
+3. npm install
+4. cd ..
+5. cd frontend
+6. npm install
+7. cd ..
+8. cd backend
+9. npm start
+10. cd ..
+11. cd frontend
+12. npm start
