@@ -16,10 +16,16 @@ function App() {
 
   // Function to handle sending a message
   const sendMessage = () => {
-    if (userInput.trim() !== "") {
+    if (userInput.trim() !== "" && userInput.length < 1000) {
       setMessages([...messages, { type: 'user', text: userInput }]); // Add user message to chat
       setMessages(prev => [...prev, { type: 'ai', text: backendMessage }]); // Add backend response
       setUserInput(''); // Clear input
+    }
+    else if (userInput.length >= 1000) {
+      alert('Message is too long. Please keep it under 1000 characters.');
+    }
+    else {
+      alert('Please enter a message');
     }
   };
 
@@ -42,7 +48,7 @@ function App() {
           id="chat-input"
           value={userInput}
           onChange={(e) => setUserInput(e.target.value)}
-          placeholder="Type your message..."
+          placeholder="Ask SAGE anything..."
           autoComplete="off"
         />
         <button id="send-btn" onClick={sendMessage}>Send</button>
