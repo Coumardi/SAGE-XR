@@ -1,24 +1,31 @@
+import React, { useState } from 'react';
 import './App.css';
-import React, { useState, useEffect } from 'react';
 
 function App() {
   const [messages, setMessages] = useState([]); // To store chat messages
   const [userInput, setUserInput] = useState(''); // To store user input
-  const [backendMessage, setBackendMessage] = useState(''); // To store message from backend
-
-  useEffect(() => {
-    // Fetch data from the backend when the component mounts
-    fetch('http://localhost:5000/')  //  backend URL
-      .then(response => response.text())
-      .then(data => setBackendMessage(data))
-      .catch(error => console.error('Error fetching data from backend:', error));
-  }, []);
 
   // Function to handle sending a message
-  const sendMessage = () => {
+  const sendMessage = async () => {
     if (userInput.trim() !== "") {
       setMessages([...messages, { type: 'user', text: userInput }]); // Add user message to chat
-      setMessages(prev => [...prev, { type: 'ai', text: backendMessage }]); // Add backend response
+
+      try {
+        const response = await fetch('http://localhost:5000/call-ai', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ data: userInput })
+        });
+
+        const result = await response.json();
+        setMessages(prev => [...prev, { type: 'ai', text: result.message }]); // Add backend response
+      } catch (error) {
+        console.error('Error calling AI service:', error);
+        setMessages(prev => [...prev, { type: 'ai', text: 'Error calling AI service' }]);
+      }
+
       setUserInput(''); // Clear input
     }
   };
@@ -52,4 +59,3 @@ function App() {
 }
 
 export default App;
-
