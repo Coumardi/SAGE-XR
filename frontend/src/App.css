@@ -8,6 +8,7 @@ body {
   align-items: center;
   background-color: #f0f0f0;
   font-family: 'Arial', sans-serif;
+
 }
 
 .chat-container {
@@ -63,6 +64,8 @@ body {
   border-radius: 5px;
   
 }
+
+
 
 #send-btn {
   margin-left: 10px;

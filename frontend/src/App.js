@@ -8,7 +8,7 @@ function App() {
 
   useEffect(() => {
     // Fetch data from the backend when the component mounts
-    fetch('http://localhost:5000/')  // backend URL
+    fetch('http://localhost:5000/')  //  backend URL
       .then(response => response.text())
       .then(data => setBackendMessage(data))
       .catch(error => console.error('Error fetching data from backend:', error));
@@ -28,6 +28,12 @@ function App() {
     if (e.key === 'Enter') {
       e.preventDefault(); // Prevent the default behavior of Enter (such as submitting a form)
       sendMessage(); // Send the message
+
+    else if (userInput.length >= 1000) {
+      alert('Message is too long. Please keep it under 1000 characters.');
+    }
+    else {
+      alert('Please enter a message');
     }
   };
 
@@ -52,6 +58,7 @@ function App() {
           onChange={(e) => setUserInput(e.target.value)}
           onKeyPress={handleKeyPress} // Call handleKeyPress when a key is pressed
           placeholder="Type your message..."
+          placeholder="Ask SAGE anything..."
           autoComplete="off"
         />
         <button id="send-btn" onClick={sendMessage}>Send</button>
@@ -61,3 +68,4 @@ function App() {
 }
 
 export default App;
+
