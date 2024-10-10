@@ -8,7 +8,7 @@ function App() {
 
   useEffect(() => {
     // Fetch data from the backend when the component mounts
-    fetch('http://localhost:5000/')  //  backend URL
+    fetch('http://localhost:5000/')  // backend URL
       .then(response => response.text())
       .then(data => setBackendMessage(data))
       .catch(error => console.error('Error fetching data from backend:', error));
@@ -20,6 +20,14 @@ function App() {
       setMessages([...messages, { type: 'user', text: userInput }]); // Add user message to chat
       setMessages(prev => [...prev, { type: 'ai', text: backendMessage }]); // Add backend response
       setUserInput(''); // Clear input
+    }
+  };
+
+  // Function to handle pressing "Enter" key
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault(); // Prevent the default behavior of Enter (such as submitting a form)
+      sendMessage(); // Send the message
     }
   };
 
@@ -42,6 +50,7 @@ function App() {
           id="chat-input"
           value={userInput}
           onChange={(e) => setUserInput(e.target.value)}
+          onKeyPress={handleKeyPress} // Call handleKeyPress when a key is pressed
           placeholder="Type your message..."
           autoComplete="off"
         />
@@ -52,4 +61,3 @@ function App() {
 }
 
 export default App;
-
