@@ -16,11 +16,19 @@ function App() {
 
   // Function to handle sending a message
   const sendMessage = () => {
-    if (userInput.trim() !== "" && userInput.length < 1000) {
+    if (userInput.trim() !== "") {
       setMessages([...messages, { type: 'user', text: userInput }]); // Add user message to chat
       setMessages(prev => [...prev, { type: 'ai', text: backendMessage }]); // Add backend response
       setUserInput(''); // Clear input
     }
+  };
+
+  // Function to handle pressing "Enter" key
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault(); // Prevent the default behavior of Enter (such as submitting a form)
+      sendMessage(); // Send the message
+
     else if (userInput.length >= 1000) {
       alert('Message is too long. Please keep it under 1000 characters.');
     }
@@ -48,6 +56,8 @@ function App() {
           id="chat-input"
           value={userInput}
           onChange={(e) => setUserInput(e.target.value)}
+          onKeyPress={handleKeyPress} // Call handleKeyPress when a key is pressed
+          placeholder="Type your message..."
           placeholder="Ask SAGE anything..."
           autoComplete="off"
         />
