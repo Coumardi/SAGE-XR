@@ -44,7 +44,7 @@ body {
 .ai-message {
   background-color: #181515;  
   align-self: flex-start;
-  color: white; /* Ensure that message from SAGE text is visible */
+  color: white; /* Ensure that message from text is visible */
 }
 
 .input-area {
