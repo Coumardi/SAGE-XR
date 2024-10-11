@@ -13,6 +13,7 @@ const queryroutes = require('./routes/queryRoutes');
 const keywordroutes = require('./routes/keywordRoutes');
 const path = require('path'); // Add path module
 const extractKeywords = require('./services/keywordService');
+const openaiService = require('./services/openaiService');
 const app = express();
 
 // middleware
@@ -29,7 +30,25 @@ app.get('/', (req, res) => {
 
 // route to call AI service
 app.post('/call-ai', async (req, res) => {
-  extractKeywords(req.body.text);
+  try {
+    const response = await axios.post('https://api.openai.com/v1/chat/completions', {
+      model: 'gpt-4o-mini', // Defining model
+      messages: [
+        { role: 'user', content: req.body.data } // Use req.body.data as the user input
+      ],
+      max_tokens: 10000,
+      temperature: 1.5,
+    }, {
+      headers: {
+        'Authorization': `Bearer ${process.env.API_KEY}`,
+        'Content-Type': 'application/json'
+      }
+    });
+    res.json({ message: response.data.choices[0].message.content.trim() }); // Send response back to client
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Error calling AI service');
+  }
 });
 
 app.use('/api', queryroutes);

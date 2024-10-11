@@ -1,0 +1,15 @@
+9/23/2024
+
+Frontend will send a query to backend: "http://localhost:5000/api/query
+
+server.js receives the request and sends it to the appropriate route,
+in this case the /api/query route
+
+queryRoutes.js handles this route and sends the request to queryController.js
+
+queryController.js validates the request and calls openaiService.js, which
+interacts with the OpenAI api
+
+openaiService.js sends the query to OpenAI, gets a response, and sends it back to the controller.
+
+The controller packages the response and sends it back to the fronted, where the user will be able to see the result.
