@@ -1,4 +1,4 @@
-/* src/App.css */
+/* App.css */
 body {
   margin: 0;
   padding: 0;
@@ -24,7 +24,7 @@ body {
 .chat-box {
   flex: 1;
   padding: 20px;
-  overflow-X: auto;
+  overflow-y: auto; /* Enable vertical scrolling */
   background-color: #ffffff;
 }
 
@@ -37,14 +37,14 @@ body {
 }
 
 .user-message {
-  
   color: rgb(83, 80, 80);
   align-self: flex-end;
 }
 
 .ai-message {
-  background-color: #181515;
+  background-color: #181515;  
   align-self: flex-start;
+  color: white; /* Ensure that message from SAGE text is visible */
 }
 
 .input-area {
@@ -52,7 +52,7 @@ body {
   padding: 10px;
   border-top: 1px solid #ddd;
   background-color: white;
-  
+  align-items: flex-end; /* Align input at the bottom */
 }
 
 #chat-input {
@@ -61,8 +61,15 @@ body {
   font-size: 16px;
   border: 1px solid #ddd;
   border-radius: 5px;
-  
+  line-height: 1.5;
+  max-height: 100px; /* Set max height */
+  overflow-y: auto; /* Enable vertical scrolling */
+  resize: none; /* Disable resizing */
+  word-wrap: break-word; /* Break long words if necessary */
+  box-sizing: border-box;
+  display: block; /* Ensures it takes up the full width in flex */
 }
+
 
 #send-btn {
   margin-left: 10px;

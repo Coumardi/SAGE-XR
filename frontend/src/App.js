@@ -1,34 +1,41 @@
 import './App.css';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 function App() {
-  const [messages, setMessages] = useState([]); // To store chat messages
+  const [messages, setMessages] = useState([]); // To storE chat messages
   const [userInput, setUserInput] = useState(''); // To store user input
-  const [backendMessage, setBackendMessage] = useState(''); // To store message from backend
+  const inputRef = useRef(null); // Reference to the textarea
 
   useEffect(() => {
-    // Fetch data from the backend when the component mounts
-    fetch('http://localhost:5000/')  // backend URL
+    
+    fetch('http://localhost:5000/')  // Replace with backend URL 
       .then(response => response.text())
-      .then(data => setBackendMessage(data))
+      .then(data => console.log(data)) // Handle backend data if needed
       .catch(error => console.error('Error fetching data from backend:', error));
   }, []);
 
   // Function to handle sending a message
   const sendMessage = () => {
     if (userInput.trim() !== "") {
-      setMessages([...messages, { type: 'user', text: userInput }]); // Add user message to chat
-      setMessages(prev => [...prev, { type: 'ai', text: backendMessage }]); // Add backend response
+      setMessages([...messages, { type: 'user', text: userInput }]); // Add user message
       setUserInput(''); // Clear input
+      inputRef.current.style.height = 'auto'; // Reset height to auto for new input
     }
   };
 
   // Function to handle pressing "Enter" key
   const handleKeyPress = (e) => {
-    if (e.key === 'Enter') {
-      e.preventDefault(); // Prevent the default behavior of Enter (such as submitting a form)
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault(); // Prevent default behavior of Enter
       sendMessage(); // Send the message
     }
+  };
+
+  // Dynamically adjust the textarea height as the user types
+  const adjustTextareaHeight = () => {
+    const textarea = inputRef.current;
+    textarea.style.height = 'auto'; // Reset height to auto to calculate new height
+    textarea.style.height = `${textarea.scrollHeight}px`; // Adjust height based on scroll height
   };
 
   return (
@@ -45,14 +52,18 @@ function App() {
       </div>
 
       <div className="input-area">
-        <input
-          type="text"
+        <textarea
           id="chat-input"
           value={userInput}
-          onChange={(e) => setUserInput(e.target.value)}
-          onKeyPress={handleKeyPress} // Call handleKeyPress when a key is pressed
+          onChange={(e) => {
+            setUserInput(e.target.value);
+            adjustTextareaHeight(); // Adjust height as user types
+          }}
+          onKeyPress={handleKeyPress} // Handle "Enter" key press
           placeholder="Type your message..."
-          autoComplete="off"
+          ref={inputRef} // Attach ref to the textarea
+          rows={1} // Start with a single row
+          style={{ resize: 'none', overflowY: 'auto' }} // Disable manual resizing and enable vertical scroll
         />
         <button id="send-btn" onClick={sendMessage}>Send</button>
       </div>
