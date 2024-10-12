@@ -36,10 +36,10 @@ function App() {
       e.preventDefault(); // Prevent the default behavior of Enter (such as submitting a form)
       sendMessage(); // Send the message
     }
-    else if (userInput.length >= 1000) {
+    else if (e.key === 'Enter' && userInput.length >= 1000) {
       alert('Message is too long. Please keep it under 1000 characters.');
     }
-    else {
+    else if (e.key === 'Enter' && userInput.trim() === "") {
       alert('Please enter a message');
     }
   };
