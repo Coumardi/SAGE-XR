@@ -37,7 +37,7 @@ app.post('/call-ai', async (req, res) => {
         { role: 'user', content: req.body.data } // Use req.body.data as the user input
       ],
       max_tokens: 10000,
-      temperature: 5,
+      temperature: 2,
     }, {
       headers: {
         'Authorization': `Bearer ${process.env.API_KEY}`,
