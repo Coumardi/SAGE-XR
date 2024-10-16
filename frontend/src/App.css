@@ -62,7 +62,8 @@ body {
   border: 1px solid #ddd;
   border-radius: 5px;
   line-height: 1.5;
-  max-height: 100px; /* Set max height */
+  min-height: 15px;
+  max-height: 150px; /* Set max height */
   overflow-y: auto; /* Enable vertical scrolling */
   resize: none; /* Disable resizing */
   word-wrap: break-word; /* Break long words if necessary */
@@ -79,6 +80,7 @@ body {
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  
 }
 
 #send-btn:hover {

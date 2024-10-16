@@ -4,6 +4,25 @@ import React, { useState, useEffect } from 'react';
 function App() {
   const [messages, setMessages] = useState([]); // To storE chat messages
   const [userInput, setUserInput] = useState(''); // To store user input
+// this funtion adjust the input area when input text increase and adjust 
+// overflow behavior based on content height
+  const adjustInputareaHeight = ()=> {
+    const textarea = document.getElementById("chat-input");
+    textarea.style.height = "auto";
+    textarea.style.height=`${textarea.scrollHeight}px`;
+
+    if (textarea.scrollHeight > 50)
+    {
+      textarea.style.overflowY = "auto";
+    }
+    else
+    {
+      textarea.style.overflowY = "hidden";
+    }
+
+
+  };
+
   const sendMessage = async () => {
     if (userInput.trim() !== "") {
       setMessages([...messages, { type: 'user', text: userInput }]); // Add user message to chat
@@ -25,6 +44,7 @@ function App() {
       }
 
       setUserInput(''); // Clear input
+      
     }
   };
 
@@ -58,8 +78,11 @@ function App() {
       <div className="input-area">
         <textarea
           id="chat-input"
+          rows={1}
           value={userInput}
-          onChange={(e) => setUserInput(e.target.value)}
+          onChange={(e) => {setUserInput(e.target.value);
+            adjustInputareaHeight();
+          }}
           onKeyPress={handleKeyPress} // Call handleKeyPress when a key is pressed
           placeholder="Ask SAGE anything..."
           autoComplete="off"
