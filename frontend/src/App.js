@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 function App() {
   const [messages, setMessages] = useState([]); // To storE chat messages
   const [userInput, setUserInput] = useState(''); // To store user input
+
 // this funtion adjust the input area when input text increase and adjust 
 // overflow behavior based on content height
   const adjustInputareaHeight = ()=> {
@@ -62,6 +63,8 @@ function App() {
     }
   };
 
+  //Add paperclip icon to the input area
+  //Make GUI popup when user clicks on the paperclip icon
   return (
     <div className="chat-container">
       <div className="chat-box">
