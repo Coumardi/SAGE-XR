@@ -1,33 +1,33 @@
 import './App.css';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import ChatBox from './Components/ChatBox';
+import InputArea from './Components/InputArea';
+import UploadModal from './Components/UploadModal';
+import '@fortawesome/fontawesome-free/css/all.css';
+
+
 
 function App() {
-  const [messages, setMessages] = useState([]); // To storE chat messages
-  const [userInput, setUserInput] = useState(''); // To store user input
+  const [messages, setMessages] = useState([]);
+  const [userInput, setUserInput] = useState('');
+  const [showUploadModal, setShowUploadModal] = useState(false);
 
-// this funtion adjust the input area when input text increase and adjust 
-// overflow behavior based on content height
-  const adjustInputareaHeight = ()=> {
+  const adjustInputareaHeight = () => {
     const textarea = document.getElementById("chat-input");
     textarea.style.height = "auto";
-    textarea.style.height=`${textarea.scrollHeight}px`;
+    textarea.style.height = `${textarea.scrollHeight}px`;
 
-    if (textarea.scrollHeight > 50)
-    {
+    if (textarea.scrollHeight > 50) {
       textarea.style.overflowY = "auto";
-    }
-    else
-    {
+    } else {
       textarea.style.overflowY = "hidden";
     }
-
-
   };
 
   const sendMessage = async () => {
     if (userInput.trim() !== "") {
       setMessages([...messages, { type: 'user', text: userInput }]); // Add user message to chat
-
+  
       try {
         const response = await fetch('http://localhost:5000/call-ai', {
           method: 'POST',
@@ -36,62 +36,45 @@ function App() {
           },
           body: JSON.stringify({ data: userInput })
         });
-
+  
         const result = await response.json();
         setMessages(prev => [...prev, { type: 'ai', text: result.message }]); // Add backend response
       } catch (error) {
         console.error('Error calling AI service:', error);
         setMessages(prev => [...prev, { type: 'ai', text: 'Error calling AI service' }]);
       }
-
+  
       setUserInput(''); // Clear input
-      
     }
   };
 
-  // Function to handle pressing "Enter" key
   const handleKeyPress = (e) => {
     if (e.key === 'Enter') {
-      e.preventDefault(); // Prevent the default behavior of Enter (such as submitting a form)
-      sendMessage(); // Send the message
-    }
-    else if (e.key === 'Enter' && userInput.length >= 1000) {
-      alert('Message is too long. Please keep it under 1000 characters.');
-    }
-    else if (e.key === 'Enter' && userInput.trim() === "") {
-      alert('Please enter a message');
+      e.preventDefault();
+      sendMessage();
     }
   };
 
-  //Add paperclip icon to the input area
-  //Make GUI popup when user clicks on the paperclip icon
+  const toggleUploadModal = () => {
+    setShowUploadModal(!showUploadModal);
+  };
+
+
+
   return (
     <div className="chat-container">
-      <div className="chat-box">
-        {messages.map((message, index) => (
-          <div
-            key={index}
-            className={message.type === 'user' ? 'user-message' : 'ai-message'}
-          >
-            {message.text}
-          </div>
-        ))}
-      </div>
-
-      <div className="input-area">
-        <textarea
-          id="chat-input"
-          rows={1}
-          value={userInput}
-          onChange={(e) => {setUserInput(e.target.value);
-            adjustInputareaHeight();
-          }}
-          onKeyPress={handleKeyPress} // Call handleKeyPress when a key is pressed
-          placeholder="Ask SAGE anything..."
-          autoComplete="off"
-        />
-        <button id="send-btn" onClick={sendMessage}>Send</button>
-      </div>
+      <ChatBox messages={messages} />
+      <InputArea
+        userInput={userInput}
+        setUserInput={setUserInput}
+        sendMessage={sendMessage}
+        adjustInputareaHeight={adjustInputareaHeight}
+        handleKeyPress={handleKeyPress}
+        toggleUploadModal={toggleUploadModal}
+      />
+      {showUploadModal && (
+        <UploadModal toggleUploadModal={toggleUploadModal} />
+      )}
     </div>
   );
 }
