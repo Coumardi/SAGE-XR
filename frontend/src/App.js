@@ -1,25 +1,30 @@
 
 import './App.css';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import ChatBox from './Components/ChatBox';
+import InputArea from './Components/InputArea';
+import UploadModal from './Components/UploadModal';
+import '@fortawesome/fontawesome-free/css/all.css';
+
+
 
 function App() {
   const [messages, setMessages] = useState([]); // To storE chat messages
   const [userInput, setUserInput] = useState(''); // To store user input
   const [isTyping, setIsTyping]= useState(false);
+  const [showUploadModal, setShowUploadModal] = useState(false);
+
 
 // this funtion adjust the input area when input text increase and adjust 
 // overflow behavior based on content height
-    const adjustInputareaHeight = ()=> {
+  const adjustInputareaHeight = () => {
     const textarea = document.getElementById("chat-input");
     textarea.style.height = "auto";
-    textarea.style.height=`${textarea.scrollHeight}px`;
+    textarea.style.height = `${textarea.scrollHeight}px`;
 
-    if (textarea.scrollHeight > 50)
-    {
+    if (textarea.scrollHeight > 50) {
       textarea.style.overflowY = "auto";
-    }
-    else
-    {
+    } else {
       textarea.style.overflowY = "hidden";
     }
 
@@ -62,7 +67,7 @@ function App() {
           },
           body: JSON.stringify({ data: userInput })
         });
-
+  
         const result = await response.json();
         const aiCurrentTime = new Date().toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'}); //add backend respond with timestamp
 
@@ -74,7 +79,7 @@ function App() {
         setMessages(prev => [...prev, { type: 'ai', text: 'Error calling AI service', timeStamp: currentTime }]);
         setIsTyping(false);
       }
-
+  
       setUserInput(''); // Clear input
       const textarea = document.getElementById("chat-input");
       textarea.style.height="auto";
@@ -85,16 +90,16 @@ function App() {
   // Function to handle pressing "Enter" key
    const handleKeyPress = (e) => {
     if (e.key === 'Enter') {
-      e.preventDefault(); // Prevent the default behavior of Enter (such as submitting a form)
-      sendMessage(); // Send the message
-    }
-    else if (e.key === 'Enter' && userInput.length >= 1000) {
-      alert('Message is too long. Please keep it under 1000 characters.');
-    }
-    else if (e.key === 'Enter' && userInput.trim() === "") {
-      alert('Please enter a message');
+      e.preventDefault();
+      sendMessage();
     }
   };
+
+  const toggleUploadModal = () => {
+    setShowUploadModal(!showUploadModal);
+  };
+
+
 
   return (
     <div className="chat-container">
