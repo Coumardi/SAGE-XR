@@ -31,23 +31,23 @@ function App() {
   };
 
 
-    const typeMessage = (text, index=0)=>{
-      if (index < text.length)
-      {
-        setTimeout(()=>{
-          setMessages((prev)=>{
-            const lastMessage=prev[prev.length-1];
-            const newMessage={ ...lastMessage, text:lastMessage.text +text[index]};
-            return[ ...prev.slice(0, -1),newMessage];
-          });
+  const typeMessage = (text, index=0)=>{
+    if (index < text.length)
+    {
+      setTimeout(()=>{
+        setMessages((prev)=>{
+          const lastMessage=prev[prev.length-1];
+          const newMessage={ ...lastMessage, text:lastMessage.text +text[index]};
+          return[ ...prev.slice(0, -1),newMessage];
+        });
           
-          typeMessage(text, index+1);
-        },30);}
+        typeMessage(text, index+1);
+      },30);}
 
-        else{
-          setIsTyping(false);
-        }
-      };
+      else{
+        setIsTyping(false);
+      }
+    };
 
 
   
@@ -88,50 +88,41 @@ function App() {
   };
 
   // Function to handle pressing "Enter" key
-   const handleKeyPress = (e) => {
+  const handleKeyPress = (e) => {
     if (e.key === 'Enter') {
-      e.preventDefault();
-      sendMessage();
+      e.preventDefault(); // Prevent the default behavior of Enter
+  
+      if (userInput.trim() === "") {
+        alert('Please enter a message');
+      } else if (userInput.length >= 1000) {
+        alert('Message is too long. Please keep it under 1000 characters.');
+      } else {
+        sendMessage(); // Send the message if conditions are met
+      }
     }
   };
+  
 
   const toggleUploadModal = () => {
     setShowUploadModal(!showUploadModal);
   };
 
-
-
   return (
-    <div className="chat-container">
-
-      <h1 className="title"> SAGE XR</h1>
-      <div className="chat-box">
-        {messages.map((message, index) => (
-          <div
-            key={index}
-            className={message.type === 'user' ? 'user-message' : 'ai-message'}
-          >
-            {message.text}
-            <div className="timestamp">{message.timeStamp}</div>
-          </div>
-        ))}
-      </div>
-
-      <div className="input-area">
-        <textarea
-          id="chat-input"
-          rows={1}
-          value={userInput}
-          onChange={(e) => {setUserInput(e.target.value);
-            adjustInputareaHeight();
-          }}
-          onKeyPress={handleKeyPress} // Call handleKeyPress when a key is pressed
-          placeholder="Ask SAGE anything..."
-          autoComplete="off"
+      <div className="chat-container">
+        <h1 className="title"> SAGE XR</h1>
+        <ChatBox messages={messages} />
+        <InputArea
+          userInput={userInput}
+          setUserInput={setUserInput}
+          sendMessage={sendMessage}
+          adjustInputareaHeight={adjustInputareaHeight}
+          handleKeyPress={handleKeyPress}
+          toggleUploadModal={toggleUploadModal}
         />
-        <button id="send-btn" onClick={sendMessage}>Send</button>
+        {showUploadModal && (
+          <UploadModal toggleUploadModal={toggleUploadModal} />
+        )}
       </div>
-    </div>
   );
 }
 
