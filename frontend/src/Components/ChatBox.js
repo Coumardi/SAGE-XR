@@ -6,6 +6,7 @@ function ChatBox({ messages }) {
       {messages.map((message, index) => (
         <div key={index} className={message.type === 'user' ? 'user-message' : 'ai-message'}>
           {message.text}
+          <div className="timestamp">{message.timeStamp}</div>
         </div>
       ))}
     </div>
