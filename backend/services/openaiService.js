@@ -3,21 +3,26 @@
 
 const axios = require('axios');
 
-const openaiService = async (prompt) => {
+const openaiService = async (userInput, context) => {
     try {
-        const response = await axios.post('https://api.openai.com/v1/chat/completions', {
-            model: 'gpt-4o-mini', // Defining model
+
+        const prompt = this.createPrompt(userInput, context);
+        
+        const response = await this.client.post('https://api.openai.com/v1/chat/completions', {
+            model: 'gpt-4',
             messages: [
-                { role: 'user', content: prompt} // "prompt" is the user input
+              {
+                role: 'system',
+                content: 'You are a helpful assistant. Use the provided context to answer the user\'s question accurately. Only use information from the context and acknowledge when you need more information.'
+              },
+              {
+                role: 'user',
+                content: prompt
+              }
             ],
             max_tokens: 10000,
-            temperature: 1.5,
-        }, {
-            headers: {
-                'Authorization': `Bearer ${process.env.API_KEY}`,
-                'Content-Type': 'application/json'
-            }
-        });
+            temperature: 0.7
+          });
         return response.data.choices[0].message.content.trim(); // Parsing response
     } catch (error) {
         console.error(error);
