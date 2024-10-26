@@ -6,12 +6,12 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #f0f0f0;
+  background-color: #d9d2d2;
   font-family: 'Arial', sans-serif;
 }
 
 .chat-container {
-  width: 500px;
+  width: 600px;
   height: 700px;
   display: flex;
   flex-direction: column;
@@ -19,6 +19,8 @@ body {
   border-radius: 10px;
   box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
   overflow: hidden;
+  top: 30px;
+  position: relative;
 }
 
 .chat-box {
@@ -26,6 +28,7 @@ body {
   padding: 20px;
   overflow-y: auto; /* Enable vertical scrolling */
   background-color: #ffffff;
+  user-select: none;
 }
 
 .message {
@@ -37,22 +40,54 @@ body {
 }
 
 .user-message {
-  color: rgb(83, 80, 80);
+  /* Dark background for user message */
+   /* White text color */
   align-self: flex-end;
+  margin: 10px 0;
+  padding: 10px 15px;
+  border-radius: 10px;
+  max-width: 100%;
+  word-wrap: break-word;
+  box-shadow: 0 1px 4px rgba(98, 96, 96, 0.3); /* Subtle shadow for depth */
 }
 
+
+
+
+
 .ai-message {
-  background-color: #181515;  
+   /* Darker shade for AI response */
+   /* White text color */
   align-self: flex-start;
-  color: white; /* Ensure that message from text is visible */
+  margin: 10px 0;
+  padding: 10px 15px;
+  border-radius: 10px;
+  max-width: 100%;
+  word-wrap: break-word;
+  
 }
+
+
+
+
+
+
+.timestamp {
+  font-size: 12px; /* Smaller font for timestamp */
+  color: rgba(28, 20, 20, 0.7); /* Light color for subtlety */
+  margin-top: 5px; /* Space above the timestamp */
+  text-align: right; /* Align timestamp to the right */
+}
+
 
 .input-area {
   display: flex;
   padding: 10px;
   border-top: 1px solid #ddd;
   background-color: white;
-  align-items: flex-end; /* Align input at the bottom */
+  align-items: center; /* Align input at the bottom */
+  justify-content: flex-start;
+  user-select: none;
 }
 
 #chat-input {
@@ -69,20 +104,112 @@ body {
   word-wrap: break-word; /* Break long words if necessary */
   box-sizing: border-box;
   display: block; /* Ensures it takes up the full width in flex */
+  margin-left: 10px;
+  user-select: none;
 }
+
+
+.title {
+  font-family: 'Roboto', sans-serif; /* Use a sleek, modern font */
+  text-align: center;
+  margin-top: 20px;
+  font-size: 28px; /* Slightly larger for emphasis */
+  font-weight: 700; /* Bold to make it stand out */
+  color: #333333; /* A more neutral, professional color */
+  letter-spacing: 1.5px; /* Add spacing between letters for elegance */
+  text-transform: uppercase; /* Make the title all caps for a sleek look */
+  border-bottom: 2px solid #007bff; /* Add a subtle bottom border for emphasis */
+  padding-bottom: 10px; /* Add space below the title */
+}
+
+
+
 
 
 #send-btn {
   margin-left: 10px;
-  padding: 10px 20px;
-  background-color: #007bff;
+  padding: 12px 24px; /* Slightly increased padding for a more prominent button */
+  background-color: #007bff; /* Main button color (blue) */
   color: white;
   border: none;
-  border-radius: 5px;
+  border-radius: 8px; /* Slightly more rounded corners for a modern look */
+  font-size: 16px; /* Larger, more readable font */
+  font-weight: 500; /* Medium weight for a polished appearance */
   cursor: pointer;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transitions */
+  user-select: none;
   
 }
 
 #send-btn:hover {
   background-color: #0056b3;
 }
+
+.upload-icon {
+  cursor: pointer;
+  font-size: 1.5rem;
+  user-select: none;
+}
+
+.upload-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw; /* Full screen width */
+  height: 100vh; /* Full screen height */
+  background-color: rgba(0, 0, 0, 0.5); /* Dimming effect */
+  display: flex;
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  z-index: 1000;
+}
+
+.modal-content {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  width: 400px; /* Set a fixed width */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease-in-out;
+  max-height: 80vh; /* Prevents the modal from growing too tall */
+  overflow-y: auto; /* Allow scrolling if content exceeds max height */
+}
+
+input[type="file"] {
+  padding: 5px;
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.exit-modal {
+  background-color: #ff4757;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.exit-modal:hover {
+  background-color: #ff6b81;
+}
+
+.upload-modal-button {
+  background-color: #1e90ff;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.upload-modal-button:hover {
+  background-color: #4682b4;
+}
+
