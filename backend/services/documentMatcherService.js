@@ -2,12 +2,20 @@ const mongoose = require('mongoose');
 
 class DocumentMatcherService {
   constructor() {
-    this.collectionName = process.env.COLLECTION_NAME || 'your_collection_name';
+    this.collectionName = process.env.COLLECTION_NAME || 'test_collection';
+    this.collection = null;
+  }
+
+  initialize(collection) {
+    this.collection = collection;
+    console.log('DocumentMatcherService initialized with collection:', this.collectionName);
+    return this;
   }
 
   async findBestMatch(searchKeywords) {
     try {
-      const collection = mongoose.connection.collection(this.collectionName);
+      // Use the initialized collection or fall back to getting it from mongoose connection
+      const collection = this.collection || mongoose.connection.collection(this.collectionName);
       
       const pipeline = [
         // Match documents that have at least one keyword match
@@ -63,7 +71,7 @@ class DocumentMatcherService {
   // Helper method to create indexes if needed
   async createIndexes() {
     try {
-      const collection = mongoose.connection.collection(this.collectionName);
+      const collection = this.collection || mongoose.connection.collection(this.collectionName);
       await collection.createIndex({ keywords: 1 });
       await collection.createIndex({ timestamp: 1 });
       console.log('Indexes created successfully');
