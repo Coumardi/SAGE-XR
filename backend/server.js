@@ -43,10 +43,12 @@ const startServer = async () => {
           try {
               // Extract keywords from user input using LLM
               const keywordList = await extractKeywords(req.body.data);
-              
+              console.log('Extracted keywords:', keywordList);
+
               // Find best matching document using our service
               const bestMatch = await documentMatcher.findBestMatch(keywordList);
-              
+              console.log('Best matching document:', bestMatch);
+
               if (!bestMatch) {
                   return res.status(404).json({ 
                       error: 'No matching document found',
