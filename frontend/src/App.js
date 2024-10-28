@@ -1,6 +1,6 @@
 
 import './App.css';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ChatBox from './Components/ChatBox';
 import InputArea from './Components/InputArea';
 import UploadModal from './Components/UploadModal';
@@ -11,9 +11,42 @@ import '@fortawesome/fontawesome-free/css/all.css';
 function App() {
   const [messages, setMessages] = useState([]); // To storE chat messages
   const [userInput, setUserInput] = useState(''); // To store user input
-  const [isTyping, setIsTyping]= useState(false);
+  const [isTyping, setIsTyping]= useState(false); // Track AI typing
   const [showUploadModal, setShowUploadModal] = useState(false);
+  const [userId, setUserId]=useState(() =>{
+  const stored = localStorage.getItem('chatUserId'); // retrieve userId from localStorage
+  return stored || `user_${Date.now()}`; // create a new userId if none exists
+  
+  });
 
+
+  useEffect(() =>{
+    // inser userid in the localStorage when it is created
+    if (!localStorage.getItem('chatUserId')){
+      localStorage.setItem('chatUserId', userId);
+    }
+
+  }, [userId]);
+
+  const storeQuestion = async (question, responseId) => {
+    try{
+      await fetch('/api/question/add', {
+        method:'POST',
+        headers:{
+          'content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userId,
+          question,
+          responseId,
+          timeStamp: new Date().toISOString()
+        }),
+
+      });
+    } catch (error){
+      console.error('Error storing question:', error);
+    }
+  };
 
 // this funtion adjust the input area when input text increase and adjust 
 // overflow behavior based on content height
@@ -49,9 +82,6 @@ function App() {
       }
     };
 
-
-  
-
   const sendMessage = async () => {
     if (userInput.trim() !== "") {
 
@@ -73,6 +103,8 @@ function App() {
 
         setMessages(prev => [...prev, { type: 'ai', text: '',  timeStamp: aiCurrentTime}]); // Add backend response
         typeMessage(result.message);
+
+        await storeQuestion(userInput, result.responseId); // Store question and response
 
       } catch (error) {
         console.error('Error calling AI service:', error);
