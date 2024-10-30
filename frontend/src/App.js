@@ -21,7 +21,7 @@ function App() {
 
 
   useEffect(() =>{
-    // inser userid in the localStorage when it is created
+    // insert userid in the localStorage when it is created
     if (!localStorage.getItem('chatUserId')){
       localStorage.setItem('chatUserId', userId);
     }
@@ -63,7 +63,7 @@ function App() {
 
   };
 
-
+// Simulates typing effect for AI response
   const typeMessage = (text, index=0)=>{
     if (index < text.length)
     {
