@@ -9,7 +9,6 @@ const keywordroutes = require('./routes/keywordRoutes');
 const extractKeywords = require('./services/keywordService');
 const openaiService = require('./services/openaiService');
 const documentMatcher = require('./services/documentMatcherService');
-
 const app = express();
 
 // middleware
@@ -49,22 +48,21 @@ const startServer = async () => {
               const bestMatch = await documentMatcher.findBestMatch(keywordList);
               console.log('Best matching document:', bestMatch);
 
-              if (!bestMatch) {
-                  return res.status(404).json({ 
-                      error: 'No matching document found',
-                      message: 'Unable to find relevant context for your query'
-                  });
+              let aiResponse;
+              if (bestMatch) {
+                  // Generate AI response using the matched context
+                  aiResponse = await openaiService.generateResponse(
+                      req.body.data,
+                      bestMatch.context
+                  );
+              } else {
+                  // Handle cases where no matching document is found
+                  aiResponse = await openaiService.handleNoMatch(req.body.data);
               }
-
-              // Generate AI response using the matched context
-              const aiResponse = await openaiService.generateResponse(
-                  req.body.data,
-                  bestMatch.context
-              );
               
               res.json({ 
                   message: aiResponse,
-                  matchedDocument: bestMatch
+                  matchedDocument: bestMatch || null
               });
 
           } catch (error) {
