@@ -32,7 +32,7 @@ Please answer the question only based on the context provided above. You may res
                 messages: [
                     {
                         role: 'system',
-                        content: 'You are a helpful assistant. Use the provided context to answer the user\'s question accurately. Only use information from the context and acknowledge when you need more information.")'
+                        content: 'You are a helpful assistant. Use the provided context to answer the user\'s question accurately. Only use information from the context and acknowledge when you need more information. If the context is irrelevant, indicate that you cannot answer the question, and do not reference the context in your message.")'
                     },
                     {
                         role: 'user',
