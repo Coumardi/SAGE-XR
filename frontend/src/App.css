@@ -120,6 +120,7 @@ body {
   text-transform: uppercase; /* Make the title all caps for a sleek look */
   border-bottom: 2px solid #007bff; /* Add a subtle bottom border for emphasis */
   padding-bottom: 10px; /* Add space below the title */
+  user-select: none;
 }
 
 
