@@ -1,65 +1,97 @@
-// Code to run the backend server. This is the entry point of the backend application.
-// Cors is a middleware that allows the frontend to communicate with the backend.
-// Body-parser is a middleware that parses incoming request bodies in a middleware before the handlers.
-// This makes it easier to read the data from the request.
-// The queryRoutes file contains the routes for the backend application.
-// Linking to the queryRoutes file allows the backend to handle requests to the /api/query will be handled by the query function in the queryController file.
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const bodyparser = require('body-parser');
-const axios = require('axios'); // Add axios for making HTTP requests
+const path = require('path');
+const { initializeDatabase } = require('./config/database');
 const queryroutes = require('./routes/queryRoutes');
 const keywordroutes = require('./routes/keywordRoutes');
-const path = require('path'); // Add path module
 const extractKeywords = require('./services/keywordService');
 const openaiService = require('./services/openaiService');
+const documentMatcher = require('./services/documentMatcherService');
 const app = express();
 
 // middleware
 app.use(cors());
 app.use(bodyparser.json({ limit: '1mb' }));
 
-// serve static files
-app.use(express.static(path.join(__dirname, 'public')));
-
-// a simple route
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
-});
-
-// route to call AI service
-app.post('/call-ai', async (req, res) => {
+// Initialize database and services
+const startServer = async () => {
   try {
-    const response = await axios.post('https://api.openai.com/v1/chat/completions', {
-      model: 'gpt-4o-mini', // Defining model
-      messages: [
-        { role: 'user', content: req.body.data } // Use req.body.data as the user input
-      ],
-      max_tokens: 10000,
-      temperature: 2,
-    }, {
-      headers: {
-        'Authorization': `Bearer ${process.env.API_KEY}`,
-        'Content-Type': 'application/json'
+      // Initialize database connection
+      const { collection } = await initializeDatabase();
+      
+      // Initialize document matcher service with your collection
+      console.log('Initializing DocumentMatcherService...');
+      documentMatcher.initialize(collection);
+      
+      // Verify initialization
+      if (!documentMatcher.collection) {
+          throw new Error('Failed to initialize DocumentMatcherService');
       }
-    });
-    res.json({ message: response.data.choices[0].message.content.trim() }); // Send response back to client
+
+      // serve static files
+      app.use(express.static(path.join(__dirname, 'public')));
+
+      // routes
+      app.get('/', (req, res) => {
+          res.sendFile(path.join(__dirname, 'public', 'index.html'));
+      });
+
+      app.post('/call-ai', async (req, res) => {
+          try {
+              // Extract keywords from user input using LLM
+              const keywordList = await extractKeywords(req.body.data);
+              console.log('Extracted keywords:', keywordList);
+
+              // Find best matching document using our service
+              const bestMatch = await documentMatcher.findBestMatch(keywordList);
+              console.log('Best matching document:', bestMatch);
+
+              let aiResponse;
+              if (bestMatch) {
+                  // Generate AI response using the matched context
+                  aiResponse = await openaiService.generateResponse(
+                      req.body.data,
+                      bestMatch.context
+                  );
+              } else {
+                  // Handle cases where no matching document is found
+                  aiResponse = await openaiService.handleNoMatch(req.body.data);
+              }
+              
+              res.json({ 
+                  message: aiResponse,
+                  matchedDocument: bestMatch || null
+              });
+
+          } catch (error) {
+              console.error('Error in /call-ai:', error);
+              res.status(500).json({ 
+                  error: 'Error processing request',
+                  details: process.env.NODE_ENV === 'development' ? error.message : undefined 
+              });
+          }
+      });
+
+      app.use('/api', queryroutes);
+      app.use('/api', keywordroutes);
+
+      // only start the server if not running tests
+      if (process.env.NODE_ENV !== 'test') {
+          const port = process.env.PORT || 5000;
+          app.listen(port, () => {
+              console.log(`Server running on port ${port}`);
+          });
+      }
+
   } catch (error) {
-    console.error(error);
-    res.status(500).send('Error calling AI service');
+      console.error('Failed to start server:', error);
+      process.exit(1);
   }
-});
+};
 
-app.use('/api', queryroutes);
-app.use('/api', keywordroutes);
-
-// only start the server if not running tests
-if (process.env.NODE_ENV !== 'test') {
-  const port = process.env.PORT || 5000;
-  app.listen(port, () => {
-    console.log(`server running on port ${port}`);
-  });
-}
+// Start the server
+startServer();
 
 module.exports = app;
