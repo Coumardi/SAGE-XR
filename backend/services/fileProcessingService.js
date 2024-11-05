@@ -9,27 +9,9 @@ const client = new MongoClient(process.env.MONGODB_URI, {
     useUnifiedTopology: true,
 });
 
-let db;
-
-function tokenizeText(text, maxTokens = 1200){
-    const encoding = tiktoken.get_encoding("cl100k_base");
-    const tokens = encoding.encode(text);
-
-    const chunks = [];
-    let start = 0;
-
-    while (start < tokens.length) {
-        const chunkTokens = tokens.slice(start, start + maxTokens);
-        const chunkText = encoding.decode(chunkTokens);
-        chunks.push(chunkText);
-        start += maxTokens;
-    }
-
-    encoding.free();
-    return chunks;
-}
 
 async function extractKeywordsFromChunk(chunk) {
+    console.log('Extracting keywords from chunk:', chunk);
     try {
         const response = await axios.post('https://api.openai.com/v1/chat/completions', {
             model: 'gpt-4o-mini', 
@@ -65,19 +47,49 @@ async function insertChunk(chunkData) {
     }
 }
 
+async function calculateChunks(text, maxTokensPerChunk = 1200) {
+    const encoding = tiktoken.get_encoding("cl100k_base");
+    const totalTokens = encoding.encode(text).length;
+    encoding.free();
+
+    // Determine the number of chunks needed
+    const numChunks = Math.ceil(totalTokens / maxTokensPerChunk);
+    return numChunks;
+}
+
+function splitTextIntoChunks(text, numChunks) {
+    const chunkSize = Math.ceil(text.length / numChunks);
+    const chunks = [];
+
+    for (let i = 0; i < numChunks; i++) {
+        const start = i * chunkSize;
+        const end = start + chunkSize;
+        chunks.push(text.slice(start, end));
+    }
+
+    return chunks;
+}
+
+
 async function processFile(fileContent) {
-    const textContent = fileContent.toString('utf-8');
-    const chunks = tokenizeText(textContent, 1200);
+    const textContent = fileContent.toString('utf-8'); // Convert buffer to string if needed
+
+    // Calculate number of chunks based on total token count
+    const numChunks = await calculateChunks(textContent, 1200);
+    
+    // Split text content into equal-sized chunks based on character length
+    const chunks = splitTextIntoChunks(textContent, numChunks);
 
     for (const chunk of chunks) {
         try {
             const keywords = await extractKeywordsFromChunk(chunk);
             const timestamp = new Date();
 
+            // Insert chunk as plain text, with keywords and timestamp
             await insertChunk({
-                chunk,
-                keywords,
-                timestamp,
+                chunk,       // Plain text chunk
+                keywords,    // Array of keywords
+                timestamp,   // Timestamp
             });
             console.log("Chunk stored successfully.");
         } catch (error) {
