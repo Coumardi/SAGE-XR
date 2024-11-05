@@ -18,7 +18,9 @@
     "express": "^4.21.0",
     "mongodb": "^6.10.0",
     "mongoose": "^8.7.2",
-    "openai": "^4.63.0"
+    "multer": "^1.4.5-lts.1",
+    "openai": "^4.63.0",
+    "tiktoken": "^1.0.17"
   },
   "devDependencies": {
     "jest": "^29.7.0",
