@@ -35,9 +35,7 @@ async function insertChunk(chunkData) {
     const { db, collection } = await initializeDatabaseWithRetry();
     try {
         await collection.insertOne(chunkData);
-        console.log("Chunk stored successfully.");
     } catch (error) {
-        console.error("Failed to insert chunk:", error.message);
         throw error;
     }
 }
@@ -67,7 +65,7 @@ function splitTextIntoChunks(text, numChunks) {
 
 
 async function processFile(fileContent) {
-    const textContent = fileContent.toString('utf-8'); // Convert buffer to string if needed
+    const textContent = fileContent.toString('utf-8');
 
     // Calculate number of chunks based on total token count
     const numChunks = await calculateChunks(textContent, 500);
