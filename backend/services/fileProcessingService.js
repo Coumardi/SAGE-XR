@@ -4,11 +4,6 @@ const tiktoken = require('tiktoken');
 const { initializeDatabaseWithRetry } = require('../config/database');
 const axios = require('axios');
 
-const client = new MongoClient(process.env.MONGODB_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-});
-
 
 async function extractKeywordsFromChunk(chunk) {
     console.log('Extracting keywords from chunk:', chunk);
@@ -16,7 +11,7 @@ async function extractKeywordsFromChunk(chunk) {
         const response = await axios.post('https://api.openai.com/v1/chat/completions', {
             model: 'gpt-4o-mini', 
             messages: [
-                { role: 'system', content: 'Extract keywords from the following text and comma-separate them.' },
+                { role: 'system', content: 'Extract keywords from the following text and comma-separate them. All keywords should be lowercase.' },
                 { role: 'user', content: String(chunk) }
             ],
             max_tokens: 1500,
@@ -47,7 +42,7 @@ async function insertChunk(chunkData) {
     }
 }
 
-async function calculateChunks(text, maxTokensPerChunk = 1200) {
+async function calculateChunks(text, maxTokensPerChunk = 500) {
     const encoding = tiktoken.get_encoding("cl100k_base");
     const totalTokens = encoding.encode(text).length;
     encoding.free();
@@ -75,7 +70,7 @@ async function processFile(fileContent) {
     const textContent = fileContent.toString('utf-8'); // Convert buffer to string if needed
 
     // Calculate number of chunks based on total token count
-    const numChunks = await calculateChunks(textContent, 1200);
+    const numChunks = await calculateChunks(textContent, 500);
     
     // Split text content into equal-sized chunks based on character length
     const chunks = splitTextIntoChunks(textContent, numChunks);
@@ -87,7 +82,7 @@ async function processFile(fileContent) {
 
             // Insert chunk as plain text, with keywords and timestamp
             await insertChunk({
-                chunk,       // Plain text chunk
+                context: chunk,       // Plain text chunk
                 keywords,    // Array of keywords
                 timestamp,   // Timestamp
             });
