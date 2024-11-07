@@ -16,15 +16,24 @@ function UploadModal({ toggleUploadModal }) {
   };
 
   const addFiles = (files) => {
-    const validFiles = files.filter(file => file.name.endsWith('.txt'));
+    // allowed file extensions
+    const allowedExtensions = ['.txt', '.docx', '.pdf', '.pptx'];
+    
+    // Filter files to include only allowed types
+    const validFiles = files.filter(file => 
+        allowedExtensions.some(extension => file.name.endsWith(extension))
+    );
 
+    // Check if adding these files would exceed the 3-file limit
     if (uploadedFiles.length + validFiles.length > 3) {
-      alert("You can only upload up to 3 files.");
-      return;
+        alert("You can only upload up to 3 files.");
+        return;
     }
 
+    // Update the uploaded files state
     setUploadedFiles(prev => [...prev, ...validFiles]);
-  };
+};
+
 
   const clearFiles = () => {
     setUploadedFiles([]);
@@ -67,12 +76,12 @@ function UploadModal({ toggleUploadModal }) {
     <div className="upload-modal">
       <div className="modal-content" onDragOver={(e) => e.preventDefault()} onDrop={handleDrop}>
         <h3>Drag & Drop your files here</h3>
-        <p>Or select up to 3 files (only .txt allowed)</p>
+        <p>Or select up to 3 files (.txt, .docx, .pdf, and .pptx)</p>
         <input
           type="file"
           multiple
           onChange={handleFileChange}
-          accept=".txt"
+          accept=".txt, .docx, .pdf, .pptx"
           style={{ display: 'block', margin: '20px auto' }}
         />
 

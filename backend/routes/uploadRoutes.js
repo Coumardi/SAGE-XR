@@ -6,19 +6,24 @@ const { processFile } = require('../services/fileProcessingService');
 const mammoth = require('mammoth');
 const WordExtractor = require('word-extractor');
 const pdfParse = require('pdf-parse');
-const pptx2json = require('pptx2json');
 
 const Extractor = new WordExtractor();
 const router = express.Router();
 
+const {
+    extractTextFromDocx,
+    extractTextFromDoc,
+    extractTextFromPdf,
+    extractTextFromPptx,
+} = require('../services/extractText');
+
 // Set up multer for handling file uploads
 const upload = multer({
-    storage,
+    storage: multer.memoryStorage(),
     fileFilter: (req, file, cb) => {
       const allowedMimeTypes = [
         'text/plain',                                      // .txt
         'application/vnd.openxmlformats-officedocument.wordprocessingml.document', // .docx
-        'application/msword',                              // .doc
         'application/pdf',                                 // .pdf
         'application/vnd.openxmlformats-officedocument.presentationml.presentation' // .pptx
       ];
@@ -26,7 +31,7 @@ const upload = multer({
       if (allowedMimeTypes.includes(file.mimetype)) {
         cb(null, true);
       } else {
-        cb(new Error('Only .txt, .doc, .docx, .pdf, and .pptx files are allowed'));
+        cb(new Error('Only .txt, .docx, .pdf, and .pptx files are allowed'));
       }
     },
     limits: { fileSize: 2 * 1024 * 1024 }, // Set a file size limit (2MB for testing)
@@ -49,9 +54,6 @@ router.post('/upload', upload.array('files', 3), async (req, res) => {
             } else if (file.mimetype === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
                 // Handle .docx files
                 content = await extractTextFromDocx(file.buffer);
-            } else if (file.mimetype === 'application/msword') {
-                // Handle .doc files
-                content = await extractTextFromDoc(file.buffer);
             } else if (file.mimetype === 'application/pdf') {
                 // Handle .pdf files
                 content = await extractTextFromPdf(file.buffer);
