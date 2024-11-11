@@ -196,7 +196,7 @@ body {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 350px;
+  width: 350x;
   height: auto;
   background-color: #d1d1de;
   display: flex;
@@ -219,7 +219,7 @@ body {
   border-radius: 10px; /* More subtle border radius */
   text-align: center;
   width: 100%; /* Ensures the modal fits inside the container */
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); /* More refined shadow */
+  box-shadow: 0 8px 20px rgba(164, 50, 50, 0.15); /* More refined shadow */
   transition: all 0.3s ease-in-out;
   max-height: 70vh; /* Adjusted max height */
   overflow-y: auto;
