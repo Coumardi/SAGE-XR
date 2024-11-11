@@ -224,7 +224,7 @@ body {
   max-height: 70vh; /* Adjusted max height */
   overflow-y: auto;
   border: 2px dashed #2563eb;
-  
+  user-select: none;
 }
 
 /*modal title*/
@@ -235,6 +235,7 @@ body {
   margin-bottom: 20px; /* Reduced margin */
   color: #0e0d0d;
   font: bold;
+  user-select: none;
 }
 
 /*need to be reviewed*/
@@ -246,6 +247,7 @@ body {
   margin-bottom: 20px; /* Reduced bottom margin */
   cursor: pointer;
   transition: border-color 0.3s ease;
+  user-select: none;
 }
 
 .drop-area:hover {
@@ -256,6 +258,7 @@ body {
 .file-list {
   text-align: left;
   margin-bottom: 20px; /* Reduced margin */
+  user-select: none;
 }
 
 /*this too*/
@@ -268,6 +271,7 @@ body {
   border-radius: 5px; /* More subtle border radius */
   margin-bottom: 8px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Light shadow for each file */
+  user-select: none;
 }
 
 /*this too*/
@@ -280,6 +284,7 @@ body {
   font-size: 0.85rem;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  user-select: none;
 }
 
 /*this*/
@@ -294,7 +299,7 @@ body {
   margin-top: 15px;
   gap:10px;
   width: 100%;
-  
+  user-select: none;
   
   
   
@@ -313,6 +318,7 @@ body {
   font-weight: 600;
   width: 90px;
   transition: background-color 0.3s ease;
+  user-select: none;
 }
 
 .exit-modal-button:hover {
@@ -330,7 +336,7 @@ body {
   border-radius: 6px;
   font-size: 0.95rem;
   font-weight: 600;
-  
+  user-select: none;
   transition: background-color 0.3s ease;
 }
 
@@ -350,7 +356,7 @@ body {
 .icon-container {
   position: relative; /* Establishes a positioning context */
   z-index: 0;
-  
+  user-select: none;
 }
 
 .fa-solid.fa-download {
@@ -361,6 +367,7 @@ body {
   font-size: 200px; 
   color: rgba(35, 32, 32, 0.1); /* Light color to blend into the background */
   z-index: -1; /* Sends it behind other elements in the container */
+  user-select: none;
 }
 
 
