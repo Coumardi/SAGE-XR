@@ -51,9 +51,6 @@ body {
 }
 
 
-
-
-
 .ai-message {
    /* Darker shade for AI response */
    /* White text color */
@@ -65,10 +62,6 @@ body {
   word-wrap: break-word;
   
 }
-
-
-
-
 
 
 .timestamp {
@@ -110,14 +103,12 @@ body {
   margin-top: 20px;
   font-size: 28px; /* Slightly larger for emphasis */
   font-weight: 700; /* Bold to make it stand out */
-  color: #333333; /* A more neutral, professional color */
+  color: #333333; 
   letter-spacing: 1.5px; /* Add spacing between letters for elegance */
   text-transform: uppercase; /* Make the title all caps for a sleek look */
   border-bottom: 2px solid #007bff; /* Add a subtle bottom border for emphasis */
   padding-bottom: 10px; /* Add space below the title */
 }
-
-
 
 
 
@@ -129,7 +120,7 @@ body {
   border: none;
   border-radius: 8px; /* Slightly more rounded corners for a modern look */
   font-size: 16px; /* Larger, more readable font */
-  font-weight: 500; /* Medium weight for a polished appearance */
+  font-weight: 500; 
   cursor: pointer;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
   transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transitions */
@@ -138,3 +129,230 @@ body {
 #send-btn:hover {
   background-color: #0056b3;
 }
+<<<<<<< Updated upstream
+=======
+
+.upload-icon {
+  cursor: pointer;
+  font-size: 2rem;
+  user-select: none;
+  color: #555;
+  transition: color 0.3s ease;
+}
+
+.upload-icon:hover {
+  color: #777;
+}
+
+/*need to be review because*/
+.file-item {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  background-color: #f9f9f9;
+  border-radius: 5px;
+  margin-bottom: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  gap: 10px;
+}
+
+/*need to be review because add s to modify uploaded file name*/
+
+.uploaded-files {
+  padding: 8px 12px;
+  margin-bottom: 8px;
+  position: relative;
+  z-index: 1;
+ 
+}
+ 
+/*the X button to remove file add by the user*/
+
+.remove-file {
+  display: inline-block;
+  cursor: pointer;
+  color:red;
+  font-weight: bold;
+  padding: 4px;
+  margin-left: 4px;
+  font-size: 20px;
+}
+
+.remove-file:hover {
+  background-color: #c79e9e;
+}
+
+/* upload modal big box*/
+
+.upload-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 350px;
+  height: auto;
+  background-color: #d1d1de;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 30px;
+  border-radius: 12px;
+  border: 2px solid #e8eaed;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  backdrop-filter: blur(8px);
+  transition: all 0.3s ease;
+}
+
+
+
+.modal-content {
+  background: #edeef0;
+  padding: 20px; /* Reduced padding */
+  border-radius: 10px; /* More subtle border radius */
+  text-align: center;
+  width: 100%; /* Ensures the modal fits inside the container */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); /* More refined shadow */
+  transition: all 0.3s ease-in-out;
+  max-height: 70vh; /* Adjusted max height */
+  overflow-y: auto;
+  border: 2px dashed #2563eb;
+  
+}
+
+/*modal title*/
+
+.modal-content h3 {
+  font-size: 1.3rem; /* Slightly smaller font */
+  font-weight: 700; /* Reduced font weight */
+  margin-bottom: 20px; /* Reduced margin */
+  color: #0e0d0d;
+  font: bold;
+}
+
+/*need to be reviewed*/
+
+.drop-area {
+  border: 2px dashed #ccc;
+  border-radius: 6px; /* Rounded edges */
+  padding: 20px; /* Reduced padding */
+  margin-bottom: 20px; /* Reduced bottom margin */
+  cursor: pointer;
+  transition: border-color 0.3s ease;
+}
+
+.drop-area:hover {
+  border-color: #6f6e6e;
+}
+
+/*need to reve8*/
+.file-list {
+  text-align: left;
+  margin-bottom: 20px; /* Reduced margin */
+}
+
+/*this too*/
+.file-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  background-color: #f9f9f9;
+  border-radius: 5px; /* More subtle border radius */
+  margin-bottom: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Light shadow for each file */
+}
+
+/*this too*/
+.file-list li .delete-btn {
+  background-color: #ff6f61; /* Softer red */
+  color: #fff;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+/*this*/
+.file-list li .delete-btn:hover {
+  background-color: #ff5c48; /* Slightly darker on hover */
+}
+
+/*exit upload buttons*/
+.modal-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+  gap:10px;
+  width: 100%;
+  
+  
+  
+  
+}
+
+/*exit button*/
+
+.exit-modal-button {
+  background-color: red; 
+  border: none;
+  color: #fff;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  width: 90px;
+  transition: background-color 0.3s ease;
+}
+
+.exit-modal-button:hover {
+  background-color: #913030;
+}
+
+/*upload button*/
+
+.upload-modal-button {
+  background-color: #1e90ff; 
+  border: none;
+  color: #fff;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  
+  transition: background-color 0.3s ease;
+}
+
+.upload-modal-button:hover {
+  background-color: #4682b4; /* Slightly darker blue on hover */
+}
+
+.error {
+  color: #ff4757; /* Red color for error */
+  font-weight: 500;
+  margin-bottom: 15px;
+  font-size: 0.9rem; 
+}
+
+/*download icone in the background*/
+
+.icon-container {
+  position: relative; /* Establishes a positioning context */
+  z-index: 0;
+  
+}
+
+.fa-solid.fa-download {
+  position: absolute;
+  top: 50%;  
+  left: 50%; 
+  transform: translate(-50%, -50%); /* Center icon */
+  font-size: 200px; 
+  color: rgba(35, 32, 32, 0.1); /* Light color to blend into the background */
+  z-index: -1; /* Sends it behind other elements in the container */
+}
+>>>>>>> Stashed changes
