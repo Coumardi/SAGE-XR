@@ -27,7 +27,7 @@ function UploadModal({ toggleUploadModal }) {
         file.name.endsWith('.pdf')||
         file.name.endsWith('.doc')       
 
-  );
+    );
 
     const filesAdded= uploadedFiles.length + validFiles.lenght;
     const maxFiles = 3;
@@ -49,10 +49,32 @@ function UploadModal({ toggleUploadModal }) {
     setUploadedFiles(uploadedFiles.filter((_, index) => index !== indexToRemove));
   };
 
-  const handleUpload = () => {
-    // Placeholder for the actual upload function that you'll define later
-    console.log('Uploading files:', uploadedFiles);
-    toggleUploadModal();
+  const handleUpload = async () => {
+    if (uploadedFiles.length === 0) {
+      alert("Please upload at least one file.");
+      return;
+    }
+
+    const formData = new FormData();
+    uploadedFiles.forEach(file => formData.append('files', file));
+
+    try {
+      const response = await fetch('http://localhost:5000/api/upload', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (response.ok) {
+        alert('Files uploaded successfully');
+        toggleUploadModal();
+      } else {
+        const result = await response.json();
+        alert(`Error: ${result.message}`);
+      }
+    } catch (error) {
+      console.error('Upload failed:', error);
+      alert('Failed to upload files.');
+    }
   };
 
   return (

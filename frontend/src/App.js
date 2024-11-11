@@ -6,7 +6,10 @@ import UploadModal from './Components/UploadModal';
 import '@fortawesome/fontawesome-free/css/all.css';
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> SAGE-25-Extract-text-from-documents
 
 function App() {
   //chat related state
@@ -14,8 +17,46 @@ function App() {
   const [messages, setMessages] = useState([]); // To storE chat messages
   const [userInput, setUserInput] = useState(''); // To store user input
   const [isTyping, setIsTyping]= useState(false); // Track AI typing
+<<<<<<< HEAD
   
   // file uplaod related state
+=======
+  const [showUploadModal, setShowUploadModal] = useState(false);
+  const [userId, setUserId]=useState(() =>{
+  const stored = localStorage.getItem('chatUserId'); // retrieve userId from localStorage
+  return stored || `user_${Date.now()}`; // create a new userId if none exists
+  
+  });
+
+
+  useEffect(() =>{
+    // insert userid in the localStorage when it is created
+    if (!localStorage.getItem('chatUserId')){
+      localStorage.setItem('chatUserId', userId);
+    }
+
+  }, [userId]);
+
+  const storeQuestion = async (question, responseId) => {
+    try{
+      await fetch('/api/question/add', {
+        method:'POST',
+        headers:{
+          'content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userId,
+          question,
+          responseId,
+          timeStamp: new Date().toISOString()
+        }),
+
+      });
+    } catch (error){
+      console.error('Error storing question:', error);
+    }
+  };
+>>>>>>> SAGE-25-Extract-text-from-documents
 
   const [showUploadModal, setShowUploadModal] = useState(false);
 
@@ -71,7 +112,10 @@ function App() {
     
 // this funtion adjust the input area when input text increase and adjust 
 // overflow behavior based on content height
+<<<<<<< HEAD
 
+=======
+>>>>>>> SAGE-25-Extract-text-from-documents
   const adjustInputareaHeight = () => {
     const textarea = document.getElementById("chat-input");
     textarea.style.height = "auto";
@@ -85,11 +129,15 @@ function App() {
 
   };
 
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 =======
 // Simulates typing effect for AI response
 >>>>>>> Stashed changes
 
+=======
+// Simulates typing effect for AI response
+>>>>>>> SAGE-25-Extract-text-from-documents
   const typeMessage = (text, index=0)=>{
     if (index < text.length)
     {
@@ -107,8 +155,11 @@ function App() {
         setIsTyping(false);
       }
     };
+<<<<<<< HEAD
 
     // sent message to SAGE Service
+=======
+>>>>>>> SAGE-25-Extract-text-from-documents
 
   const sendMessage = async () => {
     if (userInput.trim() !== '') {
@@ -148,7 +199,10 @@ function App() {
   };
 
   // Function to handle pressing "Enter" key
+<<<<<<< HEAD
 
+=======
+>>>>>>> SAGE-25-Extract-text-from-documents
   const handleKeyPress = (e) => {
     if (e.key === 'Enter') {
       e.preventDefault(); // Prevent the default behavior of Enter
@@ -162,6 +216,11 @@ function App() {
       }
     }
   };
+  
+
+  const toggleUploadModal = () => {
+    setShowUploadModal(!showUploadModal);
+  };
 
   
   //toggle file upload modal
@@ -174,7 +233,11 @@ function App() {
   return (
       <div className="chat-container">
         <h1 className="title"> SAGE XR</h1>
+<<<<<<< HEAD
         <ChatBox messages={messages} isTyping={isTyping}/>
+=======
+        <ChatBox messages={messages} />
+>>>>>>> SAGE-25-Extract-text-from-documents
         <InputArea
           userInput={userInput}
           setUserInput={setUserInput}
@@ -183,12 +246,18 @@ function App() {
           handleKeyPress={handleKeyPress}
           toggleUploadModal={toggleUploadModal}
         />
+<<<<<<< HEAD
 
         {showUploadModal && (
           <UploadModal toggleUploadModal={toggleUploadModal}/>
         )}
       
         
+=======
+        {showUploadModal && (
+          <UploadModal toggleUploadModal={toggleUploadModal} />
+        )}
+>>>>>>> SAGE-25-Extract-text-from-documents
       </div>
   );
 }
