@@ -25,7 +25,8 @@ function UploadModal({ toggleUploadModal }) {
 
         file.name.endsWith('.txt')||
         file.name.endsWith('.pdf')||
-        file.name.endsWith('.doc')       
+        file.name.endsWith('.docx')||
+        file.name.endsWith('.pptx')     
 
     );
 
@@ -95,7 +96,7 @@ function UploadModal({ toggleUploadModal }) {
           type="file"
           multiple
           onChange={handleFileChange}
-          accept=".txt, .pdf, .doc"
+          accept=".txt, .pdf, .doc, .pptx"
           style={{ display: 'block', margin: '20px auto' }}
         />
 

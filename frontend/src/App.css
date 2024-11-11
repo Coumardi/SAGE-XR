@@ -372,10 +372,8 @@ body {
 
 .upload-modal {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw; /* Full screen width */
-  height: 100vh; /* Full screen height */
+  width: 50vw; /* Full screen width */
+  height: 50vh; /* Full screen height */
   background-color: rgba(0, 0, 0, 0.5); /* Dimming effect */
   display: flex;
   justify-content: center; /* Center horizontally */
