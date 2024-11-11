@@ -17,8 +17,21 @@ async function extractTextFromDocx(buffer) {
 
 // Extract text from .pdf files
 async function extractTextFromPdf(buffer) {
-    const result = await pdfParse(buffer);
-    return result.text;
+    try {
+        const data = await pdfParse(buffer);
+
+        // Split text by lines to preserve structure and add spaces between lines
+        const extractedText = data.text
+            .split('\n')           // Split by line breaks
+            .map(line => line.trim()) // Trim whitespace on each line
+            .filter(line => line)     // Remove any empty lines
+            .join(' ')               // Join lines with a space for natural flow
+
+        return extractedText;
+    } catch (error) {
+        console.error('PDF extraction error:', error);
+        throw new Error(`Failed to extract text from PDF: ${error.message}`);
+    }
 }
 
 // Extract text from .pptx files
