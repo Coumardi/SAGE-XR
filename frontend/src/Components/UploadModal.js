@@ -96,7 +96,7 @@ function UploadModal({ toggleUploadModal }) {
           type="file"
           multiple
           onChange={handleFileChange}
-          accept=".txt, .pdf, .doc, .pptx"
+          accept=".txt, .pdf, .docx, .pptx"
           style={{ display: 'block', margin: '20px auto' }}
         />
 
