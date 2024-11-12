@@ -28,11 +28,11 @@ Please answer the question only based on the context provided above. You may res
             const prompt = this.createPrompt(userInput, context);
             
             const response = await this.client.post('https://api.openai.com/v1/chat/completions', {
-                model: 'gpt-4o-mini',
+                model: 'gpt-4o',
                 messages: [
                     {
                         role: 'system',
-                        content: 'You are a helpful assistant. Use the provided context to answer the user\'s question accurately. Only use information from the context and acknowledge when you need more information. If the context is irrelevant, indicate that you cannot answer the question, and do not reference the context in your message.")'
+                        content: 'You are a helpful assistant. Use the provided context to answer the user\'s question accurately. Only use information from the context and acknowledge when you need more information. If the context is irrelevant, indicate that you cannot answer the question. Do not reference the incorrect context in your message.")'
                     },
                     {
                         role: 'user',
@@ -58,14 +58,14 @@ Please answer the question only based on the context provided above. You may res
                 messages: [
                     {
                         role: 'system',
-                        content: 'You were unable to be provided with context. Engage in simple responses only for trivial or social queries. Avoid answering if context is missing. Politely indicate that you cannot answer the question due to lack of context.'},
+                        content: 'You were unable to be provided with context. Engage in simple responses only for trivial or social queries. Politely indicate that you cannot answer the question due to lack of context.'},
                     {
                         role: 'user',
                         content: userInput
                     }
                 ],
                 max_tokens: 10000,
-                temperature: 0.7
+                temperature: 0.2
             });
     
             return response.data.choices[0].message.content.trim();

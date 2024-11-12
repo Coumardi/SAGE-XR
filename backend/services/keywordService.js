@@ -6,7 +6,7 @@ const extractKeywords = async (text) => {
         const response = await axios.post('https://api.openai.com/v1/chat/completions', {
             model: 'gpt-4o-mini',
             messages: [
-                { role: 'system', content: `You will be provided with a block of text, and your task is to extract a list of keywords from it and comma-separate them. Utilize stopwords and stemming. If the block of text contains a question, do not answer it. Just extract the keywords.`}, //Input examples here (can be pages long)
+                { role: 'system', content: `You will be provided with a block of text, and your task is to extract a list of keywords from it and comma-separate them. All keywords should be single words, unless they are hyphenated. Store all keywords in lowercase. If the block of text contains a question, do not answer it. Just extract the keywords.`}, //Input examples here (can be pages long)
                 { role: 'user', content: text },
             ],
             max_tokens: 10000,

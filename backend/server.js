@@ -9,6 +9,7 @@ const keywordroutes = require('./routes/keywordRoutes');
 const extractKeywords = require('./services/keywordService');
 const openaiService = require('./services/openaiService');
 const documentMatcher = require('./services/documentMatcherService');
+const uploadRoutes = require('./routes/uploadRoutes');
 const app = express();
 
 // middleware
@@ -32,6 +33,11 @@ const startServer = async () => {
 
       // serve static files
       app.use(express.static(path.join(__dirname, 'public')));
+
+      // Serve index.html at root URL
+      app.get('/', (req, res) => {
+        res.sendFile(path.join(__dirname, 'public', 'index.html'));
+      });
 
       // routes
       app.get('/', (req, res) => {
@@ -76,6 +82,7 @@ const startServer = async () => {
 
       app.use('/api', queryroutes);
       app.use('/api', keywordroutes);
+      app.use('/api', uploadRoutes)
 
       // only start the server if not running tests
       if (process.env.NODE_ENV !== 'test') {
