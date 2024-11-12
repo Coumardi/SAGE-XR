@@ -94,39 +94,38 @@ body {
   max-height: 150px; /* Set max height */
   overflow-y: auto; /* Enable vertical scrolling */
   resize: none; /* Disable resizing */
-  word-wrap: break-word; /* Break long words if necessary */
+  word-wrap: break-word; 
   box-sizing: border-box;
-  display: block; /* Ensures it takes up the full width in flex */
+  display: block; 
   margin-left: 10px;
   user-select: none;
 }
 
 
 .title {
-  font-family: 'Roboto', sans-serif; /* Use a sleek, modern font */
+  font-family: 'Roboto', sans-serif; 
   text-align: center;
   margin-top: 20px;
   font-size: 28px; /* Slightly larger for emphasis */
   font-weight: 700; /* Bold to make it stand out */
-  color: #333333; 
-  letter-spacing: 1.5px; /* Add spacing between letters for elegance */
+  color: #333333; /* A more neutral, professional color */
+  letter-spacing: 1.5px; 
   text-transform: uppercase; /* Make the title all caps for a sleek look */
-  border-bottom: 2px solid #007bff; /* Add a subtle bottom border for emphasis */
+  border-bottom: 2px solid #007bff; 
   padding-bottom: 10px; /* Add space below the title */
-  user-select: none;
 }
 
 
 
 #send-btn {
   margin-left: 10px;
-  padding: 12px 24px; /* Slightly increased padding for a more prominent button */
+  padding: 12px 24px; 
   background-color: #007bff; /* Main button color (blue) */
   color: white;
   border: none;
-  border-radius: 8px; /* Slightly more rounded corners for a modern look */
+  border-radius: 8px; 
   font-size: 16px; /* Larger, more readable font */
-  font-weight: 500; 
+  font-weight: 500; /* Medium weight for a polished appearance */
   cursor: pointer;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
   transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transitions */
@@ -137,7 +136,6 @@ body {
 #send-btn:hover {
   background-color: #0056b3;
 }
-
 
 .upload-icon {
   cursor: pointer;
@@ -151,7 +149,7 @@ body {
   color: #777;
 }
 
-/*need to be review because*/
+
 .file-item {
   display: flex;
   align-items: center;
@@ -163,14 +161,14 @@ body {
   gap: 10px;
 }
 
-/*need to be review because add s to modify uploaded file name*/
 
-.uploaded-files {
+
+.uploaded-file {
   padding: 8px 12px;
   margin-bottom: 8px;
-  position: relative;
-  z-index: 1;
- 
+  background-color: #c2c7cd;
+  border-radius: 6px;
+  border: 1px solid #e2e8f0;
 }
  
 /*the X button to remove file add by the user*/
@@ -189,16 +187,16 @@ body {
   background-color: #c79e9e;
 }
 
-/* upload modal big box*/
+/* upload modal*/
 
 .upload-modal {
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 350x;
+  width: 350px;
   height: auto;
-  background-color: #d1d1de;
+  background-color: #dfdbdb;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -214,17 +212,17 @@ body {
 
 
 .modal-content {
-  background: #edeef0;
+  background: #ebeaea;
   padding: 20px; /* Reduced padding */
-  border-radius: 10px; /* More subtle border radius */
+  border-radius: 10px; 
   text-align: center;
-  width: 100%; /* Ensures the modal fits inside the container */
-  box-shadow: 0 8px 20px rgba(164, 50, 50, 0.15); /* More refined shadow */
+  width: 100%; 
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); 
   transition: all 0.3s ease-in-out;
   max-height: 70vh; /* Adjusted max height */
   overflow-y: auto;
   border: 2px dashed #2563eb;
-  user-select: none;
+  
 }
 
 /*modal title*/
@@ -235,10 +233,9 @@ body {
   margin-bottom: 20px; /* Reduced margin */
   color: #0e0d0d;
   font: bold;
-  user-select: none;
 }
 
-/*need to be reviewed*/
+
 
 .drop-area {
   border: 2px dashed #ccc;
@@ -247,21 +244,19 @@ body {
   margin-bottom: 20px; /* Reduced bottom margin */
   cursor: pointer;
   transition: border-color 0.3s ease;
-  user-select: none;
 }
 
 .drop-area:hover {
   border-color: #6f6e6e;
 }
 
-/*need to reve8*/
+
 .file-list {
   text-align: left;
   margin-bottom: 20px; /* Reduced margin */
-  user-select: none;
 }
 
-/*this too*/
+
 .file-list li {
   display: flex;
   justify-content: space-between;
@@ -271,10 +266,9 @@ body {
   border-radius: 5px; /* More subtle border radius */
   margin-bottom: 8px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Light shadow for each file */
-  user-select: none;
 }
 
-/*this too*/
+
 .file-list li .delete-btn {
   background-color: #ff6f61; /* Softer red */
   color: #fff;
@@ -284,24 +278,17 @@ body {
   font-size: 0.85rem;
   cursor: pointer;
   transition: background-color 0.3s ease;
-  user-select: none;
 }
 
-/*this*/
+
 .file-list li .delete-btn:hover {
-  background-color: #ff5c48; /* Slightly darker on hover */
+  background-color: #ff5c48; 
 }
 
-/*exit upload buttons*/
 .modal-buttons {
   display: flex;
   justify-content: space-between;
   margin-top: 15px;
-  gap:10px;
-  width: 100%;
-  user-select: none;
-  
-  
   
 }
 
@@ -315,10 +302,9 @@ body {
   cursor: pointer;
   border-radius: 6px;
   font-size: 0.95rem;
-  font-weight: 600;
-  width: 90px;
+  font-weight: 500;
   transition: background-color 0.3s ease;
-  user-select: none;
+  width: 85px;
 }
 
 .exit-modal-button:hover {
@@ -335,8 +321,7 @@ body {
   cursor: pointer;
   border-radius: 6px;
   font-size: 0.95rem;
-  font-weight: 600;
-  user-select: none;
+  font-weight: 500;
   transition: background-color 0.3s ease;
 }
 
@@ -348,14 +333,14 @@ body {
   color: #ff4757; /* Red color for error */
   font-weight: 500;
   margin-bottom: 15px;
-  font-size: 0.9rem; 
+  font-size: 0.9rem; /* Smaller error font size */
 }
 
-/*download icone in the background*/
+
 
 .icon-container {
-  position: relative; /* Establishes a positioning context */
-  z-index: 0;
+  position: relative; 
+  z-index: relative;
   user-select: none;
 }
 
@@ -363,75 +348,10 @@ body {
   position: absolute;
   top: 50%;  
   left: 50%; 
-  transform: translate(-50%, -50%); /* Center icon */
+  transform: translate(-50%, -50%); 
   font-size: 200px; 
-  color: rgba(35, 32, 32, 0.1); /* Light color to blend into the background */
-  z-index: -1; /* Sends it behind other elements in the container */
-  user-select: none;
-}
-
-
-.upload-icon {
-  cursor: pointer;
-  font-size: 1.5rem;
-  user-select: none;
-}
-
-.upload-modal {
-  position: fixed;
-  width: 50vw; /* Full screen width */
-  height: 50vh; /* Full screen height */
-  background-color: rgba(0, 0, 0, 0.5); /* Dimming effect */
-  display: flex;
-  justify-content: center; /* Center horizontally */
-  align-items: center; /* Center vertically */
-  z-index: 1000;
-}
-
-.modal-content {
-  background: white;
-  padding: 20px;
-  border-radius: 10px;
-  text-align: center;
-  width: 400px; /* Set a fixed width */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  transition: all 0.3s ease-in-out;
-  max-height: 80vh; /* Prevents the modal from growing too tall */
-  overflow-y: auto; /* Allow scrolling if content exceeds max height */
-}
-
-input[type="file"] {
-  padding: 5px;
-}
-
-.modal-buttons {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 20px;
-}
-
-.exit-modal {
-  background-color: #ff4757;
-  border: none;
-  color: white;
-  padding: 10px 20px;
-  cursor: pointer;
-  border-radius: 5px;
-}
-
-.exit-modal:hover {
-  background-color: #ff6b81;
-}
-
-.upload-modal-button {
-  background-color: #1e90ff;
-  border: none;
-  color: white;
-  padding: 10px 20px;
-  cursor: pointer;
-  border-radius: 5px;
-}
-
-.upload-modal-button:hover {
-  background-color: #4682b4;
+  color: rgba(8, 8, 8, 0.1); 
+  z-index: 1; 
+  pointer-events: none;
+  opacity: 0.4; 
 }
