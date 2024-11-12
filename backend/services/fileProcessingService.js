@@ -11,7 +11,7 @@ async function extractKeywordsFromChunk(chunk) {
         const response = await axios.post('https://api.openai.com/v1/chat/completions', {
             model: 'gpt-4o-mini', 
             messages: [
-                { role: 'system', content: 'Extract keywords from the following text and comma-separate them. All keywords should be lowercase.' },
+                { role: 'system', content: 'Extract keywords from the following text and comma-separate them. All keywords should be lowercase. All keywords should be single words, unless they are hyphenated.' },
                 { role: 'user', content: String(chunk) }
             ],
             max_tokens: 1500,
