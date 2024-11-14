@@ -28,11 +28,11 @@ Please answer the question only based on the context provided above. You may res
             const prompt = this.createPrompt(userInput, context);
             
             const response = await this.client.post('https://api.openai.com/v1/chat/completions', {
-                model: 'gpt-4o',
+                model: 'gpt-4o-mini',
                 messages: [
                     {
                         role: 'system',
-                        content: 'You are a helpful assistant. Use the provided context to answer the user\'s question accurately. Only use information from the context and acknowledge when you need more information. If the context is irrelevant, indicate that you cannot answer the question. Do not reference the incorrect context in your message.")'
+                        content: 'You are a helpful assistant. Use the provided context to answer the user\'s question accurately. Only use information from the context and acknowledge when you need more information. If the context is irrelevant, indicate that you cannot answer the question. Do not reference the incorrect context in your message. For example, if youre asked "What is the release date of Call of Duty?" and your context has to do with phone calls and unrelated topics, just say "I am unable to answer that question based on my knowledgebase.)'
                     },
                     {
                         role: 'user',
@@ -54,11 +54,11 @@ Please answer the question only based on the context provided above. You may res
     async handleNoMatch(userInput) {
         try {
             const response = await this.client.post('https://api.openai.com/v1/chat/completions', {
-                model: 'gpt-4o',
+                model: 'gpt-4o-mini',
                 messages: [
                     {
                         role: 'system',
-                        content: 'You were unable to be provided with context. Engage in simple responses only for trivial or social queries. Politely indicate that you cannot answer the question due to lack of context.'},
+                        content: 'You were unable to be provided with context. Engage in simple responses only for trivial or social queries. Politely indicate that you cannot answer the question due to lack of context. For example, if the query is "What is Quantum Computing?" and you werent provided with context, state that you need more context about Quantum Computing to answer the question.'},
                     {
                         role: 'user',
                         content: userInput
