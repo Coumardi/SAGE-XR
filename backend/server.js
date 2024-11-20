@@ -10,14 +10,9 @@ const extractKeywords = require('./services/keywordService');
 const openaiService = require('./services/openaiService');
 const documentMatcher = require('./services/documentMatcherService');
 const uploadRoutes = require('./routes/uploadRoutes');
-<<<<<<< Updated upstream
 const interactionRoutes = require('./routes/interaction');
 const Question = require('./models/question');  // Import the Question model
 
-=======
-const mongoose = require('mongoose');
-const ResponseModel = require('./models/response');  // Assuming you have a Response model
->>>>>>> Stashed changes
 const app = express();
 
 // Middleware setup
@@ -29,40 +24,24 @@ const startServer = async () => {
   try {
     // Initialize database connection
     const { collection } = await initializeDatabase();
-<<<<<<< Updated upstream
     
     // Initialize document matcher service with your collection
     console.log('Initializing DocumentMatcherService...');
     documentMatcher.initialize(collection);
     
-=======
-
-    // Initialize document matcher service
-    console.log('Initializing DocumentMatcherService...');
-    documentMatcher.initialize(collection);
-
->>>>>>> Stashed changes
     // Verify initialization
     if (!documentMatcher.collection) {
       throw new Error('Failed to initialize DocumentMatcherService');
     }
 
-<<<<<<< Updated upstream
     // Serve static files
     app.use(express.static(path.join(__dirname, 'public')));
 
     // Serve index.html at root URL
-=======
-    // Serve static files (React frontend)
-    app.use(express.static(path.join(__dirname, 'public')));
-
-    // Root route serves index.html
->>>>>>> Stashed changes
     app.get('/', (req, res) => {
       res.sendFile(path.join(__dirname, 'public', 'index.html'));
     });
 
-<<<<<<< Updated upstream
     // Define the /call-ai route
     app.post('/call-ai', async (req, res) => {
       try {
@@ -71,17 +50,6 @@ const startServer = async () => {
         console.log('Extracted keywords:', keywordList);
 
         // Find best matching document using our service
-=======
-    // POST route for AI processing
-    app.post('/call-ai', async (req, res) => {
-      try {
-        const { userId, question, time } = req.body;
-        // Extract keywords from the input data
-        const keywordList = await extractKeywords(question);
-        console.log('Extracted keywords:', keywordList);
-
-        // Find the best matching document using document matcher
->>>>>>> Stashed changes
         const bestMatch = await documentMatcher.findBestMatch(keywordList);
         console.log('Best matching document:', bestMatch);
 
@@ -89,64 +57,28 @@ const startServer = async () => {
         if (bestMatch) {
           // Generate AI response using the matched context
           aiResponse = await openaiService.generateResponse(
-<<<<<<< Updated upstream
             req.body.data,
-=======
-            question,
->>>>>>> Stashed changes
             bestMatch.context
           );
         } else {
           // Handle cases where no matching document is found
-<<<<<<< Updated upstream
           aiResponse = await openaiService.handleNoMatch(req.body.data);
         }
 
         res.json({ 
           message: aiResponse,
           matchedDocument: bestMatch || null
-=======
-          aiResponse = await openaiService.handleNoMatch(question);
-        }
-
-        // Generate a responseId for this request (can be a UUID or any identifier)
-        const responseId = new mongoose.Types.ObjectId();  // Example
-
-        // Save user data in the database (userId, question, responseId, time)
-        const responseDoc = new ResponseModel({
-          userId,
-          question,
-          responseId,
-          time,
-          responseMessage: aiResponse
-        });
-
-        // Save the document in the database
-        await responseDoc.save();
-
-        res.json({
-          message: aiResponse,
-          matchedDocument: bestMatch || null,
-          responseId: responseId,
->>>>>>> Stashed changes
         });
 
       } catch (error) {
         console.error('Error in /call-ai:', error);
-<<<<<<< Updated upstream
         res.status(500).json({ 
           error: 'Error processing request',
           details: process.env.NODE_ENV === 'development' ? error.message : undefined 
-=======
-        res.status(500).json({
-          error: 'Error processing request',
-          details: process.env.NODE_ENV === 'development' ? error.message : undefined,
->>>>>>> Stashed changes
         });
       }
     });
 
-<<<<<<< Updated upstream
     // Define the /api/question/add route to store questions and responses
     app.post('/api/question/add', async (req, res) => {
         
@@ -180,19 +112,6 @@ const startServer = async () => {
       app.listen(port, () => {
         console.log(`Server running on port ${port}`);
       });
-=======
-    // Register additional API routes
-    app.use('/api', queryRoutes);
-    app.use('/api', keywordRoutes);
-    app.use('/api', uploadRoutes);
-
-    // Only start server in non-test environments
-    if (process.env.NODE_ENV !== 'test') {
-      const port = process.env.PORT || 5000;
-      app.listen(port, () => {
-        console.log(`Server running on port ${port}`);
-      });
->>>>>>> Stashed changes
     }
 
   } catch (error) {
