@@ -8,6 +8,6 @@ const questionSchema = new mongoose.Schema({
   timeStamp: { type: Date, required: true },
 });
 
-const Question = mongoose.model('Question', questionSchema);
+const Question = mongoose.model('Question', questionSchema, 'test_collection');
 
 module.exports = Question;
