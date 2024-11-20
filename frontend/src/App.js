@@ -95,7 +95,7 @@ function App() {
         });
           
         typeMessage(text, index+1);
-      },30);}
+      },20);}
 
       else{
         setIsTyping(false);
