@@ -30,7 +30,6 @@ function App() {
 
   // Store question in MongoDB
   const storeQuestion = async (question, responseId) => {
-<<<<<<< Updated upstream
     const currentTime = new Date().toISOString();
   
     const data = {
@@ -45,14 +44,6 @@ function App() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-=======
-    try{
-
-      const response= await fetch ('http://localhost:5000/api/question/add',  {
-        method:'POST',
-        headers:{
-          'content-Type': 'application/json',
->>>>>>> Stashed changes
         },
         body: JSON.stringify(data),
       });
@@ -66,7 +57,6 @@ function App() {
       console.error('Error storing question:', error);
     }
   };
-<<<<<<< Updated upstream
   
 
 
@@ -82,9 +72,6 @@ function App() {
       textarea.style.overflowY = "hidden";
     }
   };
-=======
-    
->>>>>>> Stashed changes
 
   // Simulate typing effect for AI response
   const typeMessage = (text, index = 0) => {
@@ -182,29 +169,7 @@ function App() {
     }
   };
 
-<<<<<<< Updated upstream
   // Toggle file upload modal
-=======
-  // this funtion adjust the input area when input text increase and adjust 
-// overflow behavior based on content height
-
-const adjustInputareaHeight = () => {
-  const textarea = document.getElementById("chat-input");
-  textarea.style.height = "auto";
-  textarea.style.height = `${textarea.scrollHeight}px`;
-
-  if (textarea.scrollHeight > 50) {
-    textarea.style.overflowY = "auto";
-  } else {
-    textarea.style.overflowY = "hidden";
-  }
-
-};
-
-  
-  //toggle file upload modal
-  
->>>>>>> Stashed changes
   const toggleUploadModal = () => {
     setShowUploadModal(!showUploadModal);
   };
