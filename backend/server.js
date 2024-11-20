@@ -101,8 +101,8 @@ const startServer = async () => {
       });
 
     // API routes for queries, keywords, uploads, and interactions
-    app.use('/api', queryroutes);
-    app.use('/api', keywordroutes);
+    app.use('/api', queryRoutes);
+    app.use('/api', keywordRoutes);
     app.use('/api', uploadRoutes);
     app.use('/api', interactionRoutes);
 
