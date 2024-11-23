@@ -93,4 +93,7 @@ async function processFile(fileContent) {
 
 module.exports = {
     processFile,
+    calculateChunks,
+    splitTextIntoChunks,
+    extractKeywordsFromChunk 
 };
