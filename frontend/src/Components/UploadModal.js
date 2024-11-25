@@ -1,16 +1,14 @@
 import React, { useState } from 'react';
 
-
 function UploadModal({ toggleUploadModal }) {
   const [uploadedFiles, setUploadedFiles] = useState([]);
+  const MAX_FILES = 3;
 
-  // Handle file selection (from file explorer)
   const handleFileChange = (event) => {
     const files = Array.from(event.target.files);
     addFiles(files);
   };
 
-  // Handle drag-and-drop files
   const handleDrop = (event) => {
     event.preventDefault();
     event.stopPropagation();
@@ -18,23 +16,19 @@ function UploadModal({ toggleUploadModal }) {
     addFiles(files);
   };
 
-  // Function to add files with a 3-file limit 
   const addFiles = (files) => {
     const validFiles = files.filter(
       (file) =>
-
-        file.name.endsWith('.txt')||
-        file.name.endsWith('.pdf')||
-        file.name.endsWith('.docx')||
+        file.name.endsWith('.txt') ||
+        file.name.endsWith('.pdf') ||
+        file.name.endsWith('.docx') ||
         file.name.endsWith('.pptx')     
-
     );
 
-    const filesAdded= uploadedFiles.length + validFiles.lenght;
-    const maxFiles = 3;
-
-    if (filesAdded > maxFiles) {
-      alert(`You can only upload up to 3 files. you have added ${filesAdded-maxFiles}`);
+    const filesAdded = uploadedFiles.length + validFiles.length;
+    
+    if (filesAdded > MAX_FILES) {
+      alert(`You can only upload up to ${MAX_FILES} files. You've exceeded by ${filesAdded - MAX_FILES} ${filesAdded - MAX_FILES === 1 ? 'file' : 'files'}.`);
       return;
     }
 
@@ -42,12 +36,24 @@ function UploadModal({ toggleUploadModal }) {
   };
 
   const clearFiles = () => {
-    setUploadedFiles([]);  // Clear all uploaded files
-    toggleUploadModal();  // Close modal
+    setUploadedFiles([]);
+    toggleUploadModal();
   };
 
   const removeFile = (indexToRemove) => {
     setUploadedFiles(uploadedFiles.filter((_, index) => index !== indexToRemove));
+  };
+
+  const getUploadStatusMessage = () => {
+    const remainingFiles = MAX_FILES - uploadedFiles.length;
+    
+    if (uploadedFiles.length === 0) {
+      return `You can select up to ${MAX_FILES} files`;
+    } else if (remainingFiles === 0) {
+      return "Maximum number of files reached";
+    } else {
+      return `You can add ${remainingFiles} more ${remainingFiles === 1 ? 'file' : 'files'}`;
+    }
   };
 
   const handleUpload = async () => {
@@ -81,16 +87,8 @@ function UploadModal({ toggleUploadModal }) {
   return (
     <div className="upload-modal">
       <div className="modal-content" onDragOver={(e) => e.preventDefault()} onDrop={handleDrop}>
-        <h3>Choose a file or Drag it here</h3>
-        <p>
-          {uploadedFiles.length>0
-
-          ? `you can add up to ${3 - uploadedFiles.length} more files`
-          : `select up to 3 files`
-          }
-          
-        </p>
-        
+        <h3>Choose files or drag them here</h3>
+        <p>{getUploadStatusMessage()}</p>
 
         <input
           type="file"
@@ -100,18 +98,17 @@ function UploadModal({ toggleUploadModal }) {
           style={{ display: 'block', margin: '20px auto' }}
         />
 
-        {/* Display uploaded file names with "X" to remove */}
         <div className="uploaded-files">
-        <div className="icon-container">
-        <i className="fa-solid fa-download" ></i>
-        </div>
+          <div className="icon-container">
+            <i className="fa-solid fa-download"></i>
+          </div>
 
           <h4>Uploaded Files:</h4>
           <ul>
             {uploadedFiles.length > 0 ? (
               uploadedFiles.map((file, index) => (
                 <li key={index}>
-                  {file.name} <span className="remove-file" onClick={() => removeFile(index)}>x</span>
+                  {file.name} <span className="remove-file" onClick={() => removeFile(index)}>×</span>
                 </li>
               ))
             ) : (
@@ -120,10 +117,14 @@ function UploadModal({ toggleUploadModal }) {
           </ul>
         </div>
 
-        {/* Upload and Exit buttons */}
-            <div className="modal-buttons">
-            <button onClick={clearFiles} className="exit-modal-button">Exit</button>
-          <button onClick={handleUpload} className="upload-modal-button">Upload</button>
+        <div className="modal-buttons">
+          <button onClick={clearFiles} className="exit-modal-button">Exit</button>
+          <button 
+            onClick={handleUpload} 
+            className="upload-modal-button"
+          >
+            Upload
+          </button>
         </div>
       </div>
     </div>
