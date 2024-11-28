@@ -1,8 +1,8 @@
 import React from 'react';
 
-function ChatBox({ messages }) {
+const ChatBox = React.forwardRef(({ messages }, ref) => {
   return (
-    <div className="chat-box">
+    <div className="chat-box" ref={ref}>
       {messages.map((message, index) => (
         <div key={index} className={message.type === 'user' ? 'user-message' : 'ai-message'}>
           {message.text}
@@ -11,6 +11,9 @@ function ChatBox({ messages }) {
       ))}
     </div>
   );
-}
+});
+
+// Add display name for debugging purposes
+ChatBox.displayName = 'ChatBox';
 
 export default ChatBox;

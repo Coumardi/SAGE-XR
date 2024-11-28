@@ -13,9 +13,10 @@
   "dependencies": {
     "axios": "^1.7.7",
     "body-parser": "^1.20.3",
+    "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
-    "express": "^4.21.0",
+    "express": "^4.21.1",
     "jszip": "^3.10.1",
     "mammoth": "^1.8.0",
     "mongodb": "^6.10.0",
@@ -24,6 +25,7 @@
     "openai": "^4.63.0",
     "pdf-parse": "^1.1.1",
     "tiktoken": "^1.0.17",
+    "uuid": "^11.0.3",
     "word-extractor": "^1.0.4",
     "xml2js": "^0.6.2"
   },

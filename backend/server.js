@@ -1,100 +1,122 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
-const bodyparser = require('body-parser');
+const bodyParser = require('body-parser');
 const path = require('path');
 const { initializeDatabase } = require('./config/database');
-const queryroutes = require('./routes/queryRoutes');
-const keywordroutes = require('./routes/keywordRoutes');
+const queryRoutes = require('./routes/queryRoutes');
+const keywordRoutes = require('./routes/keywordRoutes');
 const extractKeywords = require('./services/keywordService');
 const openaiService = require('./services/openaiService');
 const documentMatcher = require('./services/documentMatcherService');
 const uploadRoutes = require('./routes/uploadRoutes');
+const interactionRoutes = require('./routes/interaction');
+const Question = require('./models/question');  // Import the Question model
+
 const app = express();
 
-// middleware
+// Middleware setup
 app.use(cors());
-app.use(bodyparser.json({ limit: '1mb' }));
+app.use(bodyParser.json({ limit: '1mb' }));
 
-// Initialize database and services
+// Initialize the database and services
 const startServer = async () => {
   try {
-      // Initialize database connection
-      const { collection } = await initializeDatabase();
-      
-      // Initialize document matcher service with your collection
-      console.log('Initializing DocumentMatcherService...');
-      documentMatcher.initialize(collection);
-      
-      // Verify initialization
-      if (!documentMatcher.collection) {
-          throw new Error('Failed to initialize DocumentMatcherService');
+    // Initialize database connection
+    const { collection } = await initializeDatabase();
+    
+    // Initialize document matcher service with your collection
+    console.log('Initializing DocumentMatcherService...');
+    documentMatcher.initialize(collection);
+    
+    // Verify initialization
+    if (!documentMatcher.collection) {
+      throw new Error('Failed to initialize DocumentMatcherService');
+    }
+
+    // Serve static files
+    app.use(express.static(path.join(__dirname, 'public')));
+
+    // Serve index.html at root URL
+    app.get('/', (req, res) => {
+      res.sendFile(path.join(__dirname, 'public', 'index.html'));
+    });
+
+    // Define the /call-ai route
+    app.post('/call-ai', async (req, res) => {
+      try {
+        // Extract keywords from user input using LLM
+        const keywordList = await extractKeywords(req.body.data);
+        console.log('Extracted keywords:', keywordList);
+
+        // Find best matching document using our service
+        const bestMatch = await documentMatcher.findBestMatch(keywordList);
+        console.log('Best matching document:', bestMatch);
+
+        let aiResponse;
+        if (bestMatch) {
+          // Generate AI response using the matched context
+          aiResponse = await openaiService.generateResponse(
+            req.body.data,
+            bestMatch.context
+          );
+        } else {
+          // Handle cases where no matching document is found
+          aiResponse = await openaiService.handleNoMatch(req.body.data);
+        }
+
+        res.json({ 
+          message: aiResponse,
+          matchedDocument: bestMatch || null
+        });
+
+      } catch (error) {
+        console.error('Error in /call-ai:', error);
+        res.status(500).json({ 
+          error: 'Error processing request',
+          details: process.env.NODE_ENV === 'development' ? error.message : undefined 
+        });
       }
+    });
 
-      // serve static files
-      app.use(express.static(path.join(__dirname, 'public')));
-
-      // Serve index.html at root URL
-      app.get('/', (req, res) => {
-        res.sendFile(path.join(__dirname, 'public', 'index.html'));
+    // Define the /api/question/add route to store questions and responses
+    app.post('/api/question/add', async (req, res) => {
+        
+        const { userId, question, responseId, timeStamp } = req.body;
+      
+        // Check if all fields are provided
+        if (!userId || !question || !responseId || !timeStamp) {
+          return res.status(400).json({ message: 'Missing required fields' });
+        }
+      
+        // Logic to save the question goes here
+        try {
+          const newQuestion = new Question({ userId, question, responseId, timeStamp });
+          await newQuestion.save();
+          res.status(200).json({ message: 'Question stored successfully' });
+        } catch (error) {
+          console.error('Error storing question:', error);
+          res.status(500).json({ message: 'Failed to store question' });
+        }
       });
 
-      // routes
-      app.get('/', (req, res) => {
-          res.sendFile(path.join(__dirname, 'public', 'index.html'));
+    // API routes for queries, keywords, uploads, and interactions
+    app.use('/api', queryRoutes);
+    app.use('/api', keywordRoutes);
+    app.use('/api', uploadRoutes);
+    app.use('/api', interactionRoutes);
+
+    // Only start the server if not running tests
+    if (process.env.NODE_ENV !== 'test') {
+      const port = process.env.PORT || 5000;
+      app.listen(port, () => {
+        console.log(`Server running on port ${port}`);
       });
-
-      app.post('/call-ai', async (req, res) => {
-          try {
-              // Extract keywords from user input using LLM
-              const keywordList = await extractKeywords(req.body.data);
-              console.log('Extracted keywords:', keywordList);
-
-              // Find best matching document using our service
-              const bestMatch = await documentMatcher.findBestMatch(keywordList);
-              console.log('Best matching document:', bestMatch);
-
-              let aiResponse;
-              if (bestMatch) {
-                  // Generate AI response using the matched context
-                  aiResponse = await openaiService.generateResponse(
-                      req.body.data,
-                      bestMatch.context
-                  );
-              } else {
-                  // Handle cases where no matching document is found
-                  aiResponse = await openaiService.handleNoMatch(req.body.data);
-              }
-              
-              res.json({ 
-                  message: aiResponse,
-                  matchedDocument: bestMatch || null
-              });
-
-          } catch (error) {
-              console.error('Error in /call-ai:', error);
-              res.status(500).json({ 
-                  error: 'Error processing request',
-                  details: process.env.NODE_ENV === 'development' ? error.message : undefined 
-              });
-          }
-      });
-
-      app.use('/api', queryroutes);
-      app.use('/api', keywordroutes);
-      app.use('/api', uploadRoutes)
-
-      // only start the server if not running tests
-      if (process.env.NODE_ENV !== 'test') {
-          const port = process.env.PORT || 5000;
-          app.listen(port, () => {
-              console.log(`Server running on port ${port}`);
-          });
-      }
+    }
 
   } catch (error) {
-      console.error('Failed to start server:', error);
-      process.exit(1);
+    console.error('Failed to start server:', error);
+    process.exit(1);
   }
 };
 
