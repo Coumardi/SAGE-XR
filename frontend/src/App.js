@@ -1,5 +1,5 @@
 import './App.css';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import ChatBox from './Components/ChatBox';
 import InputArea from './Components/InputArea';
 import UploadModal from './Components/UploadModal';
@@ -15,11 +15,24 @@ function App() {
   // File upload related state
   const [showUploadModal, setShowUploadModal] = useState(false);
 
+  // Create a ref for the chat container
+  const chatContainerRef = useRef(null);
+
   // User identification
   const [userId] = useState(() => {
     const stored = localStorage.getItem('chatUserId');
     return stored || `user_${Date.now()}`;
   });
+
+  // Auto-scroll effect when isTyping changes
+  useEffect(() => {
+    if (isTyping && chatContainerRef.current) {
+      chatContainerRef.current.scrollTo({
+        top: chatContainerRef.current.scrollHeight,
+        behavior: 'smooth'
+      });
+    }
+  }, [isTyping, messages]);
 
   // Store userId in localStorage when created
   useEffect(() => {
@@ -57,8 +70,6 @@ function App() {
       console.error('Error storing question:', error);
     }
   };
-  
-
 
   // Adjust input area height when input text increases
   const adjustInputareaHeight = () => {
@@ -131,8 +142,7 @@ function App() {
         typeMessage(result.message);
         
         // Generate a unique responseid using UUID
-
-        const responseId = uuidv4(); // generate a unique responseid
+        const responseId = uuidv4();
 
         // Store question and response in database
         await storeQuestion(userInput, responseId);
@@ -157,14 +167,14 @@ function App() {
   // Handle Enter key press
   const handleKeyPress = (e) => {
     if (e.key === 'Enter') {
-      e.preventDefault(); // Prevent default Enter behavior
+      e.preventDefault();
 
       if (userInput.trim() === "") {
         alert('Please enter a message');
       } else if (userInput.length >= 1000) {
         alert('Message is too long. Please keep it under 1000 characters.');
       } else {
-        sendMessage(); // Send message if conditions are met
+        sendMessage();
       }
     }
   };
@@ -180,6 +190,7 @@ function App() {
       <ChatBox 
         messages={messages} 
         isTyping={isTyping}
+        ref={chatContainerRef}
       />
       <InputArea
         userInput={userInput}
