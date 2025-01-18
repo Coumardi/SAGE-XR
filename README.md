@@ -22,3 +22,4 @@ After pulling from main:
 **Notes on commiting to github**
 Please utilize JIRA Issue numbers with a message in the commits so we can see changes done and get the commit revision.
 
+#Cloning the repo to utilize vector database instead of keyword search
