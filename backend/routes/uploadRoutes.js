@@ -68,10 +68,11 @@ router.post('/upload', upload.array('files', 3), async (req, res) => {
             await processFile(content);
         }
 
-        res.status(200).json({ message: 'Files processed and stored successfully.' });
+        res.status(200).json({ success: true, message: 'Files processed and stored successfully.' });
     } catch (error) {
         console.error('Error processing files:', error);
-        res.status(500).json({ message: 'Error processing files' });
+        res.status(500).json({ success: false, 
+            message: 'Error processing files' });
     }
 });
 

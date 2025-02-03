@@ -28,7 +28,6 @@ body {
   padding: 20px;
   overflow-y: auto; /* Enable vertical scrolling */
   background-color: #ffffff;
-  user-select: none;
 }
 
 .message {
@@ -78,9 +77,7 @@ body {
   padding: 10px;
   border-top: 1px solid #ddd;
   background-color: white;
-  align-items: center; /* Align input at the bottom */
-  justify-content: flex-start;
-  user-select: none;
+  align-items: flex-end; /* Align input at the bottom */
 }
 
 #chat-input {
@@ -94,24 +91,22 @@ body {
   max-height: 150px; /* Set max height */
   overflow-y: auto; /* Enable vertical scrolling */
   resize: none; /* Disable resizing */
-  word-wrap: break-word; 
+  word-wrap: break-word; /* Break long words if necessary */
   box-sizing: border-box;
-  display: block; 
-  margin-left: 10px;
-  user-select: none;
+  display: block; /* Ensures it takes up the full width in flex */
 }
 
 
 .title {
-  font-family: 'Roboto', sans-serif; 
+  font-family: 'Roboto', sans-serif; /* Use a sleek, modern font */
   text-align: center;
   margin-top: 20px;
   font-size: 28px; /* Slightly larger for emphasis */
   font-weight: 700; /* Bold to make it stand out */
-  color: #333333; /* A more neutral, professional color */
-  letter-spacing: 1.5px; 
+  color: #333333; 
+  letter-spacing: 1.5px; /* Add spacing between letters for elegance */
   text-transform: uppercase; /* Make the title all caps for a sleek look */
-  border-bottom: 2px solid #007bff; 
+  border-bottom: 2px solid #007bff; /* Add a subtle bottom border for emphasis */
   padding-bottom: 10px; /* Add space below the title */
   user-select: none;
 }
@@ -120,23 +115,22 @@ body {
 
 #send-btn {
   margin-left: 10px;
-  padding: 12px 24px; 
+  padding: 12px 24px; /* Slightly increased padding for a more prominent button */
   background-color: #007bff; /* Main button color (blue) */
   color: white;
   border: none;
-  border-radius: 8px; 
+  border-radius: 8px; /* Slightly more rounded corners for a modern look */
   font-size: 16px; /* Larger, more readable font */
-  font-weight: 500; /* Medium weight for a polished appearance */
+  font-weight: 500; 
   cursor: pointer;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
   transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transitions */
-  user-select: none;
-  
 }
 
 #send-btn:hover {
   background-color: #0056b3;
 }
+
 
 .upload-icon {
   cursor: pointer;
@@ -144,13 +138,17 @@ body {
   user-select: none;
   color: #555;
   transition: color 0.3s ease;
+  margin-right: 5px;
+  margin-bottom: 7px;
+  
+  
 }
 
 .upload-icon:hover {
   color: #777;
 }
 
-
+/*need to be review because*/
 .file-item {
   display: flex;
   align-items: center;
@@ -162,14 +160,14 @@ body {
   gap: 10px;
 }
 
+/*need to be review because add s to modify uploaded file name*/
 
-
-.uploaded-file {
+.uploaded-files {
   padding: 8px 12px;
   margin-bottom: 8px;
-  background-color: #c2c7cd;
-  border-radius: 6px;
-  border: 1px solid #e2e8f0;
+  position: relative;
+  z-index: 1;
+ 
 }
  
 /*the X button to remove file add by the user*/
@@ -177,7 +175,7 @@ body {
 .remove-file {
   display: inline-block;
   cursor: pointer;
-  color:red;
+  color:gray;
   font-weight: bold;
   padding: 4px;
   margin-left: 4px;
@@ -185,10 +183,10 @@ body {
 }
 
 .remove-file:hover {
-  background-color: #c79e9e;
+  background-color: #d02929;
 }
 
-/* upload modal*/
+/* upload modal big box*/
 
 .upload-modal {
   position: fixed;
@@ -197,7 +195,7 @@ body {
   transform: translate(-50%, -50%);
   width: 350px;
   height: auto;
-  background-color: #dfdbdb;
+  background-color: #d1d1de;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -213,12 +211,12 @@ body {
 
 
 .modal-content {
-  background: #ebeaea;
+  background: #edeef0;
   padding: 20px; /* Reduced padding */
-  border-radius: 10px; 
+  border-radius: 10px; /* More subtle border radius */
   text-align: center;
-  width: 100%; 
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); 
+  width: 100%; /* Ensures the modal fits inside the container */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); /* More refined shadow */
   transition: all 0.3s ease-in-out;
   max-height: 70vh; /* Adjusted max height */
   overflow-y: auto;
@@ -236,7 +234,7 @@ body {
   font: bold;
 }
 
-
+/*need to be reviewed*/
 
 .drop-area {
   border: 2px dashed #ccc;
@@ -251,13 +249,13 @@ body {
   border-color: #6f6e6e;
 }
 
-
+/*need to reve8*/
 .file-list {
   text-align: left;
   margin-bottom: 20px; /* Reduced margin */
 }
 
-
+/*this too*/
 .file-list li {
   display: flex;
   justify-content: space-between;
@@ -269,7 +267,7 @@ body {
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Light shadow for each file */
 }
 
-
+/*this too*/
 .file-list li .delete-btn {
   background-color: #ff6f61; /* Softer red */
   color: #fff;
@@ -281,79 +279,152 @@ body {
   transition: background-color 0.3s ease;
 }
 
-
+/*this*/
 .file-list li .delete-btn:hover {
-  background-color: #ff5c48; 
+  background-color: #ff5c48; /* Slightly darker on hover */
 }
 
+/*exit upload buttons*/
 .modal-buttons {
   display: flex;
   justify-content: space-between;
   margin-top: 15px;
+  gap:10px;
+  width: 100%;
+  
+  
+  
   
 }
 
 /*exit button*/
 
 .exit-modal-button {
-  background-color: red; 
+  background-color: gray; 
   border: none;
   color: #fff;
   padding: 10px 20px;
   cursor: pointer;
   border-radius: 6px;
   font-size: 0.95rem;
-  font-weight: 500;
+  font-weight: 600;
+  width: 90px;
   transition: background-color 0.3s ease;
-  width: 85px;
 }
 
 .exit-modal-button:hover {
-  background-color: #913030;
+  background-color: red;
 }
 
-/*upload button*/
+/*commit button*/
 
 .upload-modal-button {
-  background-color: #1e90ff; 
+  background-color: #007BFF; 
   border: none;
   color: #fff;
   padding: 10px 20px;
   cursor: pointer;
   border-radius: 6px;
   font-size: 0.95rem;
-  font-weight: 500;
+  font-weight: 600;
+  
   transition: background-color 0.3s ease;
 }
 
 .upload-modal-button:hover {
-  background-color: #4682b4; /* Slightly darker blue on hover */
+  background-color: #0056b3; /* Slightly darker blue on hover */
 }
 
 .error {
   color: #ff4757; /* Red color for error */
   font-weight: 500;
   margin-bottom: 15px;
-  font-size: 0.9rem; /* Smaller error font size */
+  font-size: 0.9rem; 
 }
 
-
+/*download icone in the background*/
 
 .icon-container {
-  position: relative; 
-  z-index: relative;
-  user-select: none;
+  position: relative; /* Establishes a positioning context */
+  z-index: 0;
+  
 }
 
 .fa-solid.fa-download {
   position: absolute;
   top: 50%;  
   left: 50%; 
-  transform: translate(-50%, -50%); 
+  transform: translate(-50%, -50%); /* Center icon */
   font-size: 200px; 
-  color: rgba(8, 8, 8, 0.1); 
-  z-index: 1; 
+  color: rgba(35, 32, 32, 0.1); /* Light color to blend into the background */
+  z-index: -1; /* Sends it behind other elements in the container */
   pointer-events: none;
   opacity: 0.4; 
 }
 
+/*sucessfull message icone*/
+
+.success-message {
+  position: fixed;
+  top: 25px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  
+  width: min(330px, 90%);
+  min-height: 60px;
+  padding: 12px 16px;
+  
+  color: #1a7a1a;
+  font-weight: 600;
+  background-color: #f0fff0;
+  border: 1px solid #4CAF50;
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  
+  animation: slideIn 0.3s ease-out;
+  transition: background-color 0.2s ease;
+}
+
+.success-message:hover {
+  background-color: #e8ffe8;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translate(-50%, -100%);
+    opacity: 0;
+  }
+  to {
+    transform: translate(-50%, 0);
+    opacity: 1;
+  }
+}
+
+
+
+
+/* choose file button */
+
+.custom-file-button {
+  background-color:gray; 
+  width: 120px;
+  height: 25px;
+  color: white;
+}
+
+.custom-file-button:hover {
+  background-color: #6e605e;
+}
+
+/* commit button disable after document sent to the database*/
+
+.upload-modal-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  pointer-events: none;
+}
