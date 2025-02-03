@@ -4,7 +4,7 @@ import ChatBox from './Components/ChatBox';
 import InputArea from './Components/InputArea';
 import UploadModal from './Components/UploadModal';
 import '@fortawesome/fontawesome-free/css/all.css';
-import {v4 as uuidv4} from 'uuid';
+
 
 function App() {
   // Chat related state
@@ -18,11 +18,6 @@ function App() {
   // Create a ref for the chat container
   const chatContainerRef = useRef(null);
 
-  // User identification
-  const [userId] = useState(() => {
-    const stored = localStorage.getItem('chatUserId');
-    return stored || `user_${Date.now()}`;
-  });
 
   // Auto-scroll effect when isTyping changes
   useEffect(() => {
@@ -34,42 +29,7 @@ function App() {
     }
   }, [isTyping, messages]);
 
-  // Store userId in localStorage when created
-  useEffect(() => {
-    if (!localStorage.getItem('chatUserId')) {
-      localStorage.setItem('chatUserId', userId);
-    }
-  }, [userId]);
 
-  // Store question in MongoDB
-  const storeQuestion = async (question, responseId) => {
-    const currentTime = new Date().toISOString();
-  
-    const data = {
-      userId: userId, 
-      question: question,
-      responseId: responseId,
-      timeStamp: currentTime,
-    };
-  
-    try {
-      const response = await fetch('http://localhost:5000/api/question/add', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to store question');
-      }
-  
-      return response.json();
-    } catch (error) {
-      console.error('Error storing question:', error);
-    }
-  };
 
   // Adjust input area height when input text increases
   const adjustInputareaHeight = () => {
@@ -95,7 +55,7 @@ function App() {
         });
           
         typeMessage(text, index+1);
-      },20);}
+      },10);}
 
       else{
         setIsTyping(false);
@@ -112,21 +72,22 @@ function App() {
         minute: '2-digit'
       });
 
-      // Add user message to chat
       setMessages([...messages, {
         type: 'user',
         text: userInput,
         timeStamp: currentTime
       }]);
 
+      setUserInput('');
+
       try {
         setIsTyping(true);
-        const response = await fetch('http://localhost:5000/call-ai', {
+        const response = await fetch('http://localhost:5000/api/query', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({ data: userInput })
+          body: JSON.stringify({ prompt: userInput })
         });
 
         const result = await response.json();
@@ -135,36 +96,26 @@ function App() {
           minute: '2-digit'
         });
 
-        // Add AI message placeholder
+        // Initialize empty AI message
         setMessages(prev => [...prev, {
           type: 'ai',
-          text: '',
-          timeStamp: aiCurrentTime
+          text: '',  // Start empty
+          timeStamp: aiCurrentTime,
+          relevantMemories: result.relevantMemories
         }]);
 
-        // Start typing effect
-        typeMessage(result.message);
-        
-        // Generate a unique responseid using UUID
-        const responseId = uuidv4();
-
-        // Store question and response in database
-        await storeQuestion(userInput, responseId);
+        // Type out the message
+        typeMessage(result.result);
 
       } catch (error) {
-        console.error('Error calling AI service:', error);
+        console.error('Error:', error);
         setMessages(prev => [...prev, {
           type: 'ai',
-          text: 'Error calling AI service',
+          text: 'Error processing your request',
           timeStamp: currentTime
         }]);
         setIsTyping(false);
       }
-
-      // Clear input
-      setUserInput('');
-      const textarea = document.getElementById("chat-input");
-      textarea.style.height = "auto";
     }
   };
 

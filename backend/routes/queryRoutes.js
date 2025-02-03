@@ -9,6 +9,6 @@ const { query } = require('../controllers/queryController');
 
 const router = express.Router();
 
-router.post('/query', query);
+router.post('/', query);
 
 module.exports = router;

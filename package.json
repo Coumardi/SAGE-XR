@@ -1,5 +1,7 @@
 {
   "dependencies": {
-    "dotenv": "^16.4.5"
+    "@qdrant/js-client-rest": "^1.13.0",
+    "dotenv": "^16.4.5",
+    "uuid": "^11.0.5"
   }
 }
