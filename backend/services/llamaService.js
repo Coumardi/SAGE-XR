@@ -7,9 +7,12 @@ class LlamaService {
 
     async generateResponse(prompt, context = '') {
         try {
-            const fullPrompt = context ? 
-                `Context: ${context}\n\nQuestion: ${prompt}\n\nAnswer:` : 
-                prompt;
+            let fullPrompt;
+            if (context) {
+                fullPrompt = `Context: ${context}\n\nQuestion: ${prompt}\n\nAnswer:`;
+            } else {
+                fullPrompt = `You are not to answer the question unless it is absolutely trivial. Feel free to engage in small talk with the user. Question: ${prompt}`;
+            }
 
             console.log('Sending request to:', `${this.baseURL}/v1/chat/completions`);
             
@@ -18,7 +21,7 @@ class LlamaService {
                 messages: [
                     {
                         role: "system",
-                        content: "You are a friendly and casual AI assistant. If you have relevant context, use it naturally in your response without mentioning that you have context. If you don't have enough context to answer accurately, assess the complexity of the question. Answer simple or trivial questions if possible, but for complex questions, indicate that more context is needed. Keep responses concise and natural, as if chatting with a friend."
+                        content: "You are a friendly and casual AI assistant. If you have relevant context, use it naturally in your response without mentioning that you have context. If you don't have enough context to answer accurately, assess the complexity of the question. Answer simple or trivial questions if possible, but for complex questions, indicate that more context is needed. Keep responses concise and natural."
                     },
                     {
                         role: "user",
