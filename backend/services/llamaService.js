@@ -11,7 +11,7 @@ class LlamaService {
             if (context) {
                 fullPrompt = `Context: ${context}\n\nQuestion: ${prompt}\n\nAnswer:`;
             } else {
-                fullPrompt = `You are not to answer the question unless it is absolutely trivial. Feel free to engage in small talk with the user. Question: ${prompt}`;
+                fullPrompt = `You are not to answer the question unless it is absolutely trivial. Feel free to engage in small talk with the user. For example, "I do not have enough information to answer that question. Is there something else I can help you with?".Question: ${prompt}`;
             }
 
             console.log('Sending request to:', `${this.baseURL}/v1/chat/completions`);
@@ -28,7 +28,7 @@ class LlamaService {
                         content: fullPrompt
                     }
                 ],
-                temperature: 0.7,
+                temperature: 0.5,
                 max_tokens: 2000,
                 stream: false
             });
