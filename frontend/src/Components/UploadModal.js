@@ -3,11 +3,10 @@ import FileInput from './FileInput';
 import UploadedFilesList from './UploadedFilesList';
 import ModalButtons from './ModalButtons';
 
-function UploadModal({ toggleUploadModal }) {
+function UploadModal({ toggleUploadModal, setUploadSuccess }) {
   const [uploadedFiles, setUploadedFiles] = useState([]);
   const [errorMessage, setErrorMessage] = useState('');
-  const [uploadSuccess, setUploadSuccess] = useState(false);
-
+  const [uploadFailureMessage, setUploadFailureMessage] = useState('');
 
   const addFiles = (files) => {
     const validFiles = files.filter(
@@ -40,6 +39,7 @@ function UploadModal({ toggleUploadModal }) {
   const clearFiles = () => {
     setUploadedFiles([]);
     setErrorMessage('');
+    setUploadFailureMessage('');
     toggleUploadModal();
   };
 
@@ -49,10 +49,10 @@ function UploadModal({ toggleUploadModal }) {
 
   const handleUpload = async (e) => {
     e.currentTarget.disabled = true;
-    
+
     if (uploadedFiles.length === 0) {
       alert('Please upload at least one file.');
-      e.currentTarget.disabled = true; // able commit button when no file is submited
+      e.currentTarget.disabled = true;
       return;
     }
 
@@ -66,19 +66,28 @@ function UploadModal({ toggleUploadModal }) {
       });
 
       if (response.ok) {
-        setUploadSuccess(true);
+        
+        toggleUploadModal();          // First close the modal
         setTimeout(() => {
-          setUploadSuccess(false);
-          clearFiles(); // Clears files after successful upload
-        }, 3000);
+          setUploadSuccess(true);     // Then show success message
+          setTimeout(() => {
+            setUploadSuccess(false);  // Hide success message after 3 seconds
+          }, 3000);
+        }, 100);                      // Small delay to ensure modal closes first
       } else {
         const result = await response.json();
-        alert(`Error: ${result.message}`);
+        setUploadFailureMessage(`Error: ${result.message}`);
+        setTimeout(() => {
+          setUploadFailureMessage('');
+        }, 3000);
         e.currentTarget.disabled = false;
       }
     } catch (error) {
       console.error('Upload failed:', error);
-      alert('Failed to upload files.');
+      setUploadFailureMessage('Failed to upload files');
+      setTimeout(() => {
+        setUploadFailureMessage('');
+      }, 3000);
       e.currentTarget.disabled = false;
     }
   };
@@ -87,19 +96,13 @@ function UploadModal({ toggleUploadModal }) {
     <div className="upload-modal">
       <div className="modal-content">
         {errorMessage && <p className="error-message">{errorMessage}</p>}
+        {uploadFailureMessage && <p className="failure-message">{uploadFailureMessage}</p>} {/* Display failure message */}
         <FileInput addFiles={addFiles} />
         <UploadedFilesList uploadedFiles={uploadedFiles} removeFile={removeFile} />
         <ModalButtons
           clearFiles={clearFiles}
           handleUpload={handleUpload}
-          
         />
-        {uploadSuccess && (
-          <div className="success-message">
-            <span className="success-icon">✔</span>
-            <span>Documents uploaded successfully!</span>
-          </div>
-        )}
       </div>
     </div>
   );

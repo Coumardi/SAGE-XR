@@ -11,6 +11,7 @@ function App() {
   const [messages, setMessages] = useState([]);
   const [userInput, setUserInput] = useState('');
   const [isTyping, setIsTyping] = useState(false);
+  const [uploadSuccess, setUploadSuccess] = useState(false);
 
   // chat container
   
@@ -222,10 +223,19 @@ function App() {
         <UploadModal 
 
           toggleUploadModal={toggleUploadModal}
+          setUploadSuccess={setUploadSuccess}
         />
 
         
         )}
+
+
+    {uploadSuccess && (           
+      <div className="success-message">
+        <span className="success-icon">✔</span>
+        <span>Documents uploaded successfully!</span>
+      </div>
+    )}
       
       
         
