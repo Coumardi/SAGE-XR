@@ -10,70 +10,69 @@ describe('LlamaService', () => {
   });
 
   describe('generateResponse', () => {
-    it('should generate response with context', async () => {
-      const mockResponse = {
-        data: {
-          choices: [{
-            message: {
-              content: 'Test response with context'
-            }
-          }]
-        }
-      };
-      axios.post.mockResolvedValueOnce(mockResponse);
-
-      const result = await llamaService.generateResponse('test prompt', 'test context');
+    it('should call API with correct parameters when no context provided', async () => {
+      const testPrompt = 'test prompt';
+      const expectedFullPrompt = `You are not to answer the question unless it is absolutely trivial. Feel free to engage in small talk with the user. For example, "I do not have enough information to answer that question. Is there something else I can help you with?".Question: ${testPrompt}`;
       
-      expect(result).toBe('Test response with context');
+      axios.post.mockResolvedValueOnce({
+        data: {
+          choices: [{ message: { content: 'test response' } }]
+        }
+      });
+
+      await llamaService.generateResponse(testPrompt);
+
       expect(axios.post).toHaveBeenCalledWith(
         'http://test-url/v1/chat/completions',
         expect.objectContaining({
+          model: "llama-3.2-3b-instruct",
           messages: [
             {
               role: "system",
-              content: expect.any(String)
+              content: "You are a friendly and casual AI assistant. If you have relevant context, use it naturally in your response without mentioning that you have context. If you don't have enough context to answer accurately, assess the complexity of the question. Answer simple or trivial questions if possible, but for complex questions, indicate that more context is needed. Keep responses concise and natural."
             },
             {
               role: "user",
-              content: "Context: test context\n\nQuestion: test prompt\n\nAnswer:"
+              content: expectedFullPrompt
             }
           ],
-          model: "llama-3.2-3b-instruct",
-          temperature: 0.7,
+          temperature: 0.5,
           max_tokens: 2000,
           stream: false
         })
       );
     });
 
-    it('should generate response without context', async () => {
-      const mockResponse = {
-        data: {
-          choices: [{
-            message: {
-              content: 'Test response without context'
-            }
-          }]
-        }
-      };
-      axios.post.mockResolvedValueOnce(mockResponse);
+    it('should call API with correct parameters when context is provided', async () => {
+      const testPrompt = 'test prompt';
+      const testContext = 'test context';
+      const expectedFullPrompt = `Context: ${testContext}\n\nQuestion: ${testPrompt}\n\nAnswer:`;
 
-      const result = await llamaService.generateResponse('test prompt');
-      
-      expect(result).toBe('Test response without context');
+      axios.post.mockResolvedValueOnce({
+        data: {
+          choices: [{ message: { content: 'test response' } }]
+        }
+      });
+
+      await llamaService.generateResponse(testPrompt, testContext);
+
       expect(axios.post).toHaveBeenCalledWith(
         'http://test-url/v1/chat/completions',
         expect.objectContaining({
+          model: "llama-3.2-3b-instruct",
           messages: [
             {
               role: "system",
-              content: expect.any(String)
+              content: "You are a friendly and casual AI assistant. If you have relevant context, use it naturally in your response without mentioning that you have context. If you don't have enough context to answer accurately, assess the complexity of the question. Answer simple or trivial questions if possible, but for complex questions, indicate that more context is needed. Keep responses concise and natural."
             },
             {
               role: "user",
-              content: "test prompt"
+              content: expectedFullPrompt
             }
-          ]
+          ],
+          temperature: 0.5,
+          max_tokens: 2000,
+          stream: false
         })
       );
     });
