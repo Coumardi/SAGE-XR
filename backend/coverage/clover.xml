@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1738888246367" clover="3.2.0">
-  <project timestamp="1738888246368" name="All files">
+<coverage generated="1738947903163" clover="3.2.0">
+  <project timestamp="1738947903163" name="All files">
     <metrics statements="54" coveredstatements="53" conditionals="20" coveredconditionals="17" methods="6" coveredmethods="6" elements="80" coveredelements="76" complexity="0" loc="54" ncloc="54" packages="1" files="2" classes="2"/>
-    <file name="fileProcessingService.js" path="C:\Users\bnorm\SAGE_XR_React\backend\services\fileProcessingService.js">
+    <file name="fileProcessingService.js" path="C:\Users\bnorm\ProgrammingProjects\SAGE_XR_React\backend\services\fileProcessingService.js">
       <metrics statements="36" coveredstatements="36" conditionals="9" coveredconditionals="8" methods="4" coveredmethods="4"/>
       <line num="1" count="1" type="stmt"/>
       <line num="4" count="1" type="stmt"/>
@@ -41,7 +41,7 @@
       <line num="73" count="1" type="stmt"/>
       <line num="77" count="1" type="stmt"/>
     </file>
-    <file name="llamaService.js" path="C:\Users\bnorm\SAGE_XR_React\backend\services\llamaService.js">
+    <file name="llamaService.js" path="C:\Users\bnorm\ProgrammingProjects\SAGE_XR_React\backend\services\llamaService.js">
       <metrics statements="18" coveredstatements="17" conditionals="11" coveredconditionals="9" methods="2" coveredmethods="2"/>
       <line num="1" count="1" type="stmt"/>
       <line num="5" count="1" type="stmt"/>
