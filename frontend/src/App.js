@@ -11,6 +11,20 @@ function App() {
   const [messages, setMessages] = useState([]);
   const [userInput, setUserInput] = useState('');
   const [isTyping, setIsTyping] = useState(false);
+  const [uploadSuccess, setUploadSuccess] = useState(false);
+
+  // chat container
+  
+  const chatBoxRef = useRef(null);
+
+  // scroll to the botton when message is added
+
+  useEffect(() =>{
+    if (chatBoxRef.current){
+      chatBoxRef.current.scrollTop = chatBoxRef.current.scrollHeight;
+    }
+  }, [messages]);
+  
   
   // File upload related state
   const [showUploadModal, setShowUploadModal] = useState(false);
@@ -135,6 +149,7 @@ function App() {
   };
 
   // Toggle file upload modal
+  // Toggle file upload modal and similate file download progress
   const toggleUploadModal = () => {
     setShowUploadModal(!showUploadModal);
   };
@@ -157,11 +172,28 @@ function App() {
       />
       {showUploadModal && (
         <UploadModal 
+
           toggleUploadModal={toggleUploadModal}
+          setUploadSuccess={setUploadSuccess}
         />
-      )}
-    </div>
-  );
+
+        
+        )}
+
+
+    {uploadSuccess && (           
+      <div className="success-message">
+        <span className="success-icon">✔</span>
+        <span>Documents uploaded successfully!</span>
+      </div>
+    )}
+      
+      
+        
+      </div>
+);
 }
+
+
 
 export default App;

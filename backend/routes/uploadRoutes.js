@@ -89,7 +89,7 @@ router.post('/', upload.array('files', 3), async (req, res) => {
             }
         }
 
-        res.status(200).json({ message: 'Files processed and stored successfully.' });
+        res.status(200).json({ success: true, message: 'Files processed and stored successfully.' });
     } catch (error) {
         console.error('Error processing files:', error);
         res.status(500).json({ 

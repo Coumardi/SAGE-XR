@@ -1,20 +1,12 @@
 import React, { useState } from 'react';
+import FileInput from './FileInput';
+import UploadedFilesList from './UploadedFilesList';
+import ModalButtons from './ModalButtons';
 
-function UploadModal({ toggleUploadModal }) {
+function UploadModal({ toggleUploadModal, setUploadSuccess }) {
   const [uploadedFiles, setUploadedFiles] = useState([]);
-  const MAX_FILES = 3;
-
-  const handleFileChange = (event) => {
-    const files = Array.from(event.target.files);
-    addFiles(files);
-  };
-
-  const handleDrop = (event) => {
-    event.preventDefault();
-    event.stopPropagation();
-    const files = Array.from(event.dataTransfer.files);
-    addFiles(files);
-  };
+  const [errorMessage, setErrorMessage] = useState('');
+  const [uploadFailureMessage, setUploadFailureMessage] = useState('');
 
   const addFiles = (files) => {
     const validFiles = files.filter(
@@ -22,21 +14,32 @@ function UploadModal({ toggleUploadModal }) {
         file.name.endsWith('.txt') ||
         file.name.endsWith('.pdf') ||
         file.name.endsWith('.docx') ||
-        file.name.endsWith('.pptx')     
+        file.name.endsWith('.pptx') ||
+        file.name.endsWith('.doc')
     );
 
+    const invalidFiles = files.length - validFiles.length;
     const filesAdded = uploadedFiles.length + validFiles.length;
-    
+    const MAX_FILES = 3;
+
     if (filesAdded > MAX_FILES) {
-      alert(`You can only upload up to ${MAX_FILES} files. You've exceeded by ${filesAdded - MAX_FILES} ${filesAdded - MAX_FILES === 1 ? 'file' : 'files'}.`);
+      setErrorMessage(`You can only upload up to 3 files. You have added ${filesAdded - MAX_FILES} too many.`);
       return;
     }
 
-    setUploadedFiles(prev => [...prev, ...validFiles]);
+    if (invalidFiles > 0) {
+      setErrorMessage('Some files were not uploaded due to invalid format.');
+    } else {
+      setErrorMessage('');
+    }
+
+    setUploadedFiles((prev) => [...prev, ...validFiles]);
   };
 
   const clearFiles = () => {
     setUploadedFiles([]);
+    setErrorMessage('');
+    setUploadFailureMessage('');
     toggleUploadModal();
   };
 
@@ -44,26 +47,17 @@ function UploadModal({ toggleUploadModal }) {
     setUploadedFiles(uploadedFiles.filter((_, index) => index !== indexToRemove));
   };
 
-  const getUploadStatusMessage = () => {
-    const remainingFiles = MAX_FILES - uploadedFiles.length;
-    
-    if (uploadedFiles.length === 0) {
-      return `You can select up to ${MAX_FILES} files`;
-    } else if (remainingFiles === 0) {
-      return "Maximum number of files reached";
-    } else {
-      return `You can add ${remainingFiles} more ${remainingFiles === 1 ? 'file' : 'files'}`;
-    }
-  };
+  const handleUpload = async (e) => {
+    e.currentTarget.disabled = true;
 
-  const handleUpload = async () => {
     if (uploadedFiles.length === 0) {
-      alert("Please upload at least one file.");
+      alert('Please upload at least one file.');
+      e.currentTarget.disabled = true;
       return;
     }
 
     const formData = new FormData();
-    uploadedFiles.forEach(file => formData.append('files', file));
+    uploadedFiles.forEach((file) => formData.append('files', file));
 
     try {
       const response = await fetch('http://localhost:5000/api/upload', {
@@ -72,60 +66,43 @@ function UploadModal({ toggleUploadModal }) {
       });
 
       if (response.ok) {
-        alert('Files uploaded successfully');
-        toggleUploadModal();
+        
+        toggleUploadModal();          // First close the modal
+        setTimeout(() => {
+          setUploadSuccess(true);     // Then show success message
+          setTimeout(() => {
+            setUploadSuccess(false);  // Hide success message after 3 seconds
+          }, 3000);
+        }, 100);                      // Small delay to ensure modal closes first
       } else {
         const result = await response.json();
-        alert(`Error: ${result.message}`);
+        setUploadFailureMessage(`Error: ${result.message}`);
+        setTimeout(() => {
+          setUploadFailureMessage('');
+        }, 3000);
+        e.currentTarget.disabled = false;
       }
     } catch (error) {
       console.error('Upload failed:', error);
-      alert('Failed to upload files.');
+      setUploadFailureMessage('Failed to upload files');
+      setTimeout(() => {
+        setUploadFailureMessage('');
+      }, 3000);
+      e.currentTarget.disabled = false;
     }
   };
 
   return (
     <div className="upload-modal">
-      <div className="modal-content" onDragOver={(e) => e.preventDefault()} onDrop={handleDrop}>
-        <h3>Choose files or drag them here</h3>
-        <p>{getUploadStatusMessage()}</p>
-
-        <input
-          type="file"
-          multiple
-          onChange={handleFileChange}
-          accept=".txt, .pdf, .docx, .pptx"
-          style={{ display: 'block', margin: '20px auto' }}
+      <div className="modal-content">
+        {errorMessage && <p className="error-message">{errorMessage}</p>}
+        {uploadFailureMessage && <p className="failure-message">{uploadFailureMessage}</p>} {/* Display failure message */}
+        <FileInput addFiles={addFiles} />
+        <UploadedFilesList uploadedFiles={uploadedFiles} removeFile={removeFile} />
+        <ModalButtons
+          clearFiles={clearFiles}
+          handleUpload={handleUpload}
         />
-
-        <div className="uploaded-files">
-          <div className="icon-container">
-            <i className="fa-solid fa-download"></i>
-          </div>
-
-          <h4>Uploaded Files:</h4>
-          <ul>
-            {uploadedFiles.length > 0 ? (
-              uploadedFiles.map((file, index) => (
-                <li key={index}>
-                  {file.name} <span className="remove-file" onClick={() => removeFile(index)}>×</span>
-                </li>
-              ))
-            ) : (
-              <li>No files uploaded yet</li>
-            )}
-          </ul>
-        </div>
-
-        <div className="modal-buttons">
-          <button onClick={clearFiles} className="exit-modal-button">Exit</button>
-          <button 
-            onClick={handleUpload} 
-            className="upload-modal-button"
-          >
-            Upload
-          </button>
-        </div>
       </div>
     </div>
   );
