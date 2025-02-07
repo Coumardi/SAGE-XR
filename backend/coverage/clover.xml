@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1738815910303" clover="3.2.0">
-  <project timestamp="1738815910304" name="All files">
+<coverage generated="1738888246367" clover="3.2.0">
+  <project timestamp="1738888246368" name="All files">
     <metrics statements="54" coveredstatements="53" conditionals="20" coveredconditionals="17" methods="6" coveredmethods="6" elements="80" coveredelements="76" complexity="0" loc="54" ncloc="54" packages="1" files="2" classes="2"/>
     <file name="fileProcessingService.js" path="C:\Users\bnorm\SAGE_XR_React\backend\services\fileProcessingService.js">
       <metrics statements="36" coveredstatements="36" conditionals="9" coveredconditionals="8" methods="4" coveredmethods="4"/>
