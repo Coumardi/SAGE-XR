@@ -102,5 +102,52 @@ describe('LlamaService', () => {
         .rejects
         .toThrow('API Error');
     });
+
+    it('should return message content when response has message format', async () => {
+      const expectedResponse = 'test response message';
+      axios.post.mockResolvedValueOnce({
+        data: {
+          choices: [{
+            message: {
+              content: expectedResponse
+            }
+          }]
+        }
+      });
+
+      const result = await llamaService.generateResponse('test prompt');
+      expect(result).toBe(expectedResponse);
+    });
+
+    it('should return text when response has text format', async () => {
+      const expectedResponse = 'test response text';
+      axios.post.mockResolvedValueOnce({
+        data: {
+          choices: [{
+            text: expectedResponse
+          }]
+        }
+      });
+
+      const result = await llamaService.generateResponse('test prompt');
+      expect(result).toBe(expectedResponse);
+    });
+
+    it('should prioritize message content over text when both are present', async () => {
+      const expectedResponse = 'message content response';
+      axios.post.mockResolvedValueOnce({
+        data: {
+          choices: [{
+            message: {
+              content: expectedResponse
+            },
+            text: 'text response'
+          }]
+        }
+      });
+
+      const result = await llamaService.generateResponse('test prompt');
+      expect(result).toBe(expectedResponse);
+    });
   });
 });
