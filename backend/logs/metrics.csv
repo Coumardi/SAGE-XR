@@ -6,3 +6,34 @@ timestamp,model_name,prompt,prompt_tokens,completion_tokens,total_tokens,respons
 2025-02-13T20:25:23.169Z,llama-3.2-3b-instruct,What are functions in Python?,860,23,883,668,1322.83,0.5,AMD Ryzen 5 5600X 6-Core Processor,12,1.69,3700,64,40,AMD Radeon RX 6900 XT,Advanced Micro Devices, Inc.,Windows_NT-10.0.22631
 2025-02-13T21:30:42.761Z,llama-3.2-3b-instruct,What is a Trojan Horse in relation to computer security?,950,41,991,918,1079.7,0.5,AMD Ryzen 5 5600X 6-Core Processor,12,1.65,3700,64,40,AMD Radeon RX 6900 XT,Advanced Micro Devices, Inc.,Windows_NT-10.0.22631
 2025-02-13T21:31:15.453Z,llama-3.2-3b-instruct,What is a Denial of Service attack?,980,69,1049,1230,852.93,0.5,AMD Ryzen 5 5600X 6-Core Processor,12,1.65,3700,64,40,AMD Radeon RX 6900 XT,Advanced Micro Devices, Inc.,Windows_NT-10.0.22631
+2025-02-17T18:06:28.555Z,llama-3.2-3b-instruct,test prompt,0,0,0,0,0,0.5,AMD Ryzen 5 5600X 6-Core Processor,12,1.59,3700,64,27,Unknown,Unknown,Windows_NT-10.0.22631
+2025-02-17T18:06:28.559Z,llama-3.2-3b-instruct,test prompt,0,0,0,0,0,0.5,AMD Ryzen 5 5600X 6-Core Processor,12,1.59,3700,64,27,Unknown,Unknown,Windows_NT-10.0.22631
+2025-02-17T18:06:28.571Z,llama-3.2-3b-instruct,test prompt,0,0,0,0,0,0.5,AMD Ryzen 5 5600X 6-Core Processor,12,1.59,3700,64,27,Unknown,Unknown,Windows_NT-10.0.22631
+2025-02-17T18:06:28.572Z,llama-3.2-3b-instruct,test prompt,0,0,0,0,0,0.5,AMD Ryzen 5 5600X 6-Core Processor,12,1.59,3700,64,27,Unknown,Unknown,Windows_NT-10.0.22631
+2025-02-17T18:06:28.573Z,llama-3.2-3b-instruct,test prompt,0,0,0,0,0,0.5,AMD Ryzen 5 5600X 6-Core Processor,12,1.59,3700,64,27,Unknown,Unknown,Windows_NT-10.0.22631
+2025-02-17T18:06:28.560Z,llama-3.2-3b-instruct,test prompt,0,0,0,0,0,0.5,AMD Ryzen 5 5600X 6-Core Processor,12,1.59,3700,64,27,Unknown,Unknown,Windows_NT-10.0.22631
+2025-02-17T18:08:43.693Z,llama-3.2-3b-instruct,test prompt,0,0,0,0,0,0.5,AMD Ryzen 5 5600X 6-Core Processor,12,1.59,3700,64,27,Unknown,Unknown,Windows_NT-10.0.22631
+2025-02-17T18:08:43.704Z,llama-3.2-3b-instruct,test prompt,0,0,0,0,0,0.5,AMD Ryzen 5 5600X 6-Core Processor,12,1.59,3700,64,27,Unknown,Unknown,Windows_NT-10.0.22631
+2025-02-17T18:08:43.705Z,llama-3.2-3b-instruct,test prompt,0,0,0,0,0,0.5,AMD Ryzen 5 5600X 6-Core Processor,12,1.59,3700,64,27,Unknown,Unknown,Windows_NT-10.0.22631
+2025-02-17T18:08:43.705Z,llama-3.2-3b-instruct,test prompt,0,0,0,0,0,0.5,AMD Ryzen 5 5600X 6-Core Processor,12,1.59,3700,64,27,Unknown,Unknown,Windows_NT-10.0.22631
+2025-02-17T18:08:43.688Z,llama-3.2-3b-instruct,test prompt,0,0,0,0,0,0.5,AMD Ryzen 5 5600X 6-Core Processor,12,1.59,3700,64,27,Unknown,Unknown,Windows_NT-10.0.22631
+2025-02-17T18:08:43.692Z,llama-3.2-3b-instruct,test prompt,0,0,0,0,0,0.5,AMD Ryzen 5 5600X 6-Core Processor,12,1.59,3700,64,27,Unknown,Unknown,Windows_NT-10.0.22631
+2025-02-17T18:09:13.648Z,llama-3.2-3b-instruct,test prompt,0,0,0,0,0,0.5,AMD Ryzen 5 5600X 6-Core Processor,12,1.59,3700,64,27,Unknown,Unknown,Windows_NT-10.0.22631
+2025-02-17T18:09:13.651Z,llama-3.2-3b-instruct,test prompt,0,0,0,0,0,0.5,AMD Ryzen 5 5600X 6-Core Processor,12,1.59,3700,64,27,Unknown,Unknown,Windows_NT-10.0.22631
+2025-02-17T18:09:13.652Z,llama-3.2-3b-instruct,test prompt,0,0,0,0,0,0.5,AMD Ryzen 5 5600X 6-Core Processor,12,1.59,3700,64,27,Unknown,Unknown,Windows_NT-10.0.22631
+2025-02-17T18:09:13.662Z,llama-3.2-3b-instruct,test prompt,0,0,0,0,0,0.5,AMD Ryzen 5 5600X 6-Core Processor,12,1.59,3700,64,27,Unknown,Unknown,Windows_NT-10.0.22631
+2025-02-17T18:09:13.663Z,llama-3.2-3b-instruct,test prompt,0,0,0,0,0,0.5,AMD Ryzen 5 5600X 6-Core Processor,12,1.59,3700,64,27,Unknown,Unknown,Windows_NT-10.0.22631
+2025-02-17T18:09:13.664Z,llama-3.2-3b-instruct,test prompt,0,0,0,0,0,0.5,AMD Ryzen 5 5600X 6-Core Processor,12,1.59,3700,64,27,Unknown,Unknown,Windows_NT-10.0.22631
+2025-02-17T18:09:29.675Z,llama-3.2-3b-instruct,test prompt,0,0,0,0,0,0.5,AMD Ryzen 5 5600X 6-Core Processor,12,1.59,3700,64,27,Unknown,Unknown,Windows_NT-10.0.22631
+2025-02-17T18:09:29.674Z,llama-3.2-3b-instruct,test prompt,0,0,0,0,0,0.5,AMD Ryzen 5 5600X 6-Core Processor,12,1.59,3700,64,27,Unknown,Unknown,Windows_NT-10.0.22631
+2025-02-17T18:09:29.670Z,llama-3.2-3b-instruct,test prompt,0,0,0,0,0,0.5,AMD Ryzen 5 5600X 6-Core Processor,12,1.59,3700,64,27,Unknown,Unknown,Windows_NT-10.0.22631
+2025-02-17T18:09:29.686Z,llama-3.2-3b-instruct,test prompt,0,0,0,0,0,0.5,AMD Ryzen 5 5600X 6-Core Processor,12,1.59,3700,64,27,Unknown,Unknown,Windows_NT-10.0.22631
+2025-02-17T18:09:29.687Z,llama-3.2-3b-instruct,test prompt,0,0,0,0,0,0.5,AMD Ryzen 5 5600X 6-Core Processor,12,1.59,3700,64,27,Unknown,Unknown,Windows_NT-10.0.22631
+2025-02-17T18:09:29.687Z,llama-3.2-3b-instruct,test prompt,0,0,0,0,0,0.5,AMD Ryzen 5 5600X 6-Core Processor,12,1.59,3700,64,27,Unknown,Unknown,Windows_NT-10.0.22631
+2025-02-17T18:20:36.735Z,llama-3.2-3b-instruct,Hello,175,9,184,3641,50.54,0.5,AMD Ryzen 5 5600X 6-Core Processor,12,1.58,3700,64,30,AMD Radeon RX 6900 XT,Advanced Micro Devices, Inc.,Windows_NT-10.0.22631
+2025-02-17T18:21:45.253Z,llama-3.2-3b-instruct,test prompt,0,0,0,0,0,0.5,AMD Ryzen 5 5600X 6-Core Processor,12,1.58,3700,64,29,Unknown,Unknown,Windows_NT-10.0.22631
+2025-02-17T18:21:45.251Z,llama-3.2-3b-instruct,test prompt,0,0,0,0,0,0.5,AMD Ryzen 5 5600X 6-Core Processor,12,1.58,3700,64,29,Unknown,Unknown,Windows_NT-10.0.22631
+2025-02-17T18:21:45.264Z,llama-3.2-3b-instruct,test prompt,0,0,0,0,0,0.5,AMD Ryzen 5 5600X 6-Core Processor,12,1.58,3700,64,29,Unknown,Unknown,Windows_NT-10.0.22631
+2025-02-17T18:21:45.265Z,llama-3.2-3b-instruct,test prompt,0,0,0,0,0,0.5,AMD Ryzen 5 5600X 6-Core Processor,12,1.58,3700,64,29,Unknown,Unknown,Windows_NT-10.0.22631
+2025-02-17T18:21:45.263Z,llama-3.2-3b-instruct,test prompt,0,0,0,0,0,0.5,AMD Ryzen 5 5600X 6-Core Processor,12,1.58,3700,64,29,Unknown,Unknown,Windows_NT-10.0.22631
+2025-02-17T18:21:45.254Z,llama-3.2-3b-instruct,test prompt,0,0,0,0,0,0.5,AMD Ryzen 5 5600X 6-Core Processor,12,1.58,3700,64,29,Unknown,Unknown,Windows_NT-10.0.22631

@@ -1,6 +1,9 @@
 const axios = require('axios');
-const metricsService = require('./metricsService');
+const MetricsService = require('./metricsService');
 const { performance } = require('perf_hooks');
+
+// Create an instance of MetricsService
+const metricsService = new MetricsService();
 
 class LlamaService {
     constructor() {

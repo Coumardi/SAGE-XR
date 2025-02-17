@@ -120,4 +120,5 @@ class MetricsService {
     }
 }
 
-module.exports = new MetricsService(); 
+// Export the class instead of an instance
+module.exports = MetricsService; 
