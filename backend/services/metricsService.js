@@ -52,7 +52,7 @@ class MetricsService {
                 'temperature',
                 'cpu_model',
                 'cpu_cores',
-                'cpu_usage',
+                'cpu_usage_percent',
                 'cpu_speed',
                 'total_memory_gb',
                 'memory_usage_percent',
