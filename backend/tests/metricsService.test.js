@@ -16,11 +16,11 @@ jest.mock('perf_hooks', () => ({
 
 describe('MetricsService', () => {
     let metricsService;
-    const mockCpuInfo = {
+    const createMockCpuInfo = (times) => ({
         model: 'Test CPU',
         speed: 3000,
-        times: { user: 100, nice: 0, sys: 50, idle: 200, irq: 0 }
-    };
+        times: times
+    });
 
     beforeEach(() => {
         // Reset all mocks
@@ -30,7 +30,13 @@ describe('MetricsService', () => {
         fs.existsSync = jest.fn().mockReturnValue(false);
 
         // Mock OS functions
-        os.cpus.mockReturnValue(Array(4).fill(mockCpuInfo));
+        os.cpus.mockReturnValue(Array(4).fill(createMockCpuInfo({
+            user: 100,
+            nice: 0,
+            sys: 50,
+            idle: 200,
+            irq: 0
+        })));
         os.totalmem.mockReturnValue(16000000000); // 16GB
         os.freemem.mockReturnValue(8000000000);  // 8GB
         os.type.mockReturnValue('Windows_NT');
@@ -80,13 +86,49 @@ describe('MetricsService', () => {
         });
     });
 
-    test('getCpuUsage calculates CPU usage correctly', () => {
-        const cpus = Array(4).fill(mockCpuInfo);
-        const usage = metricsService.getCpuUsage(cpus);
-        
-        // Based on mock CPU times: (total - idle) / total * 100
-        // total = 350, idle = 200, usage = ((350-200)/350)*100 ≈ 42.86
-        expect(usage).toBeCloseTo(42.86, 2);
+    test('getCpuUsage returns 0 on first call', () => {
+        const firstCpuInfo = Array(4).fill(createMockCpuInfo({
+            user: 100,
+            nice: 0,
+            sys: 50,
+            idle: 200,
+            irq: 0
+        }));
+
+        const usage = metricsService.getCpuUsage(firstCpuInfo);
+        expect(usage).toBe(0);
+    });
+
+    test('getCpuUsage calculates delta between measurements correctly', () => {
+        // First measurement
+        const firstCpuInfo = Array(4).fill(createMockCpuInfo({
+            user: 100,
+            nice: 0,
+            sys: 50,
+            idle: 200,
+            irq: 0
+        }));
+
+        // Second measurement (all values increased)
+        const secondCpuInfo = Array(4).fill(createMockCpuInfo({
+            user: 200,  // +100
+            nice: 0,    // +0
+            sys: 100,   // +50
+            idle: 300,  // +100
+            irq: 0      // +0
+        }));
+
+        // First call should return 0
+        metricsService.getCpuUsage(firstCpuInfo);
+
+        // Second call should calculate the actual usage
+        const usage = metricsService.getCpuUsage(secondCpuInfo);
+
+        // Delta calculation:
+        // Total delta = (200-100) + (0-0) + (100-50) + (300-200) + (0-0) = 250
+        // Idle delta = 300-200 = 100
+        // Usage = ((250-100)/250)*100 = 60%
+        expect(usage).toBeCloseTo(60, 2);
     });
 
     test('collectMetrics generates correct metrics object', async () => {

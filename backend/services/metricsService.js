@@ -11,6 +11,7 @@ class MetricsService {
         this.ensureMetricsFile();
         // Cache GPU info on startup
         this.updateGpuInfo();
+        this.lastCpuInfo = null;
     }
 
     async updateGpuInfo() {
@@ -97,18 +98,34 @@ class MetricsService {
         this.appendMetrics(metrics);
     }
 
-    getCpuUsage(cpus) {
-        let totalIdle = 0;
-        let totalTick = 0;
+    getCpuUsage(currentCpus) {
+        if (!this.lastCpuInfo) {
+            this.lastCpuInfo = currentCpus;
+            return 0; // First run, no delta available
+        }
+
+        let totalUsage = 0;
         
-        cpus.forEach(cpu => {
-            for (const type in cpu.times) {
-                totalTick += cpu.times[type];
-            }
-            totalIdle += cpu.times.idle;
-        });
-        
-        return 100 - (totalIdle / totalTick * 100);
+        for (let i = 0; i < currentCpus.length; i++) {
+            const cpu = currentCpus[i];
+            const lastCpu = this.lastCpuInfo[i];
+
+            // Calculate deltas for each type
+            const idleDelta = cpu.times.idle - lastCpu.times.idle;
+            const totalDelta = Object.keys(cpu.times).reduce((total, type) => {
+                return total + (cpu.times[type] - lastCpu.times[type]);
+            }, 0);
+
+            // Calculate usage percentage for this core
+            const usage = ((totalDelta - idleDelta) / totalDelta) * 100;
+            totalUsage += usage;
+        }
+
+        // Store current CPU info for next calculation
+        this.lastCpuInfo = currentCpus;
+
+        // Return average across all cores
+        return totalUsage / currentCpus.length;
     }
 
     appendMetrics(metrics) {
@@ -117,6 +134,30 @@ class MetricsService {
         fs.appendFile(this.metricsPath, line, err => {
             if (err) console.error('Error writing metrics:', err);
         });
+    }
+
+    async collectMetricsDuring(operation) {
+        const metrics = [];
+        const interval = setInterval(() => {
+            const cpus = os.cpus();
+            metrics.push({
+                timestamp: new Date().toISOString(),
+                cpu_usage: this.getCpuUsage(cpus),
+                memory_usage: ((os.totalmem() - os.freemem()) / os.totalmem()) * 100
+            });
+        }, 100); // Sample every 100ms
+
+        try {
+            const result = await operation();
+            clearInterval(interval);
+            return {
+                result,
+                metrics
+            };
+        } catch (error) {
+            clearInterval(interval);
+            throw error;
+        }
     }
 }
 
