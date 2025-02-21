@@ -2,7 +2,7 @@ const vectorStore = require('./vectorStoreService');
 
 // Average characters per token (rough estimate)
 const CHARS_PER_TOKEN = 4;
-const MAX_TOKENS_PER_CHUNK = 500;
+const MAX_TOKENS_PER_CHUNK = 125;
 const MAX_CHARS_PER_CHUNK = MAX_TOKENS_PER_CHUNK * CHARS_PER_TOKEN;
 
 async function splitIntoChunks(text) {
@@ -16,6 +16,9 @@ async function splitIntoChunks(text) {
 
     console.log(`Split text into ${sentences.length} sentences`);
 
+    // Calculate overlap size (50% of max chunk size)
+    const overlapSize = Math.floor(MAX_CHARS_PER_CHUNK / 2);
+
     for (const sentence of sentences) {
         const tempChunk = currentChunk 
             ? `${currentChunk} ${sentence.trim()}`
@@ -25,8 +28,22 @@ async function splitIntoChunks(text) {
             if (currentChunk) {
                 console.log(`Pushing chunk of length: ${currentChunk.length}`);
                 chunks.push(currentChunk);
+                
+                // Keep the overlap portion for the next chunk
+                const words = currentChunk.split(' ');
+                const overlapWords = [];
+                let overlapLength = 0;
+                
+                for (let i = words.length - 1; i >= 0; i--) {
+                    if (overlapLength + words[i].length > overlapSize) break;
+                    overlapWords.unshift(words[i]);
+                    overlapLength += words[i].length + 1; // +1 for space
+                }
+                
+                currentChunk = overlapWords.join(' ') + ' ' + sentence.trim();
+            } else {
+                currentChunk = sentence.trim();
             }
-            currentChunk = sentence.trim();
         } else {
             currentChunk = tempChunk;
         }
