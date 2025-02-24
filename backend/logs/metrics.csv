@@ -19,3 +19,9 @@ timestamp,model_name,prompt,prompt_tokens,completion_tokens,total_tokens,respons
 2025-02-24T03:11:28.199Z,llama-3.2-3b-instruct,How are dictionaries defined in Python?,537,22,559,14086,39.68,0.5,12th Gen Intel(R) Core(TM) i7-1260P,16,0,2496,16,92,Intel(R) Iris(R) Xe Graphics,Intel Corporation,Windows_NT-10.0.22631
 2025-02-24T03:11:41.749Z,llama-3.2-3b-instruct,What are tuples in Python?,160,25,185,8038,23.02,0.5,12th Gen Intel(R) Core(TM) i7-1260P,16,11.93,2496,16,93,Intel(R) Iris(R) Xe Graphics,Intel Corporation,Windows_NT-10.0.22631
 2025-02-24T03:11:59.883Z,llama-3.2-3b-instruct,What are lists in Python?,160,25,185,5078,36.43,0.5,12th Gen Intel(R) Core(TM) i7-1260P,16,8.06,2496,16,93,Intel(R) Iris(R) Xe Graphics,Intel Corporation,Windows_NT-10.0.22631
+2025-02-24T03:30:28.253Z,llama-3.2-3b-instruct,test prompt,0,0,0,0,0,0.5,12th Gen Intel(R) Core(TM) i7-1260P,16,0,2496,16,90,Unknown,Unknown,Windows_NT-10.0.22631
+2025-02-24T03:30:28.257Z,llama-3.2-3b-instruct,test prompt,0,0,0,0,0,0.5,12th Gen Intel(R) Core(TM) i7-1260P,16,NaN,2496,16,90,Unknown,Unknown,Windows_NT-10.0.22631
+2025-02-24T03:30:28.259Z,llama-3.2-3b-instruct,test prompt,0,0,0,0,0,0.5,12th Gen Intel(R) Core(TM) i7-1260P,16,NaN,2496,16,90,Unknown,Unknown,Windows_NT-10.0.22631
+2025-02-24T03:30:28.276Z,llama-3.2-3b-instruct,test prompt,0,0,0,0,0,0.5,12th Gen Intel(R) Core(TM) i7-1260P,16,NaN,2496,16,90,Unknown,Unknown,Windows_NT-10.0.22631
+2025-02-24T03:30:28.277Z,llama-3.2-3b-instruct,test prompt,0,0,0,0,0,0.5,12th Gen Intel(R) Core(TM) i7-1260P,16,NaN,2496,16,90,Unknown,Unknown,Windows_NT-10.0.22631
+2025-02-24T03:30:28.278Z,llama-3.2-3b-instruct,test prompt,0,0,0,0,0,0.5,12th Gen Intel(R) Core(TM) i7-1260P,16,NaN,2496,16,90,Unknown,Unknown,Windows_NT-10.0.22631
