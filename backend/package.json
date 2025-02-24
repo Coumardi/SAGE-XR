@@ -22,7 +22,10 @@
     "jszip": "^3.10.1",
     "mammoth": "^1.8.0",
     "multer": "^1.4.5-lts.1",
+    "os": "^0.1.2",
     "pdf-parse": "^1.1.1",
+    "perf_hooks": "^0.0.1",
+    "systeminformation": "^5.25.11",
     "uuid": "^11.0.3",
     "word-extractor": "^1.0.4",
     "xml2js": "^0.6.2"
@@ -33,10 +36,19 @@
   },
   "jest": {
     "testEnvironment": "node",
-    "setupFiles": ["<rootDir>/tests/setup.js"],
-    "moduleDirectories": ["node_modules"],
-    "testMatch": ["**/tests/**/*.test.js"],
+    "setupFiles": [
+      "<rootDir>/tests/setup.js"
+    ],
+    "moduleDirectories": [
+      "node_modules"
+    ],
+    "testMatch": [
+      "**/tests/**/*.test.js"
+    ],
     "collectCoverage": true,
-    "coverageDirectory": "coverage"
+    "coverageDirectory": "coverage",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ]
   }
 }

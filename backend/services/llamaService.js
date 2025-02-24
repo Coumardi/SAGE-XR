@@ -1,4 +1,9 @@
 const axios = require('axios');
+const MetricsService = require('./metricsService');
+const { performance } = require('perf_hooks');
+
+// Create an instance of MetricsService
+const metricsService = new MetricsService();
 
 class LlamaService {
     constructor() {
@@ -14,9 +19,7 @@ class LlamaService {
                 fullPrompt = `IMPORTANT INSTRUCTION: You are a teaching assistant that MUST NOT provide answers to questionsunless you have been given specific context about the topic. You should respond with: "I don't have any context or information about this topic in my knowledge base. Please provide relevant course materials or documentation first." You may respond to SIMPLE queries, such as "Hello" and "Whats up?". Question: ${prompt}`;
             }
 
-            console.log('Sending request to:', `${this.baseURL}/v1/chat/completions`);
-            
-            const response = await axios.post(`${this.baseURL}/v1/chat/completions`, {
+            const modelConfig = {
                 model: "llama-3.2-3b-instruct",
                 messages: [
                     {
@@ -31,11 +34,15 @@ class LlamaService {
                 temperature: 0.5,
                 max_tokens: 2000,
                 stream: false
-            });
+            };
 
-            console.log('Raw API response:', response.data);
+            const startTime = performance.now();
+            const response = await axios.post(`${this.baseURL}/v1/chat/completions`, modelConfig);
 
-            // Handle different response formats
+            // Collect metrics asynchronously
+            metricsService.collectMetrics(startTime, response.data, modelConfig, prompt)
+                .catch(err => console.error('Error collecting metrics:', err));
+
             if (response.data.choices && response.data.choices[0]) {
                 if (response.data.choices[0].message) {
                     return response.data.choices[0].message.content;

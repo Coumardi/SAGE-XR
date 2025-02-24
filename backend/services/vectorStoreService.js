@@ -8,7 +8,7 @@ class VectorStoreService {
             url: process.env.QDRANT_URL,
             apiKey: process.env.QDRANT_API_KEY
         });
-        this.collectionName = process.env.QDRANT_COLLECTION || 'documents';
+        this.collectionName = process.env.QDRANT_COLLECTION;
     }
 
     async initialize() {
@@ -20,7 +20,7 @@ class VectorStoreService {
             if (!exists) {
                 await this.client.createCollection(this.collectionName, {
                     vectors: {
-                        size: 4096,  // Llama embedding dimension
+                        size: 768,  // Embedding dimension
                         distance: 'Cosine'
                     }
                 });
@@ -71,7 +71,7 @@ class VectorStoreService {
         return id;
     }
 
-    async queryMemories(query, limit = 2) {
+    async queryMemories(query, limit = 5) {
         await this.initialize();
         const queryVector = await this.getEmbedding(query);
 

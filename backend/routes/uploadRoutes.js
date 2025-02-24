@@ -36,7 +36,11 @@ const upload = multer({
             cb(new Error('Only .txt, .docx, .pdf, and .pptx files are allowed'));
         }
     },
-    limits: { fileSize: 5 * 1024 * 1024 }, // 5MB
+    limits: {
+        fileSize: 100 * 1024 * 1024, // 100MB
+        files: 3,  // Maximum number of files
+        fields: 10 // Maximum number of non-file fields
+    }
 });
 
 // Add the route handler
