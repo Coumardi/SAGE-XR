@@ -45,3 +45,10 @@ timestamp,model_name,prompt,prompt_tokens,completion_tokens,total_tokens,respons
 2025-02-21T03:47:47.315Z,llama-3.2-3b-instruct,test prompt,0,0,0,0,0,0.5,AMD Ryzen 5 5600X 6-Core Processor,12,NaN,3700,64,30,Unknown,Unknown,Windows_NT-10.0.22631
 2025-02-21T03:47:47.315Z,llama-3.2-3b-instruct,test prompt,0,0,0,0,0,0.5,AMD Ryzen 5 5600X 6-Core Processor,12,NaN,3700,64,30,Unknown,Unknown,Windows_NT-10.0.22631
 2025-02-21T03:47:47.316Z,llama-3.2-3b-instruct,test prompt,0,0,0,0,0,0.5,AMD Ryzen 5 5600X 6-Core Processor,12,NaN,3700,64,30,Unknown,Unknown,Windows_NT-10.0.22631
+2025-02-22T15:39:02.938Z,llama-3.2-3b-instruct,Hello,155,2,157,988788,0.16,0.5,12th Gen Intel(R) Core(TM) i7-1260P,16,0,2496,16,94,Intel(R) Iris(R) Xe Graphics,Intel Corporation,Windows_NT-10.0.22631
+2025-02-22T15:39:42.571Z,llama-3.2-3b-instruct,What are tuples in Python?,160,25,185,2989,61.89,0.5,12th Gen Intel(R) Core(TM) i7-1260P,16,4.29,2496,16,94,Intel(R) Iris(R) Xe Graphics,Intel Corporation,Windows_NT-10.0.22631
+2025-02-22T15:40:19.528Z,llama-3.2-3b-instruct,What are tuples in Python?,160,25,185,2835,65.26,0.5,12th Gen Intel(R) Core(TM) i7-1260P,16,10.71,2496,16,96,Intel(R) Iris(R) Xe Graphics,Intel Corporation,Windows_NT-10.0.22631
+2025-02-22T15:41:40.269Z,llama-3.2-3b-instruct,What are tuples in Python,405,24,429,11018,38.94,0.5,12th Gen Intel(R) Core(TM) i7-1260P,16,0,2496,16,95,Intel(R) Iris(R) Xe Graphics,Intel Corporation,Windows_NT-10.0.22631
+2025-02-22T15:46:49.637Z,llama-3.2-3b-instruct,How are dictionaries defined in Python,564,21,585,10554,55.43,0.5,12th Gen Intel(R) Core(TM) i7-1260P,16,4.78,2496,16,92,Intel(R) Iris(R) Xe Graphics,Intel Corporation,Windows_NT-10.0.22631
+2025-02-22T15:48:42.195Z,llama-3.2-3b-instruct,What are tuples in Python,405,17,422,7800,54.1,0.5,12th Gen Intel(R) Core(TM) i7-1260P,16,4.48,2496,16,88,Intel(R) Iris(R) Xe Graphics,Intel Corporation,Windows_NT-10.0.22631
+2025-02-22T15:49:06.205Z,llama-3.2-3b-instruct,What are lists in Python?,496,41,537,11705,45.88,0.5,12th Gen Intel(R) Core(TM) i7-1260P,16,8.43,2496,16,87,Intel(R) Iris(R) Xe Graphics,Intel Corporation,Windows_NT-10.0.22631
