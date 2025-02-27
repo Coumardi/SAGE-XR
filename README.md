@@ -5,6 +5,8 @@ Ensure you have Node.js installed.
 
 After pulling from main:
 
+Make sure the .env file is in the ***backend*** directory
+
 1. cd into the root directory of the project, wherever you pulled it to
 2. cd backend
 3. npm install
