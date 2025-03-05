@@ -20,7 +20,7 @@ class LlamaService {
             }
 
             const modelConfig = {
-                model: "llama-3.2-3b-instruct",
+                model: "hermes-3-llama-3.2-3b",
                 messages: [
                     {
                         role: "system",

@@ -3,8 +3,8 @@ import React, { useEffect, useState, useRef } from 'react';
 import ChatBox from './Components/ChatBox';
 import InputArea from './Components/InputArea';
 import UploadModal from './Components/UploadModal';
+import Dropdown from './Components/Dropdown';
 import '@fortawesome/fontawesome-free/css/all.css';
-
 
 function App() {
   // Chat related state
@@ -13,25 +13,21 @@ function App() {
   const [isTyping, setIsTyping] = useState(false);
   const [uploadSuccess, setUploadSuccess] = useState(false);
 
-  // chat container
-  
+  // Chat container
   const chatBoxRef = useRef(null);
 
-  // scroll to the botton when message is added
-
-  useEffect(() =>{
-    if (chatBoxRef.current){
+  // Scroll to the bottom when message is added
+  useEffect(() => {
+    if (chatBoxRef.current) {
       chatBoxRef.current.scrollTop = chatBoxRef.current.scrollHeight;
     }
   }, [messages]);
-  
-  
+
   // File upload related state
   const [showUploadModal, setShowUploadModal] = useState(false);
 
   // Create a ref for the chat container
   const chatContainerRef = useRef(null);
-
 
   // Auto-scroll effect when isTyping changes
   useEffect(() => {
@@ -42,8 +38,6 @@ function App() {
       });
     }
   }, [isTyping, messages]);
-
-
 
   // Adjust input area height when input text increases
   const adjustInputareaHeight = () => {
@@ -67,16 +61,12 @@ function App() {
           const newMessage = { ...lastMessage, text: lastMessage.text + text[index] };
           return [...prev.slice(0, -1), newMessage];
         });
-          
-        typeMessage(text, index+1);
-      },10);}
-
-      else{
-        setIsTyping(false);
-      }
-    };
-
-    // sent message to SAGE Service
+        typeMessage(text, index + 1);
+      }, 10);
+    } else {
+      setIsTyping(false);
+    }
+  };
 
   // Send message to SAGE Service
   const sendMessage = async () => {
@@ -137,7 +127,6 @@ function App() {
   const handleKeyPress = (e) => {
     if (e.key === 'Enter') {
       e.preventDefault();
-
       if (userInput.trim() === "") {
         alert('Please enter a message');
       } else if (userInput.length >= 1000) {
@@ -148,15 +137,23 @@ function App() {
     }
   };
 
-  // Toggle file upload modal
-  // Toggle file upload modal and similate file download progress
+  // Toggle file upload modal and simulate file download progress
   const toggleUploadModal = () => {
     setShowUploadModal(!showUploadModal);
   };
 
+  // Handle dropdown selection
+  const handleSelect = (role) => {
+    console.log('Selected role:', role);
+    // Handle the selected role logic here
+  };
+
   return (
     <div className="chat-container">
-      <h1 className="title">SAGE XR</h1>
+      <header className="header">
+        <h1 className="title">SAGE XR</h1>
+        <Dropdown options={['Admin', 'Student', 'Guest', 'Instructor']} onSelect={handleSelect} />
+      </header>
       <ChatBox 
         messages={messages} 
         isTyping={isTyping}
@@ -172,28 +169,18 @@ function App() {
       />
       {showUploadModal && (
         <UploadModal 
-
           toggleUploadModal={toggleUploadModal}
           setUploadSuccess={setUploadSuccess}
         />
-
-        
-        )}
-
-
-    {uploadSuccess && (           
-      <div className="success-message">
-        <span className="success-icon">✔</span>
-        <span>Documents uploaded successfully!</span>
-      </div>
-    )}
-      
-      
-        
-      </div>
-);
+      )}
+      {uploadSuccess && (           
+        <div className="success-message">
+          <span className="success-icon">✔</span>
+          <span>Documents uploaded successfully!</span>
+        </div>
+      )}
+    </div>
+  );
 }
-
-
 
 export default App;
