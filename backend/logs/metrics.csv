@@ -25,3 +25,8 @@ timestamp,model_name,prompt,prompt_tokens,completion_tokens,total_tokens,respons
 2025-02-24T03:30:28.276Z,llama-3.2-3b-instruct,test prompt,0,0,0,0,0,0.5,12th Gen Intel(R) Core(TM) i7-1260P,16,NaN,2496,16,90,Unknown,Unknown,Windows_NT-10.0.22631
 2025-02-24T03:30:28.277Z,llama-3.2-3b-instruct,test prompt,0,0,0,0,0,0.5,12th Gen Intel(R) Core(TM) i7-1260P,16,NaN,2496,16,90,Unknown,Unknown,Windows_NT-10.0.22631
 2025-02-24T03:30:28.278Z,llama-3.2-3b-instruct,test prompt,0,0,0,0,0,0.5,12th Gen Intel(R) Core(TM) i7-1260P,16,NaN,2496,16,90,Unknown,Unknown,Windows_NT-10.0.22631
+2025-03-05T14:28:37.240Z,hermes-3-llama-3.2-3b,TEll me about python,486,100,586,2196,266.87,0.5,12th Gen Intel(R) Core(TM) i5-12400F,12,0,2496,64,27,Intel(R) Arc(TM) A770 Graphics,Intel Corporation,Windows_NT-10.0.22631
+2025-03-05T16:26:24.955Z,hermes-3-llama-3.2-3b,do you like food?,158,34,192,1703,112.75,0.5,12th Gen Intel(R) Core(TM) i5-12400F,12,0.8,2496,64,28,Intel(R) Arc(TM) A770 Graphics,Intel Corporation,Windows_NT-10.0.22631
+2025-03-05T16:37:41.432Z,hermes-3-llama-3.2-3b,tell me about python strings,435,163,598,2910,205.52,0.5,12th Gen Intel(R) Core(TM) i5-12400F,12,0.65,2496,64,27,Intel(R) Arc(TM) A770 Graphics,Intel Corporation,Windows_NT-10.0.22631
+2025-03-08T19:59:27.096Z,hermes-3-llama-3.2-3b,what is python,484,53,537,1528,351.34,0.5,12th Gen Intel(R) Core(TM) i5-12400F,12,0,2496,64,19,Intel(R) Arc(TM) A770 Graphics,Intel Corporation,Windows_NT-10.0.22631
+2025-03-09T14:24:58.545Z,hermes-3-llama-3.2-3b,what are python libraries,529,171,700,5146,136.02,0.5,12th Gen Intel(R) Core(TM) i5-12400F,12,0,2496,64,19,Intel(R) Arc(TM) A770 Graphics,Intel Corporation,Windows_NT-10.0.22631

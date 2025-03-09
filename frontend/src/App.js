@@ -152,7 +152,7 @@ function App() {
     <div className="chat-container">
       <header className="header">
         <h1 className="title">SAGE XR</h1>
-        <Dropdown options={['Admin', 'Student', 'Guest', 'Instructor']} onSelect={handleSelect} />
+        <Dropdown options={['Login', 'Logout']} onSelect={handleSelect} />
       </header>
       <ChatBox 
         messages={messages} 
