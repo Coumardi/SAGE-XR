@@ -25,7 +25,7 @@ describe('LlamaService', () => {
       expect(axios.post).toHaveBeenCalledWith(
         'http://test-url/v1/chat/completions',
         expect.objectContaining({
-          model: "llama-3.2-3b-instruct",
+          model: "hermes-3-llama-3.2-3b",
           messages: [
             {
               role: "system",
@@ -59,7 +59,7 @@ describe('LlamaService', () => {
       expect(axios.post).toHaveBeenCalledWith(
         'http://test-url/v1/chat/completions',
         expect.objectContaining({
-          model: "llama-3.2-3b-instruct",
+          model: "hermes-3-llama-3.2-3b",
           messages: [
             {
               role: "system",

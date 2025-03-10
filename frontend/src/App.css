@@ -9,6 +9,18 @@ body {
   background-color: #d9d2d2;
   font-family: 'Arial', sans-serif;
 }
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px;
+  background-color: #f0f0f0;
+}
+
+.login-icon {
+  font-size: 24px;
+  cursor: pointer;
+}
 
 .chat-container {
   width: 600px;
