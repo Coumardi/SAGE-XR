@@ -19,16 +19,44 @@ timestamp,model_name,prompt,prompt_tokens,completion_tokens,total_tokens,respons
 2025-02-24T03:11:28.199Z,llama-3.2-3b-instruct,How are dictionaries defined in Python?,537,22,559,14086,39.68,0.5,12th Gen Intel(R) Core(TM) i7-1260P,16,0,2496,16,92,Intel(R) Iris(R) Xe Graphics,Intel Corporation,Windows_NT-10.0.22631
 2025-02-24T03:11:41.749Z,llama-3.2-3b-instruct,What are tuples in Python?,160,25,185,8038,23.02,0.5,12th Gen Intel(R) Core(TM) i7-1260P,16,11.93,2496,16,93,Intel(R) Iris(R) Xe Graphics,Intel Corporation,Windows_NT-10.0.22631
 2025-02-24T03:11:59.883Z,llama-3.2-3b-instruct,What are lists in Python?,160,25,185,5078,36.43,0.5,12th Gen Intel(R) Core(TM) i7-1260P,16,8.06,2496,16,93,Intel(R) Iris(R) Xe Graphics,Intel Corporation,Windows_NT-10.0.22631
-2025-02-24T03:30:28.253Z,llama-3.2-3b-instruct,test prompt,0,0,0,0,0,0.5,12th Gen Intel(R) Core(TM) i7-1260P,16,0,2496,16,90,Unknown,Unknown,Windows_NT-10.0.22631
-2025-02-24T03:30:28.257Z,llama-3.2-3b-instruct,test prompt,0,0,0,0,0,0.5,12th Gen Intel(R) Core(TM) i7-1260P,16,NaN,2496,16,90,Unknown,Unknown,Windows_NT-10.0.22631
-2025-02-24T03:30:28.259Z,llama-3.2-3b-instruct,test prompt,0,0,0,0,0,0.5,12th Gen Intel(R) Core(TM) i7-1260P,16,NaN,2496,16,90,Unknown,Unknown,Windows_NT-10.0.22631
-2025-02-24T03:30:28.276Z,llama-3.2-3b-instruct,test prompt,0,0,0,0,0,0.5,12th Gen Intel(R) Core(TM) i7-1260P,16,NaN,2496,16,90,Unknown,Unknown,Windows_NT-10.0.22631
-2025-02-24T03:30:28.277Z,llama-3.2-3b-instruct,test prompt,0,0,0,0,0,0.5,12th Gen Intel(R) Core(TM) i7-1260P,16,NaN,2496,16,90,Unknown,Unknown,Windows_NT-10.0.22631
-2025-02-24T03:30:28.278Z,llama-3.2-3b-instruct,test prompt,0,0,0,0,0,0.5,12th Gen Intel(R) Core(TM) i7-1260P,16,NaN,2496,16,90,Unknown,Unknown,Windows_NT-10.0.22631
 2025-03-05T14:28:37.240Z,hermes-3-llama-3.2-3b,TEll me about python,486,100,586,2196,266.87,0.5,12th Gen Intel(R) Core(TM) i5-12400F,12,0,2496,64,27,Intel(R) Arc(TM) A770 Graphics,Intel Corporation,Windows_NT-10.0.22631
 2025-03-05T16:26:24.955Z,hermes-3-llama-3.2-3b,do you like food?,158,34,192,1703,112.75,0.5,12th Gen Intel(R) Core(TM) i5-12400F,12,0.8,2496,64,28,Intel(R) Arc(TM) A770 Graphics,Intel Corporation,Windows_NT-10.0.22631
 2025-03-05T16:37:41.432Z,hermes-3-llama-3.2-3b,tell me about python strings,435,163,598,2910,205.52,0.5,12th Gen Intel(R) Core(TM) i5-12400F,12,0.65,2496,64,27,Intel(R) Arc(TM) A770 Graphics,Intel Corporation,Windows_NT-10.0.22631
 2025-03-08T19:59:27.096Z,hermes-3-llama-3.2-3b,what is python,484,53,537,1528,351.34,0.5,12th Gen Intel(R) Core(TM) i5-12400F,12,0,2496,64,19,Intel(R) Arc(TM) A770 Graphics,Intel Corporation,Windows_NT-10.0.22631
 2025-03-09T14:24:58.545Z,hermes-3-llama-3.2-3b,what are python libraries,529,171,700,5146,136.02,0.5,12th Gen Intel(R) Core(TM) i5-12400F,12,0,2496,64,19,Intel(R) Arc(TM) A770 Graphics,Intel Corporation,Windows_NT-10.0.22631
 2025-03-10T01:59:35.243Z,hermes-3-llama-3.2-3b,Hello,175,2,177,150,1183.32,0.5,AMD Ryzen 5 5600X 6-Core Processor,12,0,3700,64,23,AMD Radeon RX 6900 XT,Advanced Micro Devices, Inc.,Windows_NT-10.0.22631
+2025-02-27T15:38:20.341Z,llama-3.2-3b-instruct,Hello,155,2,157,552,284.38,0.5,12th Gen Intel(R) Core(TM) i7-1260P,16,0,2496,16,93,Intel(R) Iris(R) Xe Graphics,Intel Corporation,Windows_NT-10.0.22631
+2025-02-27T15:43:53.371Z,llama-3.2-3b-instruct,Hello,155,2,157,643,244.35,0.5,12th Gen Intel(R) Core(TM) i7-1260P,16,0,2496,16,94,Intel(R) Iris(R) Xe Graphics,Intel Corporation,Windows_NT-10.0.22631
+2025-02-27T15:44:19.396Z,llama-3.2-3b-instruct,Hello,155,2,157,719,218.42,0.5,12th Gen Intel(R) Core(TM) i7-1260P,16,5.06,2496,16,93,Intel(R) Iris(R) Xe Graphics,Intel Corporation,Windows_NT-10.0.22631
+2025-02-27T15:52:28.885Z,llama-3.2-3b-instruct,What are the differences between tuples and lists in Python?,501,77,578,20959,27.58,0.5,12th Gen Intel(R) Core(TM) i7-1260P,16,3.31,2496,16,93,Intel(R) Iris(R) Xe Graphics,Intel Corporation,Windows_NT-10.0.22631
+2025-02-27T16:52:16.597Z,llama-3.2-3b-instruct,Hello,155,2,157,5665,27.71,0.5,12th Gen Intel(R) Core(TM) i7-1260P,16,1.78,2496,16,92,Intel(R) Iris(R) Xe Graphics,Intel Corporation,Windows_NT-10.0.22631
+2025-02-27T16:52:37.921Z,llama-3.2-3b-instruct,What are lists in Python?,496,41,537,13661,39.31,0.5,12th Gen Intel(R) Core(TM) i7-1260P,16,11.11,2496,16,92,Intel(R) Iris(R) Xe Graphics,Intel Corporation,Windows_NT-10.0.22631
+2025-02-27T23:21:22.520Z,llama-3.2-3b-instruct,Hello,155,25,180,406,443.61,0.5,Intel(R) Xeon(R) w9-3595X,64,0,1992,64,30,NVIDIA RTX 5000 Ada Generation,NVIDIA,Windows_NT-10.0.26100,
+2025-02-27T23:23:05.103Z,llama-3.2-3b-instruct,What are lists in Python,417,20,437,442,987.83,0.5,Intel(R) Xeon(R) w9-3595X,64,0.87,1992,64,29,NVIDIA RTX 5000 Ada Generation,NVIDIA,Windows_NT-10.0.26100,
+2025-02-27T23:25:19.882Z,llama-3.2-3b-instruct,Hello!,156,25,181,412,439.55,0.5,Intel(R) Xeon(R) w9-3595X,64,0.94,1992,64,29,NVIDIA RTX 5000 Ada Generation,NVIDIA,Windows_NT-10.0.26100,
+2025-02-27T23:26:29.668Z,llama-3.2-3b-instruct,Hello,155,25,180,551,326.51,0.5,Intel(R) Xeon(R) w9-3595X,64,1.24,1992,64,29,NVIDIA RTX 5000 Ada Generation,NVIDIA,Windows_NT-10.0.26100,
+2025-02-27T23:26:49.679Z,llama-3.2-3b-instruct,Hello,151,1,152,264,575.73,0.5,Intel(R) Xeon(R) w9-3595X,64,0,1992,64,29,NVIDIA RTX 5000 Ada Generation,NVIDIA,Windows_NT-10.0.26100,
+2025-02-27T23:26:56.451Z,llama-3.2-3b-instruct,What are lists in Python?,496,24,520,417,1245.75,0.5,Intel(R) Xeon(R) w9-3595X,64,0.98,1992,64,29,NVIDIA RTX 5000 Ada Generation,NVIDIA,Windows_NT-10.0.26100,
+2025-02-27T23:27:51.304Z,llama-3.2-3b-instruct,Hello,151,1,152,236,643.67,0.5,Intel(R) Xeon(R) w9-3595X,64,0,1992,64,29,NVIDIA RTX 5000 Ada Generation,NVIDIA,Windows_NT-10.0.26100,
+2025-02-27T23:27:53.664Z,llama-3.2-3b-instruct,Hello!,152,2,154,66,2337.95,0.5,Intel(R) Xeon(R) w9-3595X,64,1.02,1992,64,29,NVIDIA RTX 5000 Ada Generation,NVIDIA,Windows_NT-10.0.26100,
+2025-02-27T23:28:00.067Z,llama-3.2-3b-instruct,What are lists in Python?,495,29,524,493,1062.87,0.5,Intel(R) Xeon(R) w9-3595X,64,1.27,1992,64,29,NVIDIA RTX 5000 Ada Generation,NVIDIA,Windows_NT-10.0.26100,
+2025-02-27T23:28:17.888Z,llama-3.2-3b-instruct,How do you define a dictionary in Python?,486,35,521,450,1157.57,0.5,Intel(R) Xeon(R) w9-3595X,64,0.89,1992,64,29,NVIDIA RTX 5000 Ada Generation,NVIDIA,Windows_NT-10.0.26100,
+2025-02-27T23:29:35.788Z,llama-3.2-3b-instruct,Hello,151,25,176,455,386.57,0.5,Intel(R) Xeon(R) w9-3595X,64,0,1992,64,29,NVIDIA RTX 5000 Ada Generation,NVIDIA,Windows_NT-10.0.26100,
+2025-02-27T23:29:42.621Z,llama-3.2-3b-instruct,Hello,151,29,180,397,452.87,0.5,Intel(R) Xeon(R) w9-3595X,64,1.03,1992,64,29,NVIDIA RTX 5000 Ada Generation,NVIDIA,Windows_NT-10.0.26100,
+2025-02-27T23:29:45.264Z,llama-3.2-3b-instruct,Hello!,152,26,178,267,665.79,0.5,Intel(R) Xeon(R) w9-3595X,64,1.74,1992,64,29,NVIDIA RTX 5000 Ada Generation,NVIDIA,Windows_NT-10.0.26100,
+2025-02-27T23:30:27.983Z,llama-3.2-3b-instruct,Hello,151,25,176,405,434.31,0.5,Intel(R) Xeon(R) w9-3595X,64,1.96,1992,64,29,NVIDIA RTX 5000 Ada Generation,NVIDIA,Windows_NT-10.0.26100,
+2025-02-27T23:30:30.817Z,llama-3.2-3b-instruct,Hello,151,1,152,55,2783.32,0.5,Intel(R) Xeon(R) w9-3595X,64,2.62,1992,64,29,NVIDIA RTX 5000 Ada Generation,NVIDIA,Windows_NT-10.0.26100,
+2025-02-27T23:30:35.451Z,llama-3.2-3b-instruct,Hello,151,1,152,218,697.86,0.5,Intel(R) Xeon(R) w9-3595X,64,1.02,1992,64,29,NVIDIA RTX 5000 Ada Generation,NVIDIA,Windows_NT-10.0.26100,
+2025-02-27T23:30:39.469Z,llama-3.2-3b-instruct,Hello,151,1,152,111,1371.8,0.5,Intel(R) Xeon(R) w9-3595X,64,1.14,1992,64,29,NVIDIA RTX 5000 Ada Generation,NVIDIA,Windows_NT-10.0.26100,
+2025-02-27T23:30:45.209Z,llama-3.2-3b-instruct,Hello,151,1,152,215,705.38,0.5,Intel(R) Xeon(R) w9-3595X,64,1.01,1992,64,29,NVIDIA RTX 5000 Ada Generation,NVIDIA,Windows_NT-10.0.26100,
+2025-02-27T23:30:49.341Z,llama-3.2-3b-instruct,What are tuples in Python,155,25,180,305,590.72,0.5,Intel(R) Xeon(R) w9-3595X,64,1.62,1992,64,29,NVIDIA RTX 5000 Ada Generation,NVIDIA,Windows_NT-10.0.26100,
+2025-02-27T23:33:11.612Z,llama-3.2-3b-instruct,Hello,151,1,152,215,706.15,0.5,Intel(R) Xeon(R) w9-3595X,56,0,1992,64,29,NVIDIA RTX 5000 Ada Generation,NVIDIA,Windows_NT-10.0.26100,
+2025-02-27T23:33:32.002Z,llama-3.2-3b-instruct,Hello,151,1,152,216,703.23,0.5,Intel(R) Xeon(R) w9-3595X,56,0.88,1992,64,29,NVIDIA RTX 5000 Ada Generation,NVIDIA,Windows_NT-10.0.26100,
+2025-02-27T23:33:37.525Z,llama-3.2-3b-instruct,What are tuples in Python,155,25,180,503,357.72,0.5,Intel(R) Xeon(R) w9-3595X,56,2.22,1992,64,29,NVIDIA RTX 5000 Ada Generation,NVIDIA,Windows_NT-10.0.26100,
+2025-02-27T23:34:03.901Z,llama-3.2-3b-instruct,What are tuples in Python,403,24,427,437,978.14,0.5,Intel(R) Xeon(R) w9-3595X,56,0,1992,64,29,NVIDIA RTX 5000 Ada Generation,NVIDIA,Windows_NT-10.0.26100,
+2025-02-27T23:41:14.329Z,llama-3.2-3b-instruct,Hello,171,9,180,480,375.04,0.5,Intel(R) Xeon(R) w9-3595X,56,0,1992,64,29,NVIDIA RTX 5000 Ada Generation,NVIDIA,Windows_NT-10.0.26100,
+2025-02-27T23:41:19.834Z,llama-3.2-3b-instruct,What are tuples in Python?,514,18,532,506,1050.37,0.5,Intel(R) Xeon(R) w9-3595X,56,2.14,1992,64,29,NVIDIA RTX 5000 Ada Generation,NVIDIA,Windows_NT-10.0.26100,
+2025-02-27T23:41:30.080Z,llama-3.2-3b-instruct,What are dictionaries in Python?,557,23,580,483,1200.69,0.5,Intel(R) Xeon(R) w9-3595X,56,1.58,1992,64,29,NVIDIA RTX 5000 Ada Generation,NVIDIA,Windows_NT-10.0.26100,
+2025-02-27T23:41:43.879Z,llama-3.2-3b-instruct,What is the difference between a list and a set in Python,604,24,628,606,1035.73,0.5,Intel(R) Xeon(R) w9-3595X,56,1.19,1992,64,29,NVIDIA RTX 5000 Ada Generation,NVIDIA,Windows_NT-10.0.26100,
+2025-02-27T23:42:00.862Z,llama-3.2-3b-instruct,What is Stack Overflow,174,25,199,471,422.27,0.5,Intel(R) Xeon(R) w9-3595X,56,0.92,1992,64,29,NVIDIA RTX 5000 Ada Generation,NVIDIA,Windows_NT-10.0.26100,
 
