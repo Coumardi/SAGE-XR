@@ -30,3 +30,22 @@ timestamp,model_name,prompt,prompt_tokens,completion_tokens,total_tokens,respons
 2025-03-05T16:37:41.432Z,hermes-3-llama-3.2-3b,tell me about python strings,435,163,598,2910,205.52,0.5,12th Gen Intel(R) Core(TM) i5-12400F,12,0.65,2496,64,27,Intel(R) Arc(TM) A770 Graphics,Intel Corporation,Windows_NT-10.0.22631
 2025-03-08T19:59:27.096Z,hermes-3-llama-3.2-3b,what is python,484,53,537,1528,351.34,0.5,12th Gen Intel(R) Core(TM) i5-12400F,12,0,2496,64,19,Intel(R) Arc(TM) A770 Graphics,Intel Corporation,Windows_NT-10.0.22631
 2025-03-09T14:24:58.545Z,hermes-3-llama-3.2-3b,what are python libraries,529,171,700,5146,136.02,0.5,12th Gen Intel(R) Core(TM) i5-12400F,12,0,2496,64,19,Intel(R) Arc(TM) A770 Graphics,Intel Corporation,Windows_NT-10.0.22631
+2025-03-10T01:59:35.243Z,hermes-3-llama-3.2-3b,Hello,175,2,177,150,1183.32,0.5,AMD Ryzen 5 5600X 6-Core Processor,12,0,3700,64,23,AMD Radeon RX 6900 XT,Advanced Micro Devices, Inc.,Windows_NT-10.0.22631
+2025-03-10T02:00:18.458Z,hermes-3-llama-3.2-3b,test prompt,0,0,0,0,0,0.5,AMD Ryzen 5 5600X 6-Core Processor,12,0,3700,64,21,Unknown,Unknown,Windows_NT-10.0.22631
+2025-03-10T02:00:18.467Z,hermes-3-llama-3.2-3b,test prompt,0,0,0,0,0,0.5,AMD Ryzen 5 5600X 6-Core Processor,12,NaN,3700,64,21,Unknown,Unknown,Windows_NT-10.0.22631
+2025-03-10T02:00:18.468Z,hermes-3-llama-3.2-3b,test prompt,0,0,0,0,0,0.5,AMD Ryzen 5 5600X 6-Core Processor,12,NaN,3700,64,21,Unknown,Unknown,Windows_NT-10.0.22631
+2025-03-10T02:00:18.474Z,hermes-3-llama-3.2-3b,test prompt,0,0,0,0,0,0.5,AMD Ryzen 5 5600X 6-Core Processor,12,NaN,3700,64,21,Unknown,Unknown,Windows_NT-10.0.22631
+2025-03-10T02:00:18.474Z,hermes-3-llama-3.2-3b,test prompt,0,0,0,0,0,0.5,AMD Ryzen 5 5600X 6-Core Processor,12,NaN,3700,64,21,Unknown,Unknown,Windows_NT-10.0.22631
+2025-03-10T02:00:18.475Z,hermes-3-llama-3.2-3b,test prompt,0,0,0,0,0,0.5,AMD Ryzen 5 5600X 6-Core Processor,12,NaN,3700,64,21,Unknown,Unknown,Windows_NT-10.0.22631
+2025-03-10T02:02:22.536Z,hermes-3-llama-3.2-3b,test prompt,0,0,0,0,0,0.5,AMD Ryzen 5 5600X 6-Core Processor,12,0,3700,64,21,Unknown,Unknown,Windows_NT-10.0.22631
+2025-03-10T02:02:22.557Z,hermes-3-llama-3.2-3b,test prompt,0,0,0,0,0,0.5,AMD Ryzen 5 5600X 6-Core Processor,12,NaN,3700,64,21,Unknown,Unknown,Windows_NT-10.0.22631
+2025-03-10T02:02:22.545Z,hermes-3-llama-3.2-3b,test prompt,0,0,0,0,0,0.5,AMD Ryzen 5 5600X 6-Core Processor,12,8.33,3700,64,21,Unknown,Unknown,Windows_NT-10.0.22631
+2025-03-10T02:02:22.557Z,hermes-3-llama-3.2-3b,test prompt,0,0,0,0,0,0.5,AMD Ryzen 5 5600X 6-Core Processor,12,NaN,3700,64,21,Unknown,Unknown,Windows_NT-10.0.22631
+2025-03-10T02:02:22.547Z,hermes-3-llama-3.2-3b,test prompt,0,0,0,0,0,0.5,AMD Ryzen 5 5600X 6-Core Processor,12,NaN,3700,64,21,Unknown,Unknown,Windows_NT-10.0.22631
+2025-03-10T02:02:22.558Z,hermes-3-llama-3.2-3b,test prompt,0,0,0,0,0,0.5,AMD Ryzen 5 5600X 6-Core Processor,12,NaN,3700,64,21,Unknown,Unknown,Windows_NT-10.0.22631
+2025-03-10T02:06:16.371Z,hermes-3-llama-3.2-3b,test prompt,0,0,0,0,0,0.5,AMD Ryzen 5 5600X 6-Core Processor,12,0,3700,64,21,Unknown,Unknown,Windows_NT-10.0.22631
+2025-03-10T02:06:16.374Z,hermes-3-llama-3.2-3b,test prompt,0,0,0,0,0,0.5,AMD Ryzen 5 5600X 6-Core Processor,12,NaN,3700,64,21,Unknown,Unknown,Windows_NT-10.0.22631
+2025-03-10T02:06:16.385Z,hermes-3-llama-3.2-3b,test prompt,0,0,0,0,0,0.5,AMD Ryzen 5 5600X 6-Core Processor,12,0,3700,64,21,Unknown,Unknown,Windows_NT-10.0.22631
+2025-03-10T02:06:16.386Z,hermes-3-llama-3.2-3b,test prompt,0,0,0,0,0,0.5,AMD Ryzen 5 5600X 6-Core Processor,12,NaN,3700,64,21,Unknown,Unknown,Windows_NT-10.0.22631
+2025-03-10T02:06:16.375Z,hermes-3-llama-3.2-3b,test prompt,0,0,0,0,0,0.5,AMD Ryzen 5 5600X 6-Core Processor,12,NaN,3700,64,21,Unknown,Unknown,Windows_NT-10.0.22631
+2025-03-10T02:06:16.386Z,hermes-3-llama-3.2-3b,test prompt,0,0,0,0,0,0.5,AMD Ryzen 5 5600X 6-Core Processor,12,NaN,3700,64,21,Unknown,Unknown,Windows_NT-10.0.22631
