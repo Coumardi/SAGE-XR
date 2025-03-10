@@ -52,7 +52,7 @@ function UploadModal({ toggleUploadModal, setUploadSuccess }) {
 
     if (uploadedFiles.length === 0) {
       alert('Please upload at least one file.');
-      e.currentTarget.disabled = true;
+      e.currentTarget.disabled = false;
       return;
     }
 
@@ -66,7 +66,6 @@ function UploadModal({ toggleUploadModal, setUploadSuccess }) {
       });
 
       if (response.ok) {
-        
         toggleUploadModal();          // First close the modal
         setTimeout(() => {
           setUploadSuccess(true);     // Then show success message
@@ -94,9 +93,9 @@ function UploadModal({ toggleUploadModal, setUploadSuccess }) {
 
   return (
     <div className="upload-modal">
-      <div className="modal-content">
+      <div className="modal-content upload-modal-content">
         {errorMessage && <p className="error-message">{errorMessage}</p>}
-        {uploadFailureMessage && <p className="failure-message">{uploadFailureMessage}</p>} {/* Display failure message */}
+        {uploadFailureMessage && <p className="failure-message">{uploadFailureMessage}</p>}
         <FileInput addFiles={addFiles} />
         <UploadedFilesList uploadedFiles={uploadedFiles} removeFile={removeFile} />
         <ModalButtons
