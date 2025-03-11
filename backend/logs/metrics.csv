@@ -61,3 +61,4 @@ timestamp,model_name,prompt,prompt_tokens,completion_tokens,total_tokens,respons
 2025-02-27T23:42:00.862Z,llama-3.2-3b-instruct,What is Stack Overflow,174,25,199,471,422.27,0.5,Intel(R) Xeon(R) w9-3595X,56,0.92,1992,64,29,NVIDIA RTX 5000 Ada Generation,NVIDIA,Windows_NT-10.0.26100,
 
 2025-03-10T02:20:55.404Z,hermes-3-llama-3.2-3b,Hello,154,9,163,204,799.5,0.5,AMD Ryzen 5 5600X 6-Core Processor,12,0,3700,64,26,AMD Radeon RX 6900 XT,Advanced Micro Devices, Inc.,Windows_NT-10.0.22631
+2025-03-10T22:09:23.409Z,hermes-3-llama-3.2-3b,Hello,154,9,163,447,364.7,0.5,AMD Ryzen 5 5600X 6-Core Processor,12,0,3700,64,39,AMD Radeon RX 6900 XT,Advanced Micro Devices, Inc.,Windows_NT-10.0.22631
