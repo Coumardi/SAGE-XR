@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
+import bcrypt from 'bcryptjs'; 
 
 const Login = ({ onLogin }) => {
-  const [username, setUsername] = useState('');
+  const [identifier, setIdentifier] = useState('');
   const [password, setPassword] = useState('');
   const [loginError, setLoginError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -9,17 +10,20 @@ const Login = ({ onLogin }) => {
   const handleLogin = async () => {
     setIsLoading(true);
     try {
-      const response = await fetch('http://localhost:5000/login', {
+      // Hash the password on the client side
+      const hashedPassword = await bcrypt.hash(password, 10);
+      
+      const response = await fetch('http://localhost:5000/api/auth/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ username, password })
+        body: JSON.stringify({ identifier, password: hashedPassword })
       });
 
       const result = await response.json();
       if (response.status === 200) {
-        onLogin();
+        onLogin(result.user);
         setLoginError('');
       } else {
         setLoginError(result.message);
@@ -37,10 +41,10 @@ const Login = ({ onLogin }) => {
       <h2>Login</h2>
       <input
         type="text"
-        placeholder="Username"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-        aria-label="Username"
+        placeholder="StarID or Email"
+        value={identifier}
+        onChange={(e) => setIdentifier(e.target.value)}
+        aria-label="StarID or Email"
       />
       <input
         type="password"
