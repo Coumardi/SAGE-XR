@@ -4,6 +4,8 @@ import ChatBox from './Components/ChatBox';
 import InputArea from './Components/InputArea';
 import UploadModal from './Components/UploadModal';
 import Dropdown from './Components/Dropdown';
+import Login from './Components/Login';
+import LoginModal from './Components/LoginModal';
 import '@fortawesome/fontawesome-free/css/all.css';
 
 function App() {
@@ -12,6 +14,10 @@ function App() {
   const [userInput, setUserInput] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const [uploadSuccess, setUploadSuccess] = useState(false);
+  
+  // User authentication state
+  const [user, setUser] = useState(null);
+  const [showLoginModal, setShowLoginModal] = useState(false);
 
   // Chat container
   const chatBoxRef = useRef(null);
@@ -38,6 +44,22 @@ function App() {
       });
     }
   }, [isTyping, messages]);
+
+  // Check if user is already logged in on app load
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    const storedUser = localStorage.getItem('user');
+    
+    if (token && storedUser) {
+      try {
+        setUser(JSON.parse(storedUser));
+      } catch (error) {
+        console.error('Error parsing stored user:', error);
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+      }
+    }
+  }, []);
 
   // Adjust input area height when input text increases
   const adjustInputareaHeight = () => {
@@ -89,7 +111,10 @@ function App() {
         const response = await fetch('http://localhost:5000/api/query', {
           method: 'POST',
           headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            ...(localStorage.getItem('token') && { 
+              'Authorization': `Bearer ${localStorage.getItem('token')}` 
+            })
           },
           body: JSON.stringify({ prompt: userInput })
         });
@@ -137,27 +162,94 @@ function App() {
     }
   };
 
-  // Toggle file upload modal and simulate file download progress
+  // Toggle file upload modal
   const toggleUploadModal = () => {
     setShowUploadModal(!showUploadModal);
   };
 
+  // Toggle login modal
+  const toggleLoginModal = () => {
+    setShowLoginModal(!showLoginModal);
+  };
+
+  // Handle login
+  const handleLogin = (userData, token) => {
+    setUser(userData);
+    if (token) {
+      localStorage.setItem('token', token);
+      localStorage.setItem('user', JSON.stringify(userData));
+    }
+    setShowLoginModal(false);
+  };
+
+  // Handle logout
+  const handleLogout = () => {
+    setUser(null);
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+  };
+
   // Handle dropdown selection
-  const handleSelect = (role) => {
-    console.log('Selected role:', role);
-    // Handle the selected role logic here
+  const handleSelect = (option) => {
+    if (option === 'Login') {
+      toggleLoginModal();
+    } else if (option === 'Logout') {
+      handleLogout();
+    }
+  };
+
+  // Get dropdown options based on login status
+  const getDropdownOptions = () => {
+    return user ? ['Logout'] : ['Login'];
+  };
+
+  // Render different components based on user type
+  const renderUserSpecificComponents = () => {
+    if (!user) return null;
+
+    switch (user.user_type) {
+      case 'Administrator':
+        return (
+          <div className="admin-panel">
+            <h3>Administrator Panel</h3>
+            {/* Add admin-specific components here */}
+          </div>
+        );
+      case 'Instructor':
+        return (
+          <div className="instructor-panel">
+            <h3>Instructor Panel</h3>
+            {/* Add instructor-specific components here */}
+          </div>
+        );
+      case 'Student':
+        return (
+          <div className="student-panel">
+            <h3>Student Panel</h3>
+            {/* Add student-specific components here */}
+          </div>
+        );
+      default:
+        return null;
+    }
   };
 
   return (
     <div className="chat-container">
       <header className="header">
         <h1 className="title">SAGE XR</h1>
-        <Dropdown options={['Login', 'Logout']} onSelect={handleSelect} />
+        <div className="user-info">
+          {user && <span>Welcome, {user.starid} ({user.user_type})</span>}
+          <Dropdown options={getDropdownOptions()} onSelect={handleSelect} />
+        </div>
       </header>
+      
+      {renderUserSpecificComponents()}
+      
       <ChatBox 
         messages={messages} 
         isTyping={isTyping}
-        ref={chatContainerRef}
+        chatBoxRef={chatBoxRef}
       />
       <InputArea
         userInput={userInput}
@@ -167,18 +259,17 @@ function App() {
         handleKeyPress={handleKeyPress}
         toggleUploadModal={toggleUploadModal}
       />
+      
       {showUploadModal && (
         <UploadModal 
-          toggleUploadModal={toggleUploadModal}
-          setUploadSuccess={setUploadSuccess}
+          toggleUploadModal={toggleUploadModal} 
+          setUploadSuccess={setUploadSuccess} 
         />
       )}
-      {uploadSuccess && (           
-        <div className="success-message">
-          <span className="success-icon">✔</span>
-          <span>Documents uploaded successfully!</span>
-        </div>
-      )}
+      
+      <LoginModal isOpen={showLoginModal} onClose={toggleLoginModal}>
+        <Login onLogin={handleLogin} />
+      </LoginModal>
     </div>
   );
 }

@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import bcrypt from 'bcryptjs'; 
 
 const Login = ({ onLogin }) => {
   const [identifier, setIdentifier] = useState('');
@@ -10,20 +9,19 @@ const Login = ({ onLogin }) => {
   const handleLogin = async () => {
     setIsLoading(true);
     try {
-      // Hash the password on the client side
-      const hashedPassword = await bcrypt.hash(password, 10);
-      
+      // Send the raw password to the server for verification
+      console.log('Sending login request with identifier:', identifier, 'and password length:', password.length);
       const response = await fetch('http://localhost:5000/api/auth/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ identifier, password: hashedPassword })
+        body: JSON.stringify({ identifier, password })
       });
 
       const result = await response.json();
       if (response.status === 200) {
-        onLogin(result.user);
+        onLogin(result.user, result.token);
         setLoginError('');
       } else {
         setLoginError(result.message);

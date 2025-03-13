@@ -1,9 +1,7 @@
 import React from 'react';
 
-
-function ChatBox({ messages, chatBoxRef }) {
+function ChatBox({ messages, isTyping, chatBoxRef }) {
   return (
-
     <div className="chat-box" ref={chatBoxRef}>
       {messages.map((message, index) => (
         <div key={index} className={message.type === 'user' ? 'user-message' : 'ai-message'}>
@@ -11,9 +9,10 @@ function ChatBox({ messages, chatBoxRef }) {
           <div className="timestamp">{message.timeStamp}</div>
         </div>
       ))}
+      {isTyping && <div className="typing-indicator">SAGE is typing...</div>}
     </div>
   );
-};
+}
 
 // Add display name for debugging purposes
 ChatBox.displayName = 'ChatBox';
