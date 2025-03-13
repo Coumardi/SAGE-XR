@@ -209,26 +209,11 @@ function App() {
 
     switch (user.user_type) {
       case 'Administrator':
-        return (
-          <div className="admin-panel">
-            <h3>Administrator Panel</h3>
-            {/* Add admin-specific components here */}
-          </div>
-        );
+
       case 'Instructor':
-        return (
-          <div className="instructor-panel">
-            <h3>Instructor Panel</h3>
-            {/* Add instructor-specific components here */}
-          </div>
-        );
+
       case 'Student':
-        return (
-          <div className="student-panel">
-            <h3>Student Panel</h3>
-            {/* Add student-specific components here */}
-          </div>
-        );
+
       default:
         return null;
     }

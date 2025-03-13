@@ -67,3 +67,8 @@ timestamp,model_name,prompt,prompt_tokens,completion_tokens,total_tokens,respons
 2025-03-13T03:52:42.724Z,hermes-3-llama-3.2-3b,What is python?,473,24,497,7673,64.78,0.5,12th Gen Intel(R) Core(TM) i7-1260P,16,10.37,2496,16,85,Intel(R) Iris(R) Xe Graphics,Intel Corporation,Windows_NT-10.0.22631
 2025-03-13T03:55:14.032Z,hermes-3-llama-3.2-3b,My name is Jordan,158,15,173,8351,20.72,0.5,12th Gen Intel(R) Core(TM) i7-1260P,16,2.42,2496,16,84,Intel(R) Iris(R) Xe Graphics,Intel Corporation,Windows_NT-10.0.22631
 2025-03-13T03:55:50.640Z,hermes-3-llama-3.2-3b,The sky is green,158,25,183,3303,55.41,0.5,12th Gen Intel(R) Core(TM) i7-1260P,16,4.15,2496,16,84,Intel(R) Iris(R) Xe Graphics,Intel Corporation,Windows_NT-10.0.22631
+2025-03-13T04:18:25.475Z,hermes-3-llama-3.2-3b,Hello,155,2,157,573,274.08,0.5,12th Gen Intel(R) Core(TM) i7-1260P,16,3.09,2496,16,88,Intel(R) Iris(R) Xe Graphics,Intel Corporation,Windows_NT-10.0.22631
+2025-03-13T04:18:46.001Z,hermes-3-llama-3.2-3b,What is a list in Python?,513,45,558,13215,42.22,0.5,12th Gen Intel(R) Core(TM) i7-1260P,16,11.22,2496,16,87,Intel(R) Iris(R) Xe Graphics,Intel Corporation,Windows_NT-10.0.22631
+2025-03-13T04:20:20.258Z,hermes-3-llama-3.2-3b,Hello,155,2,157,4787,32.8,0.5,12th Gen Intel(R) Core(TM) i7-1260P,16,4.35,2496,16,89,Intel(R) Iris(R) Xe Graphics,Intel Corporation,Windows_NT-10.0.22631
+2025-03-13T04:23:34.317Z,hermes-3-llama-3.2-3b,Hi,155,2,157,659,238.11,0.5,12th Gen Intel(R) Core(TM) i7-1260P,16,4.22,2496,16,88,Intel(R) Iris(R) Xe Graphics,Intel Corporation,Windows_NT-10.0.22631
+2025-03-13T04:23:38.892Z,hermes-3-llama-3.2-3b,hi,155,2,157,666,235.61,0.5,12th Gen Intel(R) Core(TM) i7-1260P,16,7.15,2496,16,87,Intel(R) Iris(R) Xe Graphics,Intel Corporation,Windows_NT-10.0.22631

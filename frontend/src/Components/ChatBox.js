@@ -9,7 +9,6 @@ function ChatBox({ messages, isTyping, chatBoxRef }) {
           <div className="timestamp">{message.timeStamp}</div>
         </div>
       ))}
-      {isTyping && <div className="typing-indicator">SAGE is typing...</div>}
     </div>
   );
 }
