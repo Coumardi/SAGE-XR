@@ -27,6 +27,7 @@ function FileInput({ addFiles }) {
       <button
         onClick={() => document.getElementById('file-input').click()}
         className="custom-file-button"
+        type="button"
       >
         Choose File
       </button>

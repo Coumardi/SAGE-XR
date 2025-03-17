@@ -222,18 +222,17 @@ body {
 
 
 
-.modal-content {
+.upload-modal .modal-content {
   background: #edeef0;
-  padding: 20px; /* Reduced padding */
-  border-radius: 10px; /* More subtle border radius */
+  padding: 20px;
+  border-radius: 10px;
   text-align: center;
-  width: 100%; /* Ensures the modal fits inside the container */
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); /* More refined shadow */
+  width: 100%;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
   transition: all 0.3s ease-in-out;
-  max-height: 70vh; /* Adjusted max height */
+  max-height: 70vh;
   overflow-y: auto;
   border: 2px dashed #2563eb;
-  
 }
 
 /*modal title*/
@@ -449,6 +448,68 @@ body {
   display: flex;
   align-items: center;
   gap: 8px;
+}
+
+/* Add this to ensure the upload modal has consistent styling */
+.upload-modal-content {
+  background: #edeef0 !important;
+  padding: 20px !important;
+  border-radius: 10px !important;
+  text-align: center !important;
+  width: 100% !important;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15) !important;
+  transition: all 0.3s ease-in-out !important;
+  max-height: 70vh !important;
+  overflow-y: auto !important;
+  border: 2px dashed #2563eb !important;
+}
+
+/* Ensure the upload modal has the correct dimensions */
+.upload-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 350px;
+  height: auto;
+  background-color: #d1d1de;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 30px;
+  border-radius: 12px;
+  border: 2px solid #e8eaed;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  backdrop-filter: blur(8px);
+  transition: all 0.3s ease;
+}
+
+/* Add styling for the file input container */
+.file-input-container {
+  padding: 20px;
+  margin-bottom: 20px;
+  border: 2px dashed #ccc;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: border-color 0.3s ease;
+  background-color: #f9f9f9;
+}
+
+.file-input-container:hover {
+  border-color: #6f6e6e;
+}
+
+.file-input-container h3 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+  color: #0e0d0d;
+}
+
+.file-input-container p {
+  margin-bottom: 15px;
+  color: #555;
 }
 
 /* Add this to your existing App.css */
