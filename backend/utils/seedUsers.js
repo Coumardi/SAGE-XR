@@ -43,16 +43,35 @@ async function seedUsers() {
     }
   ];
 
-  // Create database connection
-  const connection = await mysql.createConnection({
+  // Create initial connection without specifying database
+  const initialConnection = await mysql.createConnection({
     host: process.env.MYSQL_HOST || 'localhost',
     port: process.env.MYSQL_PORT || 3306,
     user: process.env.MYSQL_USER || 'root',
-    password: process.env.MYSQL_PASSWORD || 'root',
-    database: process.env.MYSQL_DATABASE || 'sage_xr_auth'
+    password: process.env.MYSQL_PASSWORD || 'root'
   });
 
+  const dbName = process.env.MYSQL_DATABASE || 'sage_xr_auth';
+
   try {
+    console.log(`Checking if database ${dbName} exists...`);
+    
+    // Try to create the database if it doesn't exist
+    await initialConnection.execute(`CREATE DATABASE IF NOT EXISTS ${dbName}`);
+    console.log(`Ensured database ${dbName} exists`);
+    
+    // Close initial connection
+    await initialConnection.end();
+    
+    // Create connection to the specific database
+    const connection = await mysql.createConnection({
+      host: process.env.MYSQL_HOST || 'localhost',
+      port: process.env.MYSQL_PORT || 3306,
+      user: process.env.MYSQL_USER || 'root',
+      password: process.env.MYSQL_PASSWORD || 'root',
+      database: dbName
+    });
+
     console.log('Connected to database. Checking if users table exists...');
     
     // Check if the users table exists, if not create it with first_name and last_name columns
@@ -121,7 +140,7 @@ async function seedUsers() {
   } catch (error) {
     console.error('Error seeding database:', error);
   } finally {
-    await connection.end();
+    if (connection) await connection.end();
     console.log('Database connection closed.');
   }
 }
