@@ -5,6 +5,10 @@ Ensure you have Node.js installed.
 
 After pulling from main:
 
+Make sure you have MySQL Workbench and MySQL Server installed on your computer. Make sure the database is running your local host, port 3306.
+There is a script in /backend/utils called seedUsers.js, if this is your first time loading the software you will need to run this script. It automatically creates the database you need
+for authentication information.
+
 Make sure the .env file is in the ***backend*** directory
 
 Ensure LM Studio is running on your computer, and the LLMs are loaded. If you've used it before and haven't manually disabled the LLM, 
