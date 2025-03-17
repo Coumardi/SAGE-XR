@@ -209,10 +209,16 @@ function App() {
 
     switch (user.user_type) {
       case 'Administrator':
+        // Intentional fallthrough - Administrator has same features as Instructor
+        // eslint-disable-next-line no-fallthrough
 
       case 'Instructor':
+        // Intentional fallthrough - Instructor has same features as Student
+        // eslint-disable-next-line no-fallthrough
 
       case 'Student':
+        // Intentional fallthrough - Student has same features as default
+        // eslint-disable-next-line no-fallthrough
 
       default:
         return null;
@@ -250,6 +256,12 @@ function App() {
           toggleUploadModal={toggleUploadModal} 
           setUploadSuccess={setUploadSuccess} 
         />
+      )}
+      
+      {uploadSuccess && (
+        <div className="success-message">
+          Files uploaded successfully!
+        </div>
       )}
       
       <LoginModal isOpen={showLoginModal} onClose={toggleLoginModal}>
