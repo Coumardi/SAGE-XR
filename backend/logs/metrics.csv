@@ -72,3 +72,5 @@ timestamp,model_name,prompt,prompt_tokens,completion_tokens,total_tokens,respons
 2025-03-13T04:20:20.258Z,hermes-3-llama-3.2-3b,Hello,155,2,157,4787,32.8,0.5,12th Gen Intel(R) Core(TM) i7-1260P,16,4.35,2496,16,89,Intel(R) Iris(R) Xe Graphics,Intel Corporation,Windows_NT-10.0.22631
 2025-03-13T04:23:34.317Z,hermes-3-llama-3.2-3b,Hi,155,2,157,659,238.11,0.5,12th Gen Intel(R) Core(TM) i7-1260P,16,4.22,2496,16,88,Intel(R) Iris(R) Xe Graphics,Intel Corporation,Windows_NT-10.0.22631
 2025-03-13T04:23:38.892Z,hermes-3-llama-3.2-3b,hi,155,2,157,666,235.61,0.5,12th Gen Intel(R) Core(TM) i7-1260P,16,7.15,2496,16,87,Intel(R) Iris(R) Xe Graphics,Intel Corporation,Windows_NT-10.0.22631
+2025-03-17T20:17:04.697Z,hermes-3-llama-3.2-3b,Hello,154,9,163,206,791.55,0.5,AMD Ryzen 5 5600X 6-Core Processor,12,0,3700,64,34,AMD Radeon RX 6900 XT,Advanced Micro Devices, Inc.,Windows_NT-10.0.22631
+2025-03-17T20:17:11.544Z,hermes-3-llama-3.2-3b,What is Javascript?,445,109,554,1242,445.92,0.5,AMD Ryzen 5 5600X 6-Core Processor,12,0.84,3700,64,33,AMD Radeon RX 6900 XT,Advanced Micro Devices, Inc.,Windows_NT-10.0.22631
