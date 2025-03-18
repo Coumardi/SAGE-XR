@@ -80,7 +80,7 @@ class VectorStoreService {
         const results = await this.client.search(this.collectionName, {
             vector: queryVector,
             limit: limit,
-            score_threshold: 0.7
+            score_threshold: 0.75
         });
 
         console.log(`Found ${results.length} relevant documents`);
