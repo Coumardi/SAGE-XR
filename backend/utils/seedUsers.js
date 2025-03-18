@@ -52,6 +52,7 @@ async function seedUsers() {
   });
 
   const dbName = process.env.MYSQL_DATABASE || 'sage_xr_auth';
+  let connection;
 
   try {
     console.log(`Checking if database ${dbName} exists...`);
@@ -64,12 +65,16 @@ async function seedUsers() {
     await initialConnection.end();
     
     // Create connection to the specific database
-    const connection = await mysql.createConnection({
+    connection = await mysql.createConnection({
       host: process.env.MYSQL_HOST || 'localhost',
       port: process.env.MYSQL_PORT || 3306,
       user: process.env.MYSQL_USER || 'root',
       password: process.env.MYSQL_PASSWORD || 'root',
-      database: dbName
+      database: dbName,
+      // Add SSL configuration if required
+      ssl: process.env.MYSQL_SSL_MODE === 'REQUIRED' ? {
+        ca: process.env.MYSQL_CA_CERT
+      } : undefined
     });
 
     console.log('Connected to database. Checking if users table exists...');
