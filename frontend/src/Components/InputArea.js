@@ -1,9 +1,11 @@
 import React from 'react';
 
-function InputArea({ userInput, setUserInput, sendMessage, adjustInputareaHeight, handleKeyPress, toggleUploadModal }) {
+function InputArea({user, userInput, setUserInput, sendMessage, adjustInputareaHeight, handleKeyPress, toggleUploadModal }) {
   return (
     <div className="input-area">
+      {user && (user.user_type === 'Instructor' || user.user_type === 'Administrator') && (
       <i className="fas fa-paperclip upload-icon" onClick={toggleUploadModal}></i>
+      )}
       <textarea
         id="chat-input"
         rows={1}
