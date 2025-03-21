@@ -222,3 +222,11 @@ timestamp,model_name,prompt,prompt_tokens,completion_tokens,total_tokens,respons
 2025-03-21T01:05:08.402Z,hermes-3-llama-3.2-3b,test prompt,0,0,0,0,0,0.2,AMD Ryzen 5 5600X 6-Core Processor,12,NaN,3700,64,35,Unknown,Unknown,Windows_NT-10.0.22631
 2025-03-21T01:05:08.401Z,hermes-3-llama-3.2-3b,test prompt,0,0,0,0,0,0.2,AMD Ryzen 5 5600X 6-Core Processor,12,8.33,3700,64,35,Unknown,Unknown,Windows_NT-10.0.22631
 2025-03-21T01:05:08.402Z,hermes-3-llama-3.2-3b,test prompt,0,0,0,0,0,0.2,AMD Ryzen 5 5600X 6-Core Processor,12,NaN,3700,64,35,Unknown,Unknown,Windows_NT-10.0.22631
+2025-03-21T04:21:33.201Z,hermes-3-llama-3.2-3b,What are call options in the stock market?,207,25,232,343,677.26,0.2,AMD Ryzen 5 5600X 6-Core Processor,12,0,3700,64,35,AMD Radeon RX 6900 XT,Advanced Micro Devices, Inc.,Windows_NT-10.0.22631
+2025-03-21T04:22:25.371Z,hermes-3-llama-3.2-3b,What is French Polynesia?,335,95,430,1037,414.65,0.2,AMD Ryzen 5 5600X 6-Core Processor,12,1.23,3700,64,35,AMD Radeon RX 6900 XT,Advanced Micro Devices, Inc.,Windows_NT-10.0.22631
+2025-03-21T04:23:14.081Z,hermes-3-llama-3.2-3b,test prompt,0,0,0,0,0,0.2,AMD Ryzen 5 5600X 6-Core Processor,12,0,3700,64,35,Unknown,Unknown,Windows_NT-10.0.22631
+2025-03-21T04:23:14.085Z,hermes-3-llama-3.2-3b,test prompt,0,0,0,0,0,0.2,AMD Ryzen 5 5600X 6-Core Processor,12,NaN,3700,64,35,Unknown,Unknown,Windows_NT-10.0.22631
+2025-03-21T04:23:14.100Z,hermes-3-llama-3.2-3b,test prompt,0,0,0,0,0,0.2,AMD Ryzen 5 5600X 6-Core Processor,12,8.33,3700,64,35,Unknown,Unknown,Windows_NT-10.0.22631
+2025-03-21T04:23:14.086Z,hermes-3-llama-3.2-3b,test prompt,0,0,0,0,0,0.2,AMD Ryzen 5 5600X 6-Core Processor,12,NaN,3700,64,35,Unknown,Unknown,Windows_NT-10.0.22631
+2025-03-21T04:23:14.101Z,hermes-3-llama-3.2-3b,test prompt,0,0,0,0,0,0.2,AMD Ryzen 5 5600X 6-Core Processor,12,NaN,3700,64,35,Unknown,Unknown,Windows_NT-10.0.22631
+2025-03-21T04:23:14.101Z,hermes-3-llama-3.2-3b,test prompt,0,0,0,0,0,0.2,AMD Ryzen 5 5600X 6-Core Processor,12,NaN,3700,64,35,Unknown,Unknown,Windows_NT-10.0.22631
