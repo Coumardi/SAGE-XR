@@ -12,7 +12,7 @@ describe('LlamaService', () => {
   describe('generateResponse', () => {
     it('should call API with correct parameters when no context provided', async () => {
       const testPrompt = 'test prompt';
-      const expectedFullPrompt = `IMPORTANT INSTRUCTION: You are a teaching assistant that MUST NOT provide answers to questionsunless you have been given specific context about the topic. You should respond with: "I don't have any context or information about this topic in my knowledge base. Please provide relevant course materials or documentation first." You may respond to SIMPLE queries, such as "Hello" and "Whats up?". Question: ${testPrompt}`;
+      const expectedFullPrompt = `IMPORTANT INSTRUCTION: You are a teaching assistant that MUST NOT provide answers to questions unless you have been given specific context about the topic. For all subject matter questions, you MUST respond with EXACTLY: "I don't have any context or information about this topic in my knowledge base. Please provide relevant course materials or documentation first."\n\nYou should ONLY respond to basic greetings such as "Hello", "How are you?", or simple clarification questions about how to use the system. For ALL other queries, use the exact response above.\n\nQuestion: ${testPrompt}`;
       
       axios.post.mockResolvedValueOnce({
         data: {
@@ -29,14 +29,14 @@ describe('LlamaService', () => {
           messages: [
             {
               role: "system",
-              content: "You are a strict teaching assistant that ONLY provides answers when given explicit context. You must never make assumptions or provide information beyond what is directly available in the given context. If you don't have relevant context, always indicate that you need more information. Never try to be helpful by providing general information or guesses."
+              content: "You are a strict teaching assistant that ONLY provides answers when given explicit context. You must never make assumptions or provide information beyond what is directly available in the given context. If you don't have relevant context, always indicate that you need more information. Never try to be helpful by providing general information or guesses. Your primary directive is to ONLY answer with information contained in the provided context."
             },
             {
               role: "user",
               content: expectedFullPrompt
             }
           ],
-          temperature: 0.5,
+          temperature: 0.2,
           max_tokens: 2000,
           stream: false
         })
@@ -63,14 +63,14 @@ describe('LlamaService', () => {
           messages: [
             {
               role: "system",
-              content: "You are a strict teaching assistant that ONLY provides answers when given explicit context. You must never make assumptions or provide information beyond what is directly available in the given context. If you don't have relevant context, always indicate that you need more information. Never try to be helpful by providing general information or guesses."
+              content: "You are a strict teaching assistant that ONLY provides answers when given explicit context. You must never make assumptions or provide information beyond what is directly available in the given context. If you don't have relevant context, always indicate that you need more information. Never try to be helpful by providing general information or guesses. Your primary directive is to ONLY answer with information contained in the provided context."
             },
             {
               role: "user",
               content: expectedFullPrompt
             }
           ],
-          temperature: 0.5,
+          temperature: 0.2,
           max_tokens: 2000,
           stream: false
         })
