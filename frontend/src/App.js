@@ -14,6 +14,7 @@ function App() {
   const [userInput, setUserInput] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const [uploadSuccess, setUploadSuccess] = useState(false);
+  const [userType, setUserType] = useState(null);
   
   // User authentication state
   const [user, setUser] = useState(null);
@@ -164,8 +165,13 @@ function App() {
 
   // Toggle file upload modal
   const toggleUploadModal = () => {
+    if (user && (user.user_type === 'Student' || user.user_type === 'Guest')) {
+      return; // Prevent opening for Students and Guests
+    }
     setShowUploadModal(!showUploadModal);
   };
+  
+  
 
   // Toggle login modal
   const toggleLoginModal = () => {
@@ -175,6 +181,7 @@ function App() {
   // Handle login
   const handleLogin = (userData, token) => {
     setUser(userData);
+    setUserType(userData.user_type);
     if (token) {
       localStorage.setItem('token', token);
       localStorage.setItem('user', JSON.stringify(userData));
@@ -243,6 +250,7 @@ function App() {
         chatBoxRef={chatBoxRef}
       />
       <InputArea
+        user={user}
         userInput={userInput}
         setUserInput={setUserInput}
         sendMessage={sendMessage}
@@ -251,7 +259,7 @@ function App() {
         toggleUploadModal={toggleUploadModal}
       />
       
-      {showUploadModal && (
+      {showUploadModal && ( user && (user.user_type === 'Instructor' || user.user_type === 'Administrator')) && (
         <UploadModal 
           toggleUploadModal={toggleUploadModal} 
           setUploadSuccess={setUploadSuccess} 
