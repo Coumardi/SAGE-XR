@@ -150,8 +150,20 @@ async function seedUsers() {
   }
 }
 
-// Run the seeding function
-seedUsers().catch(err => {
-  console.error('Failed to seed database:', err);
-  process.exit(1);
-}); 
+// Export the seedUsers function
+module.exports = {
+  seedUsers
+};
+
+// Function to run if this module is executed directly
+function runIfMain() {
+  if (require.main === module) {
+    seedUsers().catch(err => {
+      console.error('Failed to seed database:', err);
+      process.exit(1);
+    });
+  }
+}
+
+// Run if this is the main module
+runIfMain(); 
