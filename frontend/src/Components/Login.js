@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { apiUrl } from '../config';
 
 const Login = ({ onLogin }) => {
   const [identifier, setIdentifier] = useState('');
@@ -9,9 +10,10 @@ const Login = ({ onLogin }) => {
   const handleLogin = async () => {
     setIsLoading(true);
     try {
-      // Send the raw password to the server for verification
-      console.log('Sending login request with identifier:', identifier, 'and password length:', password.length);
-      const response = await fetch('http://localhost:5000/api/auth/login', {
+      // Send the password to the server for verification
+      // The server will handle the hashing and comparison
+      console.log('Sending login request with identifier:', identifier);
+      const response = await fetch(`${apiUrl}/api/auth/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

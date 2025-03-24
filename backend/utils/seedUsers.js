@@ -40,6 +40,15 @@ async function seedUsers() {
       user_type: 'Guest',
       first_name: 'Guest',
       last_name: 'User'
+    },
+    { 
+      starid: 'ms3102sp', 
+      email: 'ms3102sp@go.minnstate.edu', 
+      // This is a bcrypt hash of "Guest"
+      password: '$2b$10$EfJXDntkvJQm1iRaBfoJoeGv/0IAnj5GUQfa2RzQoiTl7siN.HWbi', 
+      user_type: 'administrator',
+      first_name: 'Blake',
+      last_name: 'Norman'
     }
   ];
 

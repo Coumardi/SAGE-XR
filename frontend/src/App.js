@@ -7,6 +7,7 @@ import Dropdown from './Components/Dropdown';
 import Login from './Components/Login';
 import LoginModal from './Components/LoginModal';
 import '@fortawesome/fontawesome-free/css/all.css';
+import { apiUrl } from './config';
 
 function App() {
   // Chat related state
@@ -109,7 +110,7 @@ function App() {
 
       try {
         setIsTyping(true);
-        const response = await fetch('http://localhost:5000/api/query', {
+        const response = await fetch(`${apiUrl}/api/query`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -237,7 +238,7 @@ function App() {
       <header className="header">
         <h1 className="title">SAGE XR</h1>
         <div className="user-info">
-          {user && <span>Welcome, {user.starid} ({user.user_type})</span>}
+          {user && <span>Welcome, {user.first_name} ({user.user_type})</span>}
           <Dropdown options={getDropdownOptions()} onSelect={handleSelect} />
         </div>
       </header>
