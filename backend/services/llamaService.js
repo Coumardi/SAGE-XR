@@ -25,16 +25,19 @@ class LlamaService {
                 formattedConversationContext
             ].filter(Boolean).join('\n\n');
 
+            // Prepare the prompt with strict instructions
+            const systemInstructions = `You are SAGE, an educational AI assistant. You must ONLY use information from the provided context or conversation history to answer questions. Never use your general knowledge or make assumptions. If the context doesn't contain enough information to answer the question, respond with: "I don't have enough information in my knowledge base to answer this question. Please provide more context or ask another question."`;
+
             // Prepare the prompt with context
             const fullPrompt = fullContext ? 
-                `Context:\n${fullContext}\n\nQuestion: ${prompt}\n\nAnswer:` :
-                `Question: ${prompt}\n\nAnswer:`;
+                `${systemInstructions}\n\nContext:\n${fullContext}\n\nQuestion: ${prompt}\n\nAnswer:` :
+                `${systemInstructions}\n\nQuestion: ${prompt}\n\nAnswer:`;
 
             // Make the API call to LM Studio
             const response = await axios.post(`${this.baseURL}/v1/completions`, {
                 prompt: fullPrompt,
                 max_tokens: 1000,
-                temperature: 0.7,
+                temperature: 0.6, // Lower temperature for more deterministic responses
                 stop: ["Question:", "\n\n"]
             });
 
@@ -47,7 +50,7 @@ class LlamaService {
                 response.data,
                 {
                     model: "nomic-embed-text-v1.5",
-                    temperature: 0.7,
+                    temperature: 0.6,
                     max_tokens: 1000
                 },
                 prompt
