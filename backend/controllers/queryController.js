@@ -11,7 +11,7 @@ const MIN_RELEVANCE_SCORE = 0.75;
 const MIN_CONTEXT_LENGTH = 50;
 
 const query = async (req, res) => {
-    const { prompt } = req.body;
+    const { prompt, context = [] } = req.body;
 
     if (!prompt) {
         return res.status(400).json({ error: 'Prompt is required' });
@@ -28,24 +28,24 @@ const query = async (req, res) => {
         console.log(`Filtered to ${highQualityMemories.length} high-quality memories with score >= ${MIN_RELEVANCE_SCORE}`);
         
         // Format context from high-quality memories
-        const context = highQualityMemories
+        const memoryContext = highQualityMemories
             .map(memory => memory.text)
             .join('\n\n');
-        console.log('Combined context:', context);
+        console.log('Combined memory context:', memoryContext);
 
-        // Check if context is too short or empty
-        const effectiveContext = context.length >= MIN_CONTEXT_LENGTH ? context : '';
+        // Check if memory context is too short or empty
+        const effectiveMemoryContext = memoryContext.length >= MIN_CONTEXT_LENGTH ? memoryContext : '';
         
-        if (!effectiveContext) {
-            console.log('Context is insufficient, passing empty context to LlamaService');
+        if (!effectiveMemoryContext) {
+            console.log('Memory context is insufficient, passing empty context to LlamaService');
         }
 
-        // Generate response with proper context handling
-        const result = await llamaService.generateResponse(prompt, effectiveContext);
+        // Generate response with both conversation context and memory context
+        const result = await llamaService.generateResponse(prompt, effectiveMemoryContext, context);
 
         res.status(200).json({ 
             result,
-            relevantMemories: effectiveContext ? highQualityMemories : [] // Only return used memories
+            relevantMemories: effectiveMemoryContext ? highQualityMemories : [] // Only return used memories
         });
     } catch (error) {
         console.error("Error processing query:", error);
