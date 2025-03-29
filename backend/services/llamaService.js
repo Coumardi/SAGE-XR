@@ -16,8 +16,12 @@ class LlamaService {
         try {
             // Format the conversation context into a string
             const formattedConversationContext = conversationContext
-                .map(msg => `${msg.role}: ${msg.content}`)
+                .map(msg => `${msg.role === 'user' ? 'Human' : 'Assistant'}: ${msg.content}`)
                 .join('\n');
+
+            console.log('=== Conversation Context ===');
+            console.log(formattedConversationContext);
+            console.log('=========================\n');
 
             // Combine all context
             const fullContext = [
@@ -26,12 +30,16 @@ class LlamaService {
             ].filter(Boolean).join('\n\n');
 
             // Prepare the prompt with strict instructions
-            const systemInstructions = `You are SAGE, an educational AI assistant. You must ONLY use information from the provided context or conversation history to answer questions. Never use your general knowledge or make assumptions. If the context doesn't contain enough information to answer the question, respond with: "I don't have enough information in my knowledge base to answer this question. Please provide more context or ask another question."`;
+            const systemInstructions = `You are SAGE, an educational AI assistant. You must ONLY use information from BOTH the provided context AND the conversation history to answer questions. Pay special attention to previous messages in the conversation, as they may contain important information about the user and the ongoing discussion. If neither the context nor the conversation history contains enough information to answer the question, respond with: "I don't have enough information in my knowledge base to answer this question. Please provide more context or ask another question."`;
 
             // Prepare the prompt with context
             const fullPrompt = fullContext ? 
                 `${systemInstructions}\n\nContext:\n${fullContext}\n\nQuestion: ${prompt}\n\nAnswer:` :
                 `${systemInstructions}\n\nQuestion: ${prompt}\n\nAnswer:`;
+
+            console.log('=== Full Prompt Being Sent to Model ===');
+            console.log(fullPrompt);
+            console.log('====================================\n');
 
             // Make the API call to LM Studio
             const response = await axios.post(`${this.baseURL}/v1/completions`, {
@@ -49,7 +57,7 @@ class LlamaService {
                 startTime,
                 response.data,
                 {
-                    model: "nomic-embed-text-v1.5",
+                    model: response.data.model || 'unknown', // Use model from API response
                     temperature: 0.6,
                     max_tokens: 1000
                 },

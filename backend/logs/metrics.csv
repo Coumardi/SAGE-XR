@@ -238,7 +238,9 @@ timestamp,model_name,prompt,prompt_tokens,completion_tokens,total_tokens,respons
 2025-03-24T17:07:17.037Z,hermes-3-llama-3.2-3b,test prompt,0,0,0,0,0,0.2,AMD Ryzen 5 5600X 6-Core Processor,12,0,3700,64,28,Unknown,Unknown,Windows_NT-10.0.22631
 2025-03-24T17:07:17.038Z,hermes-3-llama-3.2-3b,test prompt,0,0,0,0,0,0.2,AMD Ryzen 5 5600X 6-Core Processor,12,NaN,3700,64,28,Unknown,Unknown,Windows_NT-10.0.22631
 2025-03-24T17:07:17.039Z,hermes-3-llama-3.2-3b,test prompt,0,0,0,0,0,0.2,AMD Ryzen 5 5600X 6-Core Processor,12,NaN,3700,64,28,Unknown,Unknown,Windows_NT-10.0.22631
-2025-03-26T20:16:54.236Z,nomic-embed-text-v1.5,Hello,13,5,18,1028,17.5,0.7,12th Gen Intel(R) Core(TM) i7-1260P,16,0,2496,16,94,Intel(R) Iris(R) Xe Graphics,Intel Corporation,Windows_NT-10.0.22631
-2025-03-26T20:17:07.602Z,nomic-embed-text-v1.5,My name is Blake,26,15,41,4589,8.94,0.7,12th Gen Intel(R) Core(TM) i7-1260P,16,14.12,2496,16,94,Intel(R) Iris(R) Xe Graphics,Intel Corporation,Windows_NT-10.0.22631
-2025-03-26T20:17:16.666Z,nomic-embed-text-v1.5,What's my name?,36,9,45,3456,13.02,0.7,12th Gen Intel(R) Core(TM) i7-1260P,16,11.32,2496,16,93,Intel(R) Iris(R) Xe Graphics,Intel Corporation,Windows_NT-10.0.22631
-2025-03-26T20:20:43.071Z,nomic-embed-text-v1.5,What is PrizePicks?,48,70,118,14204,8.31,0.7,12th Gen Intel(R) Core(TM) i7-1260P,16,9.21,2496,16,95,Intel(R) Iris(R) Xe Graphics,Intel Corporation,Windows_NT-10.0.22631
+2025-03-29T14:24:28.565Z,llama-3.2-3b-instruct,Hello!,109,38,147,8126,18.09,0.6,12th Gen Intel(R) Core(TM) i7-1260P,16,0,2496,16,89,Intel(R) Iris(R) Xe Graphics,Intel Corporation,Windows_NT-10.0.22631
+2025-03-29T14:27:12.626Z,llama-3.2-3b-instruct,Hi!,116,14,130,4436,29.31,0.6,12th Gen Intel(R) Core(TM) i7-1260P,16,5.67,2496,16,92,Intel(R) Iris(R) Xe Graphics,Intel Corporation,Windows_NT-10.0.22631
+2025-03-29T14:33:42.881Z,llama-3.2-3b-instruct,Hello!,109,14,123,2984,41.22,0.6,12th Gen Intel(R) Core(TM) i7-1260P,16,0,2496,16,88,Intel(R) Iris(R) Xe Graphics,Intel Corporation,Windows_NT-10.0.22631
+2025-03-29T14:33:55.616Z,llama-3.2-3b-instruct,Whats up?!,132,17,149,5404,27.57,0.6,12th Gen Intel(R) Core(TM) i7-1260P,16,15.54,2496,16,88,Intel(R) Iris(R) Xe Graphics,Intel Corporation,Windows_NT-10.0.22631
+2025-03-29T14:34:42.378Z,llama-3.2-3b-instruct,My name is Blake! Whats your name?,169,59,228,16833,13.54,0.6,12th Gen Intel(R) Core(TM) i7-1260P,16,17.32,2496,16,91,Intel(R) Iris(R) Xe Graphics,Intel Corporation,Windows_NT-10.0.22631
+2025-03-29T14:35:25.057Z,llama-3.2-3b-instruct,Do you remember my name? I forgot,241,52,293,15981,18.33,0.6,12th Gen Intel(R) Core(TM) i7-1260P,16,14.4,2496,16,90,Intel(R) Iris(R) Xe Graphics,Intel Corporation,Windows_NT-10.0.22631

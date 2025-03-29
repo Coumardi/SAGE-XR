@@ -149,20 +149,18 @@ function App() {
 
         const aiMessage = {
           type: 'ai',
-          text: '',
+          text: result.result,
           timeStamp: aiCurrentTime,
           relevantMemories: result.relevantMemories
         };
 
-        // Add AI message to conversation
+        // Add complete AI message to conversation
         if (currentConversation) {
           currentConversation.addMessage(aiMessage);
         }
 
-        // Initialize empty AI message
-        setMessages(prev => [...prev, aiMessage]);
-
-        // Type out the message
+        // Add to messages state and animate typing
+        setMessages(prev => [...prev, { ...aiMessage, text: '' }]);
         typeMessage(result.result);
 
       } catch (error) {
