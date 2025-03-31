@@ -14,8 +14,11 @@ class LlamaService {
         const startTime = performance.now();
         
         try {
+            // Ensure conversationContext is an array
+            const safeConversationContext = Array.isArray(conversationContext) ? conversationContext : [];
+            
             // Format the conversation context into a string
-            const formattedConversationContext = conversationContext
+            const formattedConversationContext = safeConversationContext
                 .map(msg => `${msg.role === 'user' ? 'Human' : 'Assistant'}: ${msg.content}`)
                 .join('\n');
 
@@ -30,7 +33,7 @@ class LlamaService {
             ].filter(Boolean).join('\n\n');
 
             // Prepare the prompt with strict instructions
-            const systemInstructions = `You are SAGE, an educational AI assistant. You must ONLY use information from BOTH the provided context AND the conversation history to answer questions. Pay special attention to previous messages in the conversation, as they may contain important information about the user and the ongoing discussion. If neither the context nor the conversation history contains enough information to answer the question, respond with: "I don't have enough information in my knowledge base to answer this question. Please provide more context or ask another question."`;
+            const systemInstructions = `You are SAGE, an educational AI assistant. You must ONLY use information from BOTH the provided context AND the conversation history to answer questions. Pay special attention to previous messages in the conversation, as they may contain important information about the user and the ongoing discussion. You can engage in friendly conversation with the user.If neither the context nor the conversation history contains enough information to answer the question, respond with: "I don't have enough information in my knowledge base to answer this question. Please provide more context or ask another question."`;
 
             // Prepare the prompt with context
             const fullPrompt = fullContext ? 
