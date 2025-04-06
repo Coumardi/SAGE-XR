@@ -6,6 +6,7 @@ import UploadModal from './Components/UploadModal';
 import Dropdown from './Components/Dropdown';
 import Login from './Components/Login';
 import LoginModal from './Components/LoginModal';
+import SlideBarToggleable from './Components/SlideBarToggleable';
 import '@fortawesome/fontawesome-free/css/all.css';
 
 function App() {
@@ -14,11 +15,12 @@ function App() {
   const [userInput, setUserInput] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const [uploadSuccess, setUploadSuccess] = useState(false);
-  const [userType, setUserType] = useState(null);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   
   // User authentication state
   const [user, setUser] = useState(null);
   const [showLoginModal, setShowLoginModal] = useState(false);
+  const toggleSlidebar = () => setSidebarOpen(prev => !prev);
 
   // Chat container
   const chatBoxRef = useRef(null);
@@ -165,13 +167,8 @@ function App() {
 
   // Toggle file upload modal
   const toggleUploadModal = () => {
-    if (user && (user.user_type === 'Student' || user.user_type === 'Guest')) {
-      return; // Prevent opening for Students and Guests
-    }
     setShowUploadModal(!showUploadModal);
   };
-  
-  
 
   // Toggle login modal
   const toggleLoginModal = () => {
@@ -181,7 +178,6 @@ function App() {
   // Handle login
   const handleLogin = (userData, token) => {
     setUser(userData);
-    setUserType(userData.user_type);
     if (token) {
       localStorage.setItem('token', token);
       localStorage.setItem('user', JSON.stringify(userData));
@@ -216,10 +212,16 @@ function App() {
 
     switch (user.user_type) {
       case 'Administrator':
+        // Intentional fallthrough - Administrator has same features as Instructor
+        // eslint-disable-next-line no-fallthrough
 
       case 'Instructor':
+        // Intentional fallthrough - Instructor has same features as Student
+        // eslint-disable-next-line no-fallthrough
 
       case 'Student':
+        // Intentional fallthrough - Student has same features as default
+        // eslint-disable-next-line no-fallthrough
 
       default:
         return null;
@@ -228,6 +230,10 @@ function App() {
 
   return (
     <div className="chat-container">
+      <SlideBarToggleable isOpen = {sidebarOpen}
+      toggleSlidebar = {toggleSlidebar}
+      
+      />
       <header className="header">
         <h1 className="title">SAGE XR</h1>
         <div className="user-info">
@@ -244,7 +250,6 @@ function App() {
         chatBoxRef={chatBoxRef}
       />
       <InputArea
-        user={user}
         userInput={userInput}
         setUserInput={setUserInput}
         sendMessage={sendMessage}
@@ -253,11 +258,17 @@ function App() {
         toggleUploadModal={toggleUploadModal}
       />
       
-      {showUploadModal && ( user && (user.user_type === 'Instructor' || user.user_type === 'Administrator')) && (
+      {showUploadModal && (
         <UploadModal 
           toggleUploadModal={toggleUploadModal} 
           setUploadSuccess={setUploadSuccess} 
         />
+      )}
+      
+      {uploadSuccess && (
+        <div className="success-message">
+          Files uploaded successfully!
+        </div>
       )}
       
       <LoginModal isOpen={showLoginModal} onClose={toggleLoginModal}>
