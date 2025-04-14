@@ -6,6 +6,7 @@ const path = require('path');
 const mysql = require('mysql2');
 const queryRoutes = require('./routes/queryRoutes');
 const uploadRoutes = require('./routes/uploadRoutes');
+const conversationRoutes = require('./routes/conversationRoutes');
 const cookieParser = require('cookie-parser');
 const { verifyToken, checkRole } = require('./middleware/authMiddleware');
 const authRoutes = require('./routes/authRoutes');
@@ -73,6 +74,7 @@ app.post('/login', (req, res) => {
 
 // Routes
 app.use('/api/auth', authRoutes);
+app.use('/api/conversations', conversationRoutes);
 
 // Add other routes conditionally if they exist
 try {

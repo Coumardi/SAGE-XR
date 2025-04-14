@@ -137,7 +137,8 @@ function App() {
           },
           body: JSON.stringify({ 
             prompt: userInput,
-            context: currentConversation ? currentConversation.getContext() : []
+            context: currentConversation ? currentConversation.getContext() : [],
+            userId: user ? user.id : 'anonymous'
           })
         });
 
