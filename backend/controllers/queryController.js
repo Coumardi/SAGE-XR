@@ -12,7 +12,7 @@ const MIN_RELEVANCE_SCORE = 0.75;
 const MIN_CONTEXT_LENGTH = 50;
 
 const query = async (req, res) => {
-    const { prompt, context = [], userId, conversationId } = req.body;
+    const { prompt, context = [], userId, conversationId, isNewConversation = false } = req.body;
 
     if (!prompt) {
         return res.status(400).json({ error: 'Prompt is required' });
@@ -67,20 +67,34 @@ const query = async (req, res) => {
             relevantMemories: highQualityMemories
         };
 
+        let conversation;
         // Store messages in the conversation
-        if (conversationId) {
+        if (!isNewConversation && conversationId) {
             // Continue existing conversation
             await conversationService.continueConversation(conversationId, userMessage);
-            await conversationService.continueConversation(conversationId, aiMessage);
+            conversation = await conversationService.continueConversation(conversationId, aiMessage);
         } else {
-            // Start new conversation
-            await conversationService.saveMessage(userId, userMessage);
-            await conversationService.saveMessage(userId, aiMessage);
+            // If it's a new conversation or no conversation ID exists
+            if (isNewConversation) {
+                // Mark any existing active conversation as inactive
+                await conversationService.endActiveConversations(userId);
+            }
+            // Get current active conversation or create new one
+            conversation = await conversationService.getCurrentConversation(userId);
+            if (!conversation) {
+                conversation = await conversationService.createNewConversation(userId, [userMessage, aiMessage]);
+            } else {
+                // Add messages to existing active conversation
+                conversation.messages.push(userMessage);
+                conversation.messages.push(aiMessage);
+                conversation = await conversation.save();
+            }
         }
 
         res.status(200).json({ 
             result,
-            relevantMemories: effectiveMemoryContext ? highQualityMemories : [] // Only return used memories
+            relevantMemories: effectiveMemoryContext ? highQualityMemories : [], // Only return used memories
+            conversationId: conversation._id
         });
     } catch (error) {
         console.error("Error processing query:", error);

@@ -12,29 +12,30 @@ mongoose.connect('mongodb+srv://SE:SE490Group@cluster0.2ilsj.mongodb.net/SageXR'
 });
 
 const conversationService = {
-    // Save a new message to an existing conversation or create a new one
-    async saveMessage(userId, message) {
+    // Create a new conversation with initial messages
+    async createNewConversation(userId, initialMessages = []) {
         try {
-            // Find the most recent active conversation for this user
-            let conversation = await Conversation.findOne({ 
-                userId, 
-                isActive: true 
-            }).sort({ updatedAt: -1 });
-
-            if (!conversation) {
-                // Create a new conversation if none exists
-                conversation = new Conversation({
-                    userId,
-                    messages: [message]
-                });
-            } else {
-                // Add message to existing conversation
-                conversation.messages.push(message);
-            }
-
+            const conversation = new Conversation({
+                userId,
+                messages: initialMessages,
+                isActive: true
+            });
             return await conversation.save();
         } catch (error) {
-            console.error('Error saving message:', error);
+            console.error('Error creating new conversation:', error);
+            throw error;
+        }
+    },
+
+    // End all active conversations for a user
+    async endActiveConversations(userId) {
+        try {
+            await Conversation.updateMany(
+                { userId, isActive: true },
+                { isActive: false }
+            );
+        } catch (error) {
+            console.error('Error ending active conversations:', error);
             throw error;
         }
     },
@@ -93,11 +94,6 @@ const conversationService = {
             const conversation = await Conversation.findById(conversationId);
             if (!conversation) {
                 throw new Error('Conversation not found');
-            }
-
-            // Reactivate the conversation if it was inactive
-            if (!conversation.isActive) {
-                conversation.isActive = true;
             }
 
             conversation.messages.push(message);

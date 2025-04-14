@@ -138,7 +138,9 @@ function App() {
           body: JSON.stringify({ 
             prompt: userInput,
             context: currentConversation ? currentConversation.getContext() : [],
-            userId: user ? user.id : 'anonymous'
+            userId: user ? user.id : 'anonymous',
+            conversationId: currentConversation ? currentConversation.getMongoId() : null,
+            isNewConversation: !currentConversation || !currentConversation.getMongoId()
           })
         });
 
@@ -154,6 +156,11 @@ function App() {
           timeStamp: aiCurrentTime,
           relevantMemories: result.relevantMemories
         };
+
+        // Update conversation ID if this was a new conversation
+        if (currentConversation && !currentConversation.getMongoId() && result.conversationId) {
+          currentConversation.setMongoId(result.conversationId);
+        }
 
         // Add complete AI message to conversation
         if (currentConversation) {
@@ -226,6 +233,8 @@ function App() {
   // Handle logout
   const handleLogout = () => {
     setUser(null);
+    setCurrentConversation(null);
+    setMessages([]);
     localStorage.removeItem('token');
     localStorage.removeItem('user');
   };

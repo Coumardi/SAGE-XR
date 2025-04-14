@@ -2,11 +2,12 @@
 
 export class Conversation {
   constructor(userId) {
-    this.id = Date.now().toString(); // Unique ID for the conversation
+    this._id = null; // MongoDB conversation ID
     this.userId = userId;
     this.messages = [];
     this.createdAt = new Date();
     this.updatedAt = new Date();
+    this.isActive = true;
   }
 
   addMessage(message) {
@@ -25,13 +26,22 @@ export class Conversation {
     }));
   }
 
+  setMongoId(id) {
+    this._id = id;
+  }
+
+  getMongoId() {
+    return this._id;
+  }
+
   toJSON() {
     return {
-      id: this.id,
+      _id: this._id,
       userId: this.userId,
       messages: this.messages,
       createdAt: this.createdAt,
-      updatedAt: this.updatedAt
+      updatedAt: this.updatedAt,
+      isActive: this.isActive
     };
   }
 }
@@ -44,9 +54,10 @@ export const createConversation = (userId) => {
 // Load a conversation from JSON
 export const loadConversation = (json) => {
   const conversation = new Conversation(json.userId);
-  conversation.id = json.id;
+  conversation._id = json._id;
   conversation.messages = json.messages;
   conversation.createdAt = new Date(json.createdAt);
   conversation.updatedAt = new Date(json.updatedAt);
+  conversation.isActive = json.isActive;
   return conversation;
 }; 
