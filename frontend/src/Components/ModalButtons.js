@@ -1,19 +1,20 @@
 import React from 'react';
 
-function ModalButtons({ clearFiles, handleUpload }) {
+function ModalButtons({ onExit, onCommit, commitButtonRef }) {
   return (
-    <div className="modal-buttons">
+    <div className="modal-buttons" data-testid="modal-buttons">
       <button 
         type="button" 
-        onClick={clearFiles} 
+        onClick={onExit} 
         className="exit-modal-button"
       >
         Exit
       </button>
       <button 
         type="button" 
-        onClick={handleUpload} 
+        onClick={onCommit} 
         className="upload-modal-button"
+        ref={commitButtonRef}
       >
         Commit
       </button>

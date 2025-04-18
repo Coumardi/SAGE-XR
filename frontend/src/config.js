@@ -1,9 +1,13 @@
+// Configuration for different environments
 const config = {
   development: {
-    apiUrl: 'http://localhost:5000'
+    apiUrl: 'http://localhost:5000',
   },
   production: {
-    apiUrl: 'https://your-actual-production-domain.com'
+    apiUrl: 'https://sage-xr-api.example.com',
+  },
+  test: {
+    apiUrl: 'http://localhost:5000',
   }
 };
 

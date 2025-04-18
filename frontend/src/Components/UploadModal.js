@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import FileInput from './FileInput';
 import UploadedFilesList from './UploadedFilesList';
 import ModalButtons from './ModalButtons';
@@ -7,6 +7,7 @@ function UploadModal({ toggleUploadModal, setUploadSuccess }) {
   const [uploadedFiles, setUploadedFiles] = useState([]);
   const [errorMessage, setErrorMessage] = useState('');
   const [uploadFailureMessage, setUploadFailureMessage] = useState('');
+  const commitButtonRef = useRef(null);
 
   const addFiles = (files) => {
     const validFiles = files.filter(
@@ -47,12 +48,16 @@ function UploadModal({ toggleUploadModal, setUploadSuccess }) {
     setUploadedFiles(uploadedFiles.filter((_, index) => index !== indexToRemove));
   };
 
-  const handleUpload = async (e) => {
-    e.currentTarget.disabled = true;
+  const handleUpload = async () => {
+    if (commitButtonRef.current) {
+      commitButtonRef.current.disabled = true;
+    }
 
     if (uploadedFiles.length === 0) {
       alert('Please upload at least one file.');
-      e.currentTarget.disabled = false;
+      if (commitButtonRef.current) {
+        commitButtonRef.current.disabled = false;
+      }
       return;
     }
 
@@ -79,7 +84,9 @@ function UploadModal({ toggleUploadModal, setUploadSuccess }) {
         setTimeout(() => {
           setUploadFailureMessage('');
         }, 3000);
-        e.currentTarget.disabled = false;
+        if (commitButtonRef.current) {
+          commitButtonRef.current.disabled = false;
+        }
       }
     } catch (error) {
       console.error('Upload failed:', error);
@@ -87,7 +94,9 @@ function UploadModal({ toggleUploadModal, setUploadSuccess }) {
       setTimeout(() => {
         setUploadFailureMessage('');
       }, 3000);
-      e.currentTarget.disabled = false;
+      if (commitButtonRef.current) {
+        commitButtonRef.current.disabled = false;
+      }
     }
   };
 
@@ -98,9 +107,10 @@ function UploadModal({ toggleUploadModal, setUploadSuccess }) {
         {uploadFailureMessage && <p className="failure-message">{uploadFailureMessage}</p>}
         <FileInput addFiles={addFiles} />
         <UploadedFilesList uploadedFiles={uploadedFiles} removeFile={removeFile} />
-        <ModalButtons
-          clearFiles={clearFiles}
-          handleUpload={handleUpload}
+        <ModalButtons 
+          onExit={clearFiles} 
+          onCommit={handleUpload} 
+          commitButtonRef={commitButtonRef}
         />
       </div>
     </div>

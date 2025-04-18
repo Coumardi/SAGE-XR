@@ -3,7 +3,7 @@ import React from 'react';
 function UploadedFilesList({ uploadedFiles, removeFile }) {
   return (
     <div className="uploaded-files">
-      <div className="icon-container">
+      <div className="icon-container" data-testid="icon-container">
         <i className="fa-solid fa-download"></i>
       </div>
       <h4>Uploaded Files:</h4>
