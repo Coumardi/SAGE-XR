@@ -8,6 +8,7 @@ import Login from './Components/Login';
 import LoginModal from './Components/LoginModal';
 import '@fortawesome/fontawesome-free/css/all.css';
 import { apiUrl } from './config';
+import { createConversation, loadConversation } from './utils/conversationManager';
 
 function App() {
   // Chat related state
@@ -16,6 +17,7 @@ function App() {
   const [isTyping, setIsTyping] = useState(false);
   const [uploadSuccess, setUploadSuccess] = useState(false);
   const [userType, setUserType] = useState(null);
+  const [currentConversation, setCurrentConversation] = useState(null);
   
   // User authentication state
   const [user, setUser] = useState(null);
@@ -46,6 +48,15 @@ function App() {
       });
     }
   }, [isTyping, messages]);
+
+  // Initialize conversation when user logs in
+  useEffect(() => {
+    if (user) {
+      const newConversation = createConversation(user.id);
+      setCurrentConversation(newConversation);
+      setMessages([]); // Clear messages for new conversation
+    }
+  }, [user]);
 
   // Check if user is already logged in on app load
   useEffect(() => {
@@ -100,12 +111,18 @@ function App() {
         minute: '2-digit'
       });
 
-      setMessages([...messages, {
+      const userMessage = {
         type: 'user',
         text: userInput,
         timeStamp: currentTime
-      }]);
+      };
 
+      // Add message to conversation
+      if (currentConversation) {
+        currentConversation.addMessage(userMessage);
+      }
+
+      setMessages([...messages, userMessage]);
       setUserInput('');
 
       try {
@@ -118,7 +135,13 @@ function App() {
               'Authorization': `Bearer ${localStorage.getItem('token')}` 
             })
           },
-          body: JSON.stringify({ prompt: userInput })
+          body: JSON.stringify({ 
+            prompt: userInput,
+            context: currentConversation ? currentConversation.getContext() : [],
+            userId: user ? user.id : 'anonymous',
+            conversationId: currentConversation ? currentConversation.getMongoId() : null,
+            isNewConversation: !currentConversation || !currentConversation.getMongoId()
+          })
         });
 
         const result = await response.json();
@@ -127,24 +150,41 @@ function App() {
           minute: '2-digit'
         });
 
-        // Initialize empty AI message
-        setMessages(prev => [...prev, {
+        const aiMessage = {
           type: 'ai',
-          text: '',  // Start empty
+          text: result.result,
           timeStamp: aiCurrentTime,
           relevantMemories: result.relevantMemories
-        }]);
+        };
 
-        // Type out the message
+        // Update conversation ID if this was a new conversation
+        if (currentConversation && !currentConversation.getMongoId() && result.conversationId) {
+          currentConversation.setMongoId(result.conversationId);
+        }
+
+        // Add complete AI message to conversation
+        if (currentConversation) {
+          currentConversation.addMessage(aiMessage);
+        }
+
+        // Add to messages state and animate typing
+        setMessages(prev => [...prev, { ...aiMessage, text: '' }]);
         typeMessage(result.result);
 
       } catch (error) {
         console.error('Error:', error);
-        setMessages(prev => [...prev, {
+        const errorMessage = {
           type: 'ai',
           text: 'Error processing your request',
           timeStamp: currentTime
-        }]);
+        };
+
+        // Add error message to conversation
+        if (currentConversation) {
+          currentConversation.addMessage(errorMessage);
+        }
+
+        setMessages(prev => [...prev, errorMessage]);
         setIsTyping(false);
       }
     }
@@ -193,6 +233,8 @@ function App() {
   // Handle logout
   const handleLogout = () => {
     setUser(null);
+    setCurrentConversation(null);
+    setMessages([]);
     localStorage.removeItem('token');
     localStorage.removeItem('user');
   };

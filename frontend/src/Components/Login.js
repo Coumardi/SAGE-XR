@@ -5,10 +5,8 @@ const Login = ({ onLogin }) => {
   const [identifier, setIdentifier] = useState('');
   const [password, setPassword] = useState('');
   const [loginError, setLoginError] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
 
   const handleLogin = async () => {
-    setIsLoading(true);
     try {
       // Send the password to the server for verification
       // The server will handle the hashing and comparison
@@ -26,13 +24,11 @@ const Login = ({ onLogin }) => {
         onLogin(result.user, result.token);
         setLoginError('');
       } else {
-        setLoginError(result.message);
+        setLoginError(result.message || 'Invalid credentials');
       }
     } catch (error) {
       console.error('Error:', error);
       setLoginError('Error processing your request');
-    } finally {
-      setIsLoading(false);
     }
   };
 
@@ -53,8 +49,11 @@ const Login = ({ onLogin }) => {
         onChange={(e) => setPassword(e.target.value)}
         aria-label="Password"
       />
-      <button onClick={handleLogin} disabled={isLoading}>
-        {isLoading ? 'Logging in...' : 'Login'}
+      <button 
+        onClick={handleLogin} 
+        data-testid="login-button"
+      >
+        Login
       </button>
       {loginError && <p className="error">{loginError}</p>}
     </div>

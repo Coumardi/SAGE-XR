@@ -6,6 +6,7 @@ const path = require('path');
 const mysql = require('mysql2');
 const queryRoutes = require('./routes/queryRoutes');
 const uploadRoutes = require('./routes/uploadRoutes');
+const conversationRoutes = require('./routes/conversationRoutes');
 const cookieParser = require('cookie-parser');
 const { verifyToken, checkRole } = require('./middleware/authMiddleware');
 const authRoutes = require('./routes/authRoutes');
@@ -31,26 +32,25 @@ app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
 app.use(cookieParser());
 
-// MySQL database connection with SSL
-const db = mysql.createConnection({
-  host: process.env.MYSQL_HOST || 'localhost',
-  port: process.env.MYSQL_PORT || 3306,
-  user: process.env.MYSQL_USER || 'root',
-  password: process.env.MYSQL_PASSWORD || 'root',
-  database: process.env.MYSQL_DATABASE || 'sage_xr_auth',
-  ssl: process.env.MYSQL_SSL_MODE === 'REQUIRED' ? {
-    ca: process.env.MYSQL_CA_CERT ? process.env.MYSQL_CA_CERT : 
-        process.env.MYSQL_CA_CERT_PATH ? fs.readFileSync(process.env.MYSQL_CA_CERT_PATH) : 
-        { rejectUnauthorized: false }
-  } : undefined
+// MySQL database connection for local development
+const db = mysql.createPool({
+  host: 'localhost',
+  user: 'root',
+  password: 'root',
+  database: 'sage_xr_auth',
+  waitForConnections: true,
+  connectionLimit: 5,
+  queueLimit: 0
 });
 
-db.connect((err) => {
+// Test the connection pool
+db.getConnection((err, connection) => {
   if (err) {
     console.error('Database connection failed:', err.stack);
     return;
   }
-  console.log('Connected to database.');
+  console.log('Connected to local database.');
+  connection.release();
 });
 
 // Make db available to routes
@@ -74,6 +74,7 @@ app.post('/login', (req, res) => {
 
 // Routes
 app.use('/api/auth', authRoutes);
+app.use('/api/conversations', conversationRoutes);
 
 // Add other routes conditionally if they exist
 try {

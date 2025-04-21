@@ -1,7 +1,15 @@
 const llamaService = require('../services/llamaService');
 const axios = require('axios');
 
+// We need to mock axios and MetricsService before requiring llamaService
 jest.mock('axios');
+jest.mock('../services/metricsService', () => {
+  return jest.fn().mockImplementation(() => {
+    return {
+      collectMetrics: jest.fn().mockResolvedValue({}),
+    };
+  });
+});
 
 describe('LlamaService', () => {
   beforeEach(() => {
@@ -12,82 +20,114 @@ describe('LlamaService', () => {
   describe('generateResponse', () => {
     it('should call API with correct parameters when no context provided', async () => {
       const testPrompt = 'test prompt';
-      const expectedFullPrompt = `IMPORTANT INSTRUCTION: You are a teaching assistant that MUST NOT provide answers to questions unless you have been given specific context about the topic. For all subject matter questions, you MUST respond with EXACTLY: "I don't have any context or information about this topic in my knowledge base. Please provide relevant course materials or documentation first."\n\nYou should ONLY respond to basic greetings such as "Hello", "How are you?", or simple clarification questions about how to use the system. For ALL other queries, use the exact response above.\n\nQuestion: ${testPrompt}`;
+      const systemInstructions = `You are SAGE, an educational AI assistant. You must ONLY use information from BOTH the provided context AND the conversation history to answer questions. Pay special attention to previous messages in the conversation, as they may contain important information about the user and the ongoing discussion. You can engage in friendly conversation with the user.If neither the context nor the conversation history contains enough information to answer the question, respond with: "I don't have enough information in my knowledge base to answer this question. Please provide more context or ask another question."`;
+      const expectedFullPrompt = `${systemInstructions}\n\nQuestion: ${testPrompt}\n\nAnswer:`;
       
       axios.post.mockResolvedValueOnce({
         data: {
-          choices: [{ message: { content: 'test response' } }]
+          choices: [{ text: 'test response' }],
+          model: 'test-model'
         }
       });
 
       await llamaService.generateResponse(testPrompt);
 
       expect(axios.post).toHaveBeenCalledWith(
-        'http://test-url/v1/chat/completions',
+        'http://test-url/v1/completions',
         expect.objectContaining({
-          model: "hermes-3-llama-3.2-3b",
-          messages: [
-            {
-              role: "system",
-              content: "You are a strict teaching assistant that ONLY provides answers when given explicit context. You must never make assumptions or provide information beyond what is directly available in the given context. If you don't have relevant context, always indicate that you need more information. Never try to be helpful by providing general information or guesses. Your primary directive is to ONLY answer with information contained in the provided context."
-            },
-            {
-              role: "user",
-              content: expectedFullPrompt
-            }
-          ],
-          temperature: 0.2,
-          max_tokens: 2000,
-          stream: false
+          prompt: expectedFullPrompt,
+          max_tokens: 1000,
+          temperature: 0.6,
+          stop: ["Question:", "\n\n"]
         })
       );
     });
 
-    it('should call API with correct parameters when context is provided', async () => {
+    it('should call API with correct parameters when memory context is provided', async () => {
       const testPrompt = 'test prompt';
-      const testContext = 'test context';
-      const expectedFullPrompt = `Context: ${testContext}\n\nQuestion: ${testPrompt}\n\nAnswer: Please answer based ONLY on the context provided above. If the context doesn't contain enough information to fully answer the question, respond with: "I don't have enough information in my knowledge base to answer this question. Please provide more context or ask another question."`;
+      const testMemoryContext = 'test memory context';
+      const systemInstructions = `You are SAGE, an educational AI assistant. You must ONLY use information from BOTH the provided context AND the conversation history to answer questions. Pay special attention to previous messages in the conversation, as they may contain important information about the user and the ongoing discussion. You can engage in friendly conversation with the user.If neither the context nor the conversation history contains enough information to answer the question, respond with: "I don't have enough information in my knowledge base to answer this question. Please provide more context or ask another question."`;
+      const expectedFullPrompt = `${systemInstructions}\n\nContext:\n${testMemoryContext}\n\nQuestion: ${testPrompt}\n\nAnswer:`;
 
       axios.post.mockResolvedValueOnce({
         data: {
-          choices: [{ message: { content: 'test response' } }]
+          choices: [{ text: 'test response' }],
+          model: 'test-model'
         }
       });
 
-      await llamaService.generateResponse(testPrompt, testContext);
+      await llamaService.generateResponse(testPrompt, testMemoryContext);
 
       expect(axios.post).toHaveBeenCalledWith(
-        'http://test-url/v1/chat/completions',
+        'http://test-url/v1/completions',
         expect.objectContaining({
-          model: "hermes-3-llama-3.2-3b",
-          messages: [
-            {
-              role: "system",
-              content: "You are a strict teaching assistant that ONLY provides answers when given explicit context. You must never make assumptions or provide information beyond what is directly available in the given context. If you don't have relevant context, always indicate that you need more information. Never try to be helpful by providing general information or guesses. Your primary directive is to ONLY answer with information contained in the provided context."
-            },
-            {
-              role: "user",
-              content: expectedFullPrompt
-            }
-          ],
-          temperature: 0.2,
-          max_tokens: 2000,
-          stream: false
+          prompt: expectedFullPrompt,
+          max_tokens: 1000,
+          temperature: 0.6,
+          stop: ["Question:", "\n\n"]
         })
       );
     });
 
-    it('should handle unexpected response format', async () => {
-      const mockResponse = {
-        data: {
-          choices: [{}]
-        }
-      };
-      axios.post.mockResolvedValueOnce(mockResponse);
+    it('should call API with correct parameters when conversation context is provided', async () => {
+      const testPrompt = 'test prompt';
+      const testConversationContext = [
+        { role: 'user', content: 'Hello' },
+        { role: 'assistant', content: 'Hi there' }
+      ];
+      const formattedConversationContext = 'Human: Hello\nAssistant: Hi there';
+      const systemInstructions = `You are SAGE, an educational AI assistant. You must ONLY use information from BOTH the provided context AND the conversation history to answer questions. Pay special attention to previous messages in the conversation, as they may contain important information about the user and the ongoing discussion. You can engage in friendly conversation with the user.If neither the context nor the conversation history contains enough information to answer the question, respond with: "I don't have enough information in my knowledge base to answer this question. Please provide more context or ask another question."`;
+      const expectedFullPrompt = `${systemInstructions}\n\nContext:\n${formattedConversationContext}\n\nQuestion: ${testPrompt}\n\nAnswer:`;
 
-      await expect(llamaService.generateResponse('test prompt'))
-        .rejects
-        .toThrow('Unexpected response format from LLM API');
+      axios.post.mockResolvedValueOnce({
+        data: {
+          choices: [{ text: 'test response' }],
+          model: 'test-model'
+        }
+      });
+
+      await llamaService.generateResponse(testPrompt, '', testConversationContext);
+
+      expect(axios.post).toHaveBeenCalledWith(
+        'http://test-url/v1/completions',
+        expect.objectContaining({
+          prompt: expectedFullPrompt,
+          max_tokens: 1000,
+          temperature: 0.6,
+          stop: ["Question:", "\n\n"]
+        })
+      );
+    });
+
+    it('should call API with correct parameters when both memory and conversation contexts are provided', async () => {
+      const testPrompt = 'test prompt';
+      const testMemoryContext = 'test memory context';
+      const testConversationContext = [
+        { role: 'user', content: 'Hello' },
+        { role: 'assistant', content: 'Hi there' }
+      ];
+      const formattedConversationContext = 'Human: Hello\nAssistant: Hi there';
+      const systemInstructions = `You are SAGE, an educational AI assistant. You must ONLY use information from BOTH the provided context AND the conversation history to answer questions. Pay special attention to previous messages in the conversation, as they may contain important information about the user and the ongoing discussion. You can engage in friendly conversation with the user.If neither the context nor the conversation history contains enough information to answer the question, respond with: "I don't have enough information in my knowledge base to answer this question. Please provide more context or ask another question."`;
+      const expectedFullPrompt = `${systemInstructions}\n\nContext:\n${testMemoryContext}\n\n${formattedConversationContext}\n\nQuestion: ${testPrompt}\n\nAnswer:`;
+
+      axios.post.mockResolvedValueOnce({
+        data: {
+          choices: [{ text: 'test response' }],
+          model: 'test-model'
+        }
+      });
+
+      await llamaService.generateResponse(testPrompt, testMemoryContext, testConversationContext);
+
+      expect(axios.post).toHaveBeenCalledWith(
+        'http://test-url/v1/completions',
+        expect.objectContaining({
+          prompt: expectedFullPrompt,
+          max_tokens: 1000,
+          temperature: 0.6,
+          stop: ["Question:", "\n\n"]
+        })
+      );
     });
 
     it('should handle API errors', async () => {
@@ -103,46 +143,14 @@ describe('LlamaService', () => {
         .toThrow('API Error');
     });
 
-    it('should return message content when response has message format', async () => {
-      const expectedResponse = 'test response message';
-      axios.post.mockResolvedValueOnce({
-        data: {
-          choices: [{
-            message: {
-              content: expectedResponse
-            }
-          }]
-        }
-      });
-
-      const result = await llamaService.generateResponse('test prompt');
-      expect(result).toBe(expectedResponse);
-    });
-
-    it('should return text when response has text format', async () => {
-      const expectedResponse = 'test response text';
+    it('should return text response when API call succeeds', async () => {
+      const expectedResponse = 'test response';
       axios.post.mockResolvedValueOnce({
         data: {
           choices: [{
             text: expectedResponse
-          }]
-        }
-      });
-
-      const result = await llamaService.generateResponse('test prompt');
-      expect(result).toBe(expectedResponse);
-    });
-
-    it('should prioritize message content over text when both are present', async () => {
-      const expectedResponse = 'message content response';
-      axios.post.mockResolvedValueOnce({
-        data: {
-          choices: [{
-            message: {
-              content: expectedResponse
-            },
-            text: 'text response'
-          }]
+          }],
+          model: 'test-model'
         }
       });
 
