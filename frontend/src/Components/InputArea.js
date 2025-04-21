@@ -5,7 +5,6 @@ function InputArea({user, userInput, setUserInput, sendMessage, adjustInputareaH
     <div className="input-area">
       {user && (user.user_type === 'Instructor' || user.user_type === 'Administrator') && (
       <>
-      <i className="fa-solid fa-bars" onClick={toggleSlidebar}></i>
       <i className="fas fa-paperclip upload-icon" onClick={toggleUploadModal} data-testid="upload-icon"></i>
       </>
       )}

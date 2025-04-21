@@ -295,12 +295,14 @@ function App() {
         chatBoxRef={chatBoxRef}
       />
       <InputArea
+        user={user}
         userInput={userInput}
         setUserInput={setUserInput}
         sendMessage={sendMessage}
         adjustInputareaHeight={adjustInputareaHeight}
         handleKeyPress={handleKeyPress}
         toggleUploadModal={toggleUploadModal}
+        toggleSlidebar={toggleSlidebar}
       />
       
       {showUploadModal && (
