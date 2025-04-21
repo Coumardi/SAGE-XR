@@ -24,13 +24,13 @@ Supporting Materials: Interface Design and Activity Diagram
 FR 2
 ^^^^
 
-Description: Database will be queried and respond with relevant keywords for the user input. 
+Description: Database will be queried and respond with relevant embeddings for the user input. 
 
 Rationale: To send back requested data and information from the user input question 
 
 Originator: Blake Norman 
 
-Fit Criterion: AI will assist in locating keywords in database and return relevant informaiton. 
+Fit Criterion: AI will assist in locating embeddings in database and return relevant informaiton. 
 
 Customer Satisfaction: 5 
 
