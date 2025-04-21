@@ -6,11 +6,13 @@ import UploadModal from '../src/Components/UploadModal';
 jest.mock('../src/Components/FileInput', () => {
   return function MockFileInput({ addFiles }) {
     const handleAddFiles = (type) => {
-      if (type === 'invalid') {
-        addFiles([new File(['test'], 'test.invalid', { type: 'text/plain' })]);
-      } else {
-        addFiles([new File(['test'], 'test.txt', { type: 'text/plain' })]);
-      }
+      const mockFile = {
+        name: type === 'invalid' ? 'test.invalid' : 'test.txt',
+        type: 'text/plain',
+        size: 1024,
+        lastModified: Date.now()
+      };
+      addFiles([mockFile]);
     };
 
     return (
