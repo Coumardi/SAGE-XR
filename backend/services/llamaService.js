@@ -10,54 +10,66 @@ class LlamaService {
         this.baseURL = process.env.LLAMA_API_ENDPOINT;
     }
 
-    async generateResponse(prompt, context = '') {
+    async generateResponse(prompt, memoryContext = '', conversationContext = []) {
+        const startTime = performance.now();
+        
         try {
-            let fullPrompt;
-            if (context) {
-                fullPrompt = `Context: ${context}\n\nQuestion: ${prompt}\n\nAnswer: Please answer based ONLY on the context provided above. If the context doesn't contain enough information to fully answer the question, respond with: "I don't have enough information in my knowledge base to answer this question. Please provide more context or ask another question."`;
-            } else {
-                fullPrompt = `IMPORTANT INSTRUCTION: You are a teaching assistant that MUST NOT provide answers to questionsunless you have been given specific context about the topic. You should respond with: "I don't have any context or information about this topic in my knowledge base. Please provide relevant course materials or documentation first." You may respond to SIMPLE queries, such as "Hello" and "Whats up?". Question: ${prompt}`;
-            }
-
-            const modelConfig = {
-                model: "hermes-3-llama-3.2-3b",
-                messages: [
-                    {
-                        role: "system",
-                        content: "You are a strict teaching assistant that ONLY provides answers when given explicit context. You must never make assumptions or provide information beyond what is directly available in the given context. If you don't have relevant context, always indicate that you need more information. Never try to be helpful by providing general information or guesses."
-                    },
-                    {
-                        role: "user",
-                        content: fullPrompt
-                    }
-                ],
-                temperature: 0.5,
-                max_tokens: 2000,
-                stream: false
-            };
-
-            const startTime = performance.now();
-            const response = await axios.post(`${this.baseURL}/v1/chat/completions`, modelConfig);
-
-            // Collect metrics asynchronously
-            metricsService.collectMetrics(startTime, response.data, modelConfig, prompt)
-                .catch(err => console.error('Error collecting metrics:', err));
-
-            if (response.data.choices && response.data.choices[0]) {
-                if (response.data.choices[0].message) {
-                    return response.data.choices[0].message.content;
-                } else if (response.data.choices[0].text) {
-                    return response.data.choices[0].text;
-                }
-            }
+            // Ensure conversationContext is an array
+            const safeConversationContext = Array.isArray(conversationContext) ? conversationContext : [];
             
-            throw new Error('Unexpected response format from LLM API');
-        } catch (error) {
-            console.error('Detailed error:', {
-                message: error.message,
-                response: error.response?.data,
-                status: error.response?.status
+            // Format the conversation context into a string
+            const formattedConversationContext = safeConversationContext
+                .map(msg => `${msg.role === 'user' ? 'Human' : 'Assistant'}: ${msg.content}`)
+                .join('\n');
+
+            console.log('=== Conversation Context ===');
+            console.log(formattedConversationContext);
+            console.log('=========================\n');
+
+            // Combine all context
+            const fullContext = [
+                memoryContext,
+                formattedConversationContext
+            ].filter(Boolean).join('\n\n');
+
+            // Prepare the prompt with strict instructions
+            const systemInstructions = `You are SAGE, an educational AI assistant. You must ONLY use information from BOTH the provided context AND the conversation history to answer questions. Pay special attention to previous messages in the conversation, as they may contain important information about the user and the ongoing discussion. You can engage in friendly conversation with the user.If neither the context nor the conversation history contains enough information to answer the question, respond with: "I don't have enough information in my knowledge base to answer this question. Please provide more context or ask another question."`;
+
+            // Prepare the prompt with context
+            const fullPrompt = fullContext ? 
+                `${systemInstructions}\n\nContext:\n${fullContext}\n\nQuestion: ${prompt}\n\nAnswer:` :
+                `${systemInstructions}\n\nQuestion: ${prompt}\n\nAnswer:`;
+
+            console.log('=== Full Prompt Being Sent to Model ===');
+            console.log(fullPrompt);
+            console.log('====================================\n');
+
+            // Make the API call to LM Studio
+            const response = await axios.post(`${this.baseURL}/v1/completions`, {
+                prompt: fullPrompt,
+                max_tokens: 1000,
+                temperature: 0.6, // Lower temperature for more deterministic responses
+                stop: ["Question:", "\n\n"]
             });
+
+            const endTime = performance.now();
+            const duration = endTime - startTime;
+
+            // Log metrics
+            await metricsService.collectMetrics(
+                startTime,
+                response.data,
+                {
+                    model: response.data.model || 'unknown', // Use model from API response
+                    temperature: 0.6,
+                    max_tokens: 1000
+                },
+                prompt
+            );
+
+            return response.data.choices[0].text.trim();
+        } catch (error) {
+            console.error('Error generating response:', error);
             throw error;
         }
     }

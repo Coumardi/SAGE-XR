@@ -2,7 +2,7 @@ import React from 'react';
 
 function ChatBox({ messages, isTyping, chatBoxRef }) {
   return (
-    <div className="chat-box" ref={chatBoxRef}>
+    <div className="chat-box" ref={chatBoxRef} data-testid="chat-box">
       {messages.map((message, index) => (
         <div key={index} className={message.type === 'user' ? 'user-message' : 'ai-message'}>
           {message.text}

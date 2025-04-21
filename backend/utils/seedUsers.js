@@ -40,19 +40,52 @@ async function seedUsers() {
       user_type: 'Guest',
       first_name: 'Guest',
       last_name: 'User'
+    },
+    { 
+      starid: 'ms3102sp', 
+      email: 'ms3102sp@go.minnstate.edu', 
+      // This is a bcrypt hash of "Guest"
+      password: '$2b$10$EfJXDntkvJQm1iRaBfoJoeGv/0IAnj5GUQfa2RzQoiTl7siN.HWbi', 
+      user_type: 'administrator',
+      first_name: 'Blake',
+      last_name: 'Norman'
     }
   ];
 
-  // Create database connection
-  const connection = await mysql.createConnection({
+  // Create initial connection without specifying database
+  const initialConnection = await mysql.createConnection({
     host: process.env.MYSQL_HOST || 'localhost',
     port: process.env.MYSQL_PORT || 3306,
     user: process.env.MYSQL_USER || 'root',
-    password: process.env.MYSQL_PASSWORD || 'root',
-    database: process.env.MYSQL_DATABASE || 'sage_xr_auth'
+    password: process.env.MYSQL_PASSWORD || 'root'
   });
 
+  const dbName = process.env.MYSQL_DATABASE || 'sage_xr_auth';
+  let connection;
+
   try {
+    console.log(`Checking if database ${dbName} exists...`);
+    
+    // Try to create the database if it doesn't exist
+    await initialConnection.execute(`CREATE DATABASE IF NOT EXISTS ${dbName}`);
+    console.log(`Ensured database ${dbName} exists`);
+    
+    // Close initial connection
+    await initialConnection.end();
+    
+    // Create connection to the specific database
+    connection = await mysql.createConnection({
+      host: process.env.MYSQL_HOST || 'localhost',
+      port: process.env.MYSQL_PORT || 3306,
+      user: process.env.MYSQL_USER || 'root',
+      password: process.env.MYSQL_PASSWORD || 'root',
+      database: dbName,
+      // Add SSL configuration if required
+      ssl: process.env.MYSQL_SSL_MODE === 'REQUIRED' ? {
+        ca: process.env.MYSQL_CA_CERT
+      } : undefined
+    });
+
     console.log('Connected to database. Checking if users table exists...');
     
     // Check if the users table exists, if not create it with first_name and last_name columns
@@ -121,13 +154,25 @@ async function seedUsers() {
   } catch (error) {
     console.error('Error seeding database:', error);
   } finally {
-    await connection.end();
+    if (connection) await connection.end();
     console.log('Database connection closed.');
   }
 }
 
-// Run the seeding function
-seedUsers().catch(err => {
-  console.error('Failed to seed database:', err);
-  process.exit(1);
-}); 
+// Export the seedUsers function
+module.exports = {
+  seedUsers
+};
+
+// Function to run if this module is executed directly
+function runIfMain() {
+  if (require.main === module) {
+    seedUsers().catch(err => {
+      console.error('Failed to seed database:', err);
+      process.exit(1);
+    });
+  }
+}
+
+// Run if this is the main module
+runIfMain(); 

@@ -1,0 +1,87 @@
+Functional Requirements
+-----------------------
+
+FR 1
+^^^^ 
+Description: System includes a webpage with simple send button and response window. 
+
+Rationale: To show the interaction between user messages sent and the responses from the system from the query. 
+
+Originator: Cheick Ouedraogo 
+
+Fit Criterion: Webpage displays input and output 
+
+Customer Satisfaction: 5 
+
+Customer Dissatisfaction: 5 
+
+Priority: 5 
+
+Conflicts: N/A 
+
+Supporting Materials: Interface Design and Activity Diagram 
+
+FR 2
+^^^^
+
+Description: Database will be queried and respond with relevant keywords for the user input. 
+
+Rationale: To send back requested data and information from the user input question 
+
+Originator: Blake Norman 
+
+Fit Criterion: AI will assist in locating keywords in database and return relevant informaiton. 
+
+Customer Satisfaction: 5 
+
+Customer Dissatisfaction: 5 
+
+Priority: 5 
+
+Conflicts: N/A 
+
+Supporting Materials: Activity Diagram and Database. 
+
+
+Non-Functional Requirements
+---------------------------
+
+NFR 1
+^^^^^
+Description: Front end GUI should be easy to use and involve user feedback. 
+
+Rationale: Front end conversation block will maintain messages and allow information to be stored while the query is active. 
+
+Originator: Andrew Gull 
+
+Fit Criterion: Feedback is needed for user to recall questions asked and keep information flowing as well as track of queriers.  
+
+Customer Satisfaction: 5 
+
+Customer Dissatisfaction: 5 
+
+Priority: 3 
+
+Conflicts: N/A 
+
+Supporting Materials: N/A 
+
+NFR 2
+^^^^^
+Description: Ease of use to use enter and or the send button to send the query.  
+
+Rationale: Human ease of use with multiple ways forward to ask questions. 
+
+Originator: Andrew Gull 
+
+Fit Criterion: Both send button and return key should function as a query sent to the system.  
+
+Customer Satisfaction: 5 
+
+Customer Dissatisfaction: 5 
+
+Priority: 3 
+
+Conflicts: N/A 
+
+Supporting Materials: Activity Diagram 
