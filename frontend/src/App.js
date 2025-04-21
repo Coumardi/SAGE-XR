@@ -6,6 +6,7 @@ import UploadModal from './Components/UploadModal';
 import Dropdown from './Components/Dropdown';
 import Login from './Components/Login';
 import LoginModal from './Components/LoginModal';
+import SlideBarToggleable from './Components/SlideBarToggleable';
 import '@fortawesome/fontawesome-free/css/all.css';
 import { apiUrl } from './config';
 import { createConversation, loadConversation } from './utils/conversationManager';
@@ -16,12 +17,15 @@ function App() {
   const [userInput, setUserInput] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const [uploadSuccess, setUploadSuccess] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [userType, setUserType] = useState(null);
   const [currentConversation, setCurrentConversation] = useState(null);
+
   
   // User authentication state
   const [user, setUser] = useState(null);
   const [showLoginModal, setShowLoginModal] = useState(false);
+  const toggleSlidebar = () => setSidebarOpen(prev => !prev);
 
   // Chat container
   const chatBoxRef = useRef(null);
@@ -206,13 +210,8 @@ function App() {
 
   // Toggle file upload modal
   const toggleUploadModal = () => {
-    if (user && (user.user_type === 'Student' || user.user_type === 'Guest')) {
-      return; // Prevent opening for Students and Guests
-    }
     setShowUploadModal(!showUploadModal);
   };
-  
-  
 
   // Toggle login modal
   const toggleLoginModal = () => {
@@ -222,7 +221,6 @@ function App() {
   // Handle login
   const handleLogin = (userData, token) => {
     setUser(userData);
-    setUserType(userData.user_type);
     if (token) {
       localStorage.setItem('token', token);
       localStorage.setItem('user', JSON.stringify(userData));
@@ -277,6 +275,10 @@ function App() {
 
   return (
     <div className="chat-container">
+      <SlideBarToggleable isOpen = {sidebarOpen}
+      toggleSlidebar = {toggleSlidebar}
+      
+      />
       <header className="header">
         <h1 className="title">SAGE XR</h1>
         <div className="user-info">
@@ -293,7 +295,6 @@ function App() {
         chatBoxRef={chatBoxRef}
       />
       <InputArea
-        user={user}
         userInput={userInput}
         setUserInput={setUserInput}
         sendMessage={sendMessage}
@@ -302,7 +303,7 @@ function App() {
         toggleUploadModal={toggleUploadModal}
       />
       
-      {showUploadModal && ( user && (user.user_type === 'Instructor' || user.user_type === 'Administrator')) && (
+      {showUploadModal && (
         <UploadModal 
           toggleUploadModal={toggleUploadModal} 
           setUploadSuccess={setUploadSuccess} 

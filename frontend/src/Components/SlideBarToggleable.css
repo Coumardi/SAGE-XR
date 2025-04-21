@@ -1,0 +1,67 @@
+.slidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 250px;
+  background-color: #9fa1a1;
+  color: rgb(229, 223, 223);
+  padding: 20px;
+  transform: translateX(-100%);
+  transition: transform 0.3s ease-in-out;
+  z-index: 1000;
+}
+
+.slidebar.open {
+  transform: translateX(0);
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 24px;
+  float: right;
+  cursor: pointer;
+}
+
+.report-btn i {
+  margin-right: 5px;
+  vertical-align: middle;
+  
+}
+
+.menu-btn {
+  position: fixed; 
+  top: 34px;
+  left: 10px;
+  color: rgb(37, 29, 29);
+  width: 30px;
+  height: 30px;
+  font-size: 20px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 10px; 
+}
+
+.report-btn {
+  padding: 8px 16px;
+  background-color: #c5cbd4;
+  color: rgb(29, 27, 27);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  width: 35%;
+  text-align: left;
+}
+
+.report-btn:hover {
+  background-color: #9da6b6;
+}
+
+
+
+
+
