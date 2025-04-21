@@ -6,6 +6,21 @@
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
+
+
+from sphinx.writers.html import HTMLTranslator
+
+class MyHTMLTranslator(HTMLTranslator):
+     def visit_only(self, node):
+         pass  # Add custom handling for 'only' node type
+
+     def depart_only(self, node):
+         pass  # Add custom handling for 'only' node type
+
+def setup(app):
+     app.set_translator('html', MyHTMLTranslator)
+
+
 project = 'Sage-documentaiton'
 copyright = '2025, Andrew, Blake, Cheick'
 author = 'Andrew, Blake, Cheick'
