@@ -30,6 +30,15 @@ goto end
 
 :help
 %SPHINXBUILD% -M help %SOURCEDIR% %BUILDDIR% %SPHINXOPTS% %O%
+goto end
+
+:all
+%SPHINXBUILD% -b html %SOURCEDIR% %BUILDDIR%/sdd -t intro %SPHINXOPTS%
+%SPHINXBUILD% -b html %SOURCEDIR% %BUILDDIR%/sdd -t sdd %SPHINXOPTS%
+%SPHINXBUILD% -b html %SOURCEDIR% %BUILDDIR%/srs -t srs %SPHINXOPTS%
+%SPHINXBUILD% -b html %SOURCEDIR% %BUILDDIR%/std -t std %SPHINXOPTS%
+goto end
+
 
 :end
 popd
