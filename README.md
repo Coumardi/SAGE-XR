@@ -41,4 +41,14 @@ cd frontend
 npm install 
 npm start
 
+## My contributions
+
+This project was originally developed as a group project. I later  made improvements including:
+
+- Integrated Pinecone vector search
+- Improved embedding and retrieval pipeline
+- Fixed memory/ context filtering issues
+- Improved backend query flow
+- Built AI performance monitoring using InfluxDB to track response time, token usage, GPU and Memory usage
+
 
