@@ -51,4 +51,9 @@ This project was originally developed as a group project. I later  made improvem
 - Improved backend query flow
 - Built AI performance monitoring using InfluxDB to track response time, token usage, GPU and Memory usage
 
+## Demo
+
+![Chat](screenshots/chat.png)
+
+![Metrics](screenshots/metrics.png)
 
