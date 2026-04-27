@@ -2,7 +2,6 @@ const axios = require('axios');
 const MetricsService = require('./metricsService');
 const { performance } = require('perf_hooks');
 
-// Create an instance of MetricsService
 const metricsService = new MetricsService();
 
 class LlamaService {
@@ -14,10 +13,8 @@ class LlamaService {
         const startTime = performance.now();
         
         try {
-            // Ensure conversationContext is an array
             const safeConversationContext = Array.isArray(conversationContext) ? conversationContext : [];
             
-            // Format the conversation context into a string
             const formattedConversationContext = safeConversationContext
                 .map(msg => `${msg.role === 'user' ? 'Human' : 'Assistant'}: ${msg.content}`)
                 .join('\n');
@@ -26,48 +23,50 @@ class LlamaService {
             console.log(formattedConversationContext);
             console.log('=========================\n');
 
-            // Combine all context
             const fullContext = [
                 memoryContext,
                 formattedConversationContext
             ].filter(Boolean).join('\n\n');
 
-            // Prepare the prompt with strict instructions
-            const systemInstructions = `You are SAGE, an educational AI assistant. You must ONLY use information from BOTH the provided context AND the conversation history to answer questions. Pay special attention to previous messages in the conversation, as they may contain important information about the user and the ongoing discussion. You can engage in friendly conversation with the user.If neither the context nor the conversation history contains enough information to answer the question, respond with: "I don't have enough information in my knowledge base to answer this question. Please provide more context or ask another question."`;
+            const systemInstructions = `You are SAGE, an educational AI assistant. You must ONLY use information from BOTH the provided context AND the conversation history to answer questions. Pay special attention to previous messages in the conversation, as they may contain important information about the user and the ongoing discussion. You can engage in friendly conversation with the user. If neither the context nor the conversation history contains enough information to answer the question, respond with: "I don't have enough information in my knowledge base to answer this question. Please provide more context or ask another question."`;
 
-            // Prepare the prompt with context
-            const fullPrompt = fullContext ? 
-                `${systemInstructions}\n\nContext:\n${fullContext}\n\nQuestion: ${prompt}\n\nAnswer:` :
-                `${systemInstructions}\n\nQuestion: ${prompt}\n\nAnswer:`;
+            // Build user message with context
+            const userMessage = fullContext
+                ? `Context:\n${fullContext}\n\nQuestion: ${prompt}`
+                : `Question: ${prompt}`;
 
             console.log('=== Full Prompt Being Sent to Model ===');
-            console.log(fullPrompt);
+            console.log(userMessage);
             console.log('====================================\n');
 
-            // Make the API call to LM Studio
-            const response = await axios.post(`${this.baseURL}/v1/completions`, {
-                prompt: fullPrompt,
-                max_tokens: 1000,
-                temperature: 0.6, // Lower temperature for more deterministic responses
-                stop: ["Question:", "\n\n"]
+            //  Updated to chat/completions format
+            const response = await axios.post(`${this.baseURL}/v1/chat/completions`, {
+                model: process.env.LLAMA_MODEL,
+                messages: [
+                    { role: "system", content: systemInstructions },
+                    { role: "user", content: userMessage }
+                ],
+                max_tokens: 300,
+                temperature: 0.6
             });
 
             const endTime = performance.now();
             const duration = endTime - startTime;
 
-            // Log metrics
             await metricsService.collectMetrics(
                 startTime,
                 response.data,
                 {
-                    model: response.data.model || 'unknown', // Use model from API response
+                    model: response.data.model || 'unknown',
                     temperature: 0.6,
-                    max_tokens: 1000
+                    max_tokens: 300
                 },
                 prompt
             );
 
-            return response.data.choices[0].text.trim();
+            //  Updated response extraction for chat format
+            return response.data.choices[0].message.content.trim();
+
         } catch (error) {
             console.error('Error generating response:', error);
             throw error;
@@ -75,4 +74,4 @@ class LlamaService {
     }
 }
 
-module.exports = new LlamaService(); 
+module.exports = new LlamaService();

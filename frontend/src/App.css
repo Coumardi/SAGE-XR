@@ -549,3 +549,37 @@ body {
   color: #666;
   margin-top: 5px;
 }
+
+/* Reoprt button and slidebar styling */
+.report-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.report-modal-content {
+  background: white;
+  width: 85%;
+  max-width: 950px;
+  height: 500px;
+  padding: 25px;
+  border-radius: 14px;
+  position: relative;
+}
+
+.report-close-btn {
+  position: absolute;
+  top: 12px;
+  right: 18px;
+  border: none;
+  background: none;
+  font-size: 28px;
+  cursor: pointer;
+}

@@ -7,7 +7,7 @@ const llamaService = require('../services/llamaService');
 const conversationService = require('../services/conversationService');
 
 // Minimum similarity score for a result to be considered relevant
-const MIN_RELEVANCE_SCORE = 0.75;
+const MIN_RELEVANCE_SCORE = 0.6;
 // Minimum number of characters needed for context to be considered useful
 const MIN_CONTEXT_LENGTH = 50;
 

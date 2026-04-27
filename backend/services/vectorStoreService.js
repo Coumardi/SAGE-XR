@@ -1,102 +1,139 @@
-const { QdrantClient } = require('@qdrant/js-client-rest');
+const { Pinecone } = require('@pinecone-database/pinecone');
 const axios = require('axios');
 const { v4: uuidv4 } = require('uuid');
 
 class VectorStoreService {
     constructor() {
-        this.client = new QdrantClient({ 
-            url: process.env.QDRANT_URL,
-            apiKey: process.env.QDRANT_API_KEY
+        this.client = new Pinecone({
+            apiKey: process.env.PINECONE_API_KEY
         });
-        this.collectionName = process.env.QDRANT_COLLECTION;
+
+        this.indexName = process.env.PINECONE_INDEX;
+        this.index = null;
     }
 
     async initialize() {
-        try {
-            // Check if collection exists
-            const collections = await this.client.getCollections();
-            const exists = collections.collections.some(c => c.name === this.collectionName);
+        if (this.index) return;
 
-            if (!exists) {
-                await this.client.createCollection(this.collectionName, {
-                    vectors: {
-                        size: 768,  // Embedding dimension
-                        distance: 'Cosine'
-                    }
-                });
-            }
+        try {
+            this.index = this.client.index(this.indexName);
+            console.log(`Pinecone index "${this.indexName}" ready`);
         } catch (error) {
-            console.error('Error initializing Qdrant:', error);
+            console.error('Error initializing Pinecone:', error);
             throw error;
         }
     }
 
     async getEmbedding(text) {
         try {
-            const response = await axios.post(`${process.env.LLAMA_API_ENDPOINT}/v1/embeddings`, {
+            console.log(`Getting embedding for text (${text.length} chars)...`);
+
+            const response = await axios.post(process.env.LOCAL_EMBEDDING_ENDPOINT, {
                 input: text,
-                model: "text-embedding-nomic-embed-text-v1.5"
+                model: process.env.LOCAL_EMBEDDING_MODEL
             });
 
-            if (response.data.data && Array.isArray(response.data.data)) {
-                return response.data.data[0].embedding;
-            } else if (response.data.embedding) {
-                return response.data.embedding;
+            let embedding;
+
+            if (response.data?.data?.[0]?.embedding) {
+                embedding = response.data.data[0].embedding;
+            } else if (response.data?.embedding) {
+                embedding = response.data.embedding;
+            } else {
+                console.error('Unexpected embedding response:', response.data);
+                throw new Error('Unexpected embedding response format');
             }
 
-            throw new Error('Unexpected embedding response format');
+            if (!Array.isArray(embedding) || embedding.length === 0) {
+                throw new Error('Invalid embedding returned');
+            }
+
+            console.log(`Got embedding of dimension ${embedding.length}`);
+            return embedding;
+
         } catch (error) {
-            console.error('Error getting embedding:', error);
+            if (error.response) {
+                console.error('Embedding server error:', error.response.status, error.response.data);
+            }
+
+            console.error('Error getting embedding:', error.message);
             throw error;
         }
     }
 
     async storeMemory(text, metadata = {}) {
         await this.initialize();
+
+        if (!text || text.trim().length === 0) {
+            console.warn('storeMemory called with empty text — skipping');
+            return null;
+        }
+
         const vector = await this.getEmbedding(text);
+
+        if (!vector || vector.length === 0) {
+            console.warn('Empty vector returned — skipping upsert');
+            return null;
+        }
+
         const id = uuidv4();
 
-        await this.client.upsert(this.collectionName, {
-            points: [{
+        const records = [
+            {
                 id,
-                vector,
-                payload: {
+                values: vector,
+                metadata: {
                     text,
                     timestamp: Date.now(),
                     ...metadata
                 }
-            }]
-        });
+            }
+        ];
+
+        await this.index.upsert({ records });
+
+        console.log(
+            `Stored chunk ${(metadata.chunkIndex ?? 0) + 1}/${metadata.totalChunks ?? '?'} for ${metadata.fileName ?? 'unknown file'}`
+        );
 
         return id;
     }
 
     async queryMemories(query, limit = 5) {
         await this.initialize();
+
+        if (!query || query.trim().length === 0) {
+            console.warn('queryMemories called with empty query');
+            return [];
+        }
+
         const queryVector = await this.getEmbedding(query);
 
         console.log(`Searching for top ${limit} relevant documents...`);
-        
-        const results = await this.client.search(this.collectionName, {
+
+        const results = await this.index.query({
+            topK: limit,
             vector: queryVector,
-            limit: limit,
-            score_threshold: 0.75
+            includeValues: false,
+            includeMetadata: true
         });
 
-        console.log(`Found ${results.length} relevant documents`);
-        
-        return results.map(hit => ({
-            text: hit.payload.text,
+        const matches = results.matches || [];
+
+        console.log(`Found ${matches.length} relevant documents`);
+
+        return matches.map(hit => ({
+            text: hit.metadata?.text || '',
             score: hit.score,
             metadata: {
-                documentId: hit.payload.documentId,
-                fileName: hit.payload.fileName,
-                chunkIndex: hit.payload.chunkIndex,
-                totalChunks: hit.payload.totalChunks,
-                uploadDate: hit.payload.uploadDate
+                documentId: hit.metadata?.documentId,
+                fileName: hit.metadata?.fileName,
+                chunkIndex: hit.metadata?.chunkIndex,
+                totalChunks: hit.metadata?.totalChunks,
+                uploadDate: hit.metadata?.uploadDate
             }
         }));
     }
 }
 
-module.exports = new VectorStoreService(); 
+module.exports = new VectorStoreService();

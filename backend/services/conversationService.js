@@ -1,15 +1,4 @@
 const Conversation = require('../models/Conversation');
-const mongoose = require('mongoose');
-
-// Connect to MongoDB
-mongoose.connect('mongodb+srv://SE:SE490Group@cluster0.2ilsj.mongodb.net/SageXR', {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-}).then(() => {
-    console.log('Connected to MongoDB SageXR database');
-}).catch((error) => {
-    console.error('MongoDB connection error:', error);
-});
 
 const conversationService = {
     // Create a new conversation with initial messages
@@ -105,4 +94,4 @@ const conversationService = {
     }
 };
 
-module.exports = conversationService; 
+module.exports = conversationService;
