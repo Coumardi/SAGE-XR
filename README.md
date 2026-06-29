@@ -9,6 +9,8 @@ It uses embeddings, vector database (Pinecone), and local Llama model to generat
 - Embedding generation (convert texts to vectors)
 - Vector search (Pinecone)
 - Context-aware, AI responses (Llama)
+- Source citations that allow users to view the docuemnt chunks used to generate response
+- AI quiz generation from uploaded documents (Multiple-choice question)
 - Response-time monitoring
 - Chat-based interface
 
@@ -49,6 +51,8 @@ This project was originally developed as a group project. I later  made improvem
 - Improved embedding and retrieval pipeline
 - Fixed memory/ context filtering issues
 - Improved backend query flow
+- Added source citation that allow users to view the document chunks used to generate AI responses
+- Developed a AI quiz generator that creates multiple-choice questions from uploaded documents
 - Built AI performance monitoring using InfluxDB to track response time, token usage, GPU and Memory usage
 
 ## Demo
