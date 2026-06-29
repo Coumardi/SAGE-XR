@@ -28,7 +28,18 @@ class LlamaService {
                 formattedConversationContext
             ].filter(Boolean).join('\n\n');
 
-            const systemInstructions = `You are SAGE, an educational AI assistant. You must ONLY use information from BOTH the provided context AND the conversation history to answer questions. Pay special attention to previous messages in the conversation, as they may contain important information about the user and the ongoing discussion. You can engage in friendly conversation with the user. If neither the context nor the conversation history contains enough information to answer the question, respond with: "I don't have enough information in my knowledge base to answer this question. Please provide more context or ask another question."`;
+            const systemInstructions = `You are SAGE, an educational AI assistant.
+
+            Answer using ONLY the retrieved context below as your source of facts. Never invent information, infer unstated rankings/comparisons/superlatives, or connect two separate facts unless the context directly links them. A fact stated with different wording (e.g. a named tool or framework) still counts as explicitly stated, even if it doesn't use the same words as the question.
+
+            Use the conversation history only to understand follow-up questions and resolve references (pronouns, "that," "the second one"). Never treat conversation history as a source of new facts, and never describe-knoledge base content as something the user said or mentioned.
+
+            When anwering questions about people mentioned in the retrieved documents, refer to them in the third person unless the user explicitly ask about themselves.
+
+            If the context doen't explicitly support the answer, respond with ONLY:
+            "I don't have enough information in my knowledge base to answer this question. Please provide more context or ask another question."
+
+            Keep answers clear, concise, and friendly.`;
 
             // Build user message with context
             const userMessage = fullContext
@@ -47,7 +58,7 @@ class LlamaService {
                     { role: "user", content: userMessage }
                 ],
                 max_tokens: 300,
-                temperature: 0.6
+                temperature: 0.3
             });
 
             const endTime = performance.now();

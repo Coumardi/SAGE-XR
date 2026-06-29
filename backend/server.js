@@ -15,6 +15,7 @@ const metricsRoutes = require('./routes/matricsRoutes');
 const helmet = require('helmet');
 const https = require('https');
 const fs = require('fs');
+const quizRoute = require('./routes/quizRoute');
 
 const app = express();
 
@@ -109,6 +110,7 @@ if (process.env.NODE_ENV === 'production') {
     console.error('Error setting up HTTPS server:', error);
   }
 }
+app.use("/api", quizRoute);
 
 app.listen(PORT, () => {
   console.log(`HTTP Server running on port ${PORT}`);

@@ -7,7 +7,8 @@ const llamaService = require('../services/llamaService');
 const conversationService = require('../services/conversationService');
 
 // Minimum similarity score for a result to be considered relevant
-const MIN_RELEVANCE_SCORE = 0.6;
+const MIN_RELEVANCE_SCORE = 0.50;
+const TOP_K_CONTEXT = 5; // Maximum number of relevant memories to include in context
 // Minimum number of characters needed for context to be considered useful
 const MIN_CONTEXT_LENGTH = 50;
 
@@ -29,8 +30,18 @@ const query = async (req, res) => {
         console.log('Found relevant memories:', relevantMemories);
         
         // Filter memories by relevance score
-        const highQualityMemories = relevantMemories.filter(memory => memory.score >= MIN_RELEVANCE_SCORE);
+        const highQualityMemories = relevantMemories.filter(memory => memory.score >= MIN_RELEVANCE_SCORE).slice(0, TOP_K_CONTEXT);
         console.log(`Filtered to ${highQualityMemories.length} high-quality memories with score >= ${MIN_RELEVANCE_SCORE}`);
+
+        const citations = highQualityMemories.map(memory => ({
+            fileName: memory.metadata?.fileName || 'unknown',
+            chunk: (memory.metadata?.chunkIndex ?? '?') + 1,
+            totalChunks: memory.metadata?.totalChunks ?? '?',
+            score: memory.score.toFixed(4),
+            text: memory.text
+        }));
+        
+        console.log('Citations for high-quality memories:', citations);
         
         // Format context from high-quality memories
         const memoryContext = highQualityMemories
@@ -64,7 +75,8 @@ const query = async (req, res) => {
             type: 'ai',
             text: result,
             timeStamp: currentTime,
-            relevantMemories: highQualityMemories
+            relevantMemories: highQualityMemories,
+            citations
         };
 
         let conversation;
@@ -93,6 +105,7 @@ const query = async (req, res) => {
 
         res.status(200).json({ 
             result,
+            citations,
             relevantMemories: effectiveMemoryContext ? highQualityMemories : [], // Only return used memories
             conversationId: conversation._id
         });

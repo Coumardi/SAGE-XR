@@ -3,7 +3,7 @@ import FileInput from './FileInput';
 import UploadedFilesList from './UploadedFilesList';
 import ModalButtons from './ModalButtons';
 
-function UploadModal({ toggleUploadModal, setUploadSuccess }) {
+function UploadModal({ toggleUploadModal, setUploadSuccess}) {
   const [uploadedFiles, setUploadedFiles] = useState([]);
   const [errorMessage, setErrorMessage] = useState('');
   const [uploadFailureMessage, setUploadFailureMessage] = useState('');

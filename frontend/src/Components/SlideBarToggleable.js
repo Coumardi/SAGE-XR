@@ -2,7 +2,7 @@
 import React from 'react';
 import './SlideBarToggleable.css'; 
 
-const SlideBarToggleable = ({ isOpen, toggleSlidebar, onReportClick }) => {
+const SlideBarToggleable = ({ isOpen, toggleSlidebar, onReportClick, onQuizClick }) => {
   return (
     <>
       <button className="menu-btn" onClick={toggleSlidebar}>
@@ -21,8 +21,14 @@ const SlideBarToggleable = ({ isOpen, toggleSlidebar, onReportClick }) => {
           >
             Report
           </button> 
+            <button
+              className="quiz-btn"
+              onClick={onQuizClick}
+            >
+              Generate Quiz
+            </button>
+          </div>
         </div>
-      </div>
     </>
   );
 };

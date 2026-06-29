@@ -12,6 +12,7 @@ import '@fortawesome/fontawesome-free/css/all.css';
 import { apiUrl } from './config';
 import { createConversation } from './utils/conversationManager';
 
+
 function App() {
   const [messages, setMessages] = useState([]);
   const [userInput, setUserInput] = useState('');
@@ -20,6 +21,10 @@ function App() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [currentConversation, setCurrentConversation] = useState(null);
   const [showReport, setShowReport] = useState(false);
+  const [quiz, setQuiz] = useState([]);
+  const [answers, setAnswers] = useState({});
+  const [showQuiz, setShowQuiz] = useState(false);
+ 
 
   const [user, setUser] = useState(null);
   const [showLoginModal, setShowLoginModal] = useState(false);
@@ -149,7 +154,8 @@ function App() {
             hour: '2-digit',
             minute: '2-digit'
           }),
-          relevantMemories: result.relevantMemories
+          relevantMemories: result.relevantMemories,
+          citations: result.citations || []
         };
 
         if (currentConversation && !currentConversation.getMongoId() && result.conversationId) {
@@ -214,12 +220,36 @@ function App() {
     option === 'Login' ? toggleLoginModal() : handleLogout();
   };
 
+  // need to start here for quiz handler function with fake data
+  const handleQuizClick = async () => {
+    const res = await fetch("http://localhost:5000/api/generate-quiz", {
+      method: "POST",
+    });
+    const data = await res.json();
+    setQuiz(data.quiz);
+    setShowQuiz(true);
+      
+  };
+  // submit quiz handle
+   
+  const handleSubmitQuiz = () => {
+    let score = 0;
+    quiz.forEach((q, index) => {
+        console.log(`Q${index}: selected="${answers[index]}" | correct="${q.answer}"`);
+        if (answers[index]?.trim().toLowerCase() === q.answer?.trim().toLowerCase()) { 
+            score++; 
+        }
+    });
+    alert(`Your score is ${score}/${quiz.length}`);
+};
+
   return (
     <div className="chat-container">
       <SlideBarToggleable
         isOpen={sidebarOpen}
         toggleSlidebar={toggleSlidebar}
         onReportClick={handleReportClick}
+        onQuizClick={handleQuizClick}
       />
 
       <header className="header">
@@ -230,20 +260,59 @@ function App() {
         </div>
       </header>
 
-      {/* 🔥 MODAL (BEST UI) */}
       {showReport && (
         <div className="report-modal">
           <div className="report-modal-content">
-            <button className="report-close-btn" onClick={() => setShowReport(false)}>
-              ×
+            <button
+            className="report-close-btn"
+            onClick={()=> setShowReport(false)}
+            >
+              x
             </button>
-            <MetricsChart />
-          </div>
+            <MetricsChart/>
+            </div>
         </div>
       )}
+      {showQuiz &&(
+            <div className="quiz-modal">
+              <div className="quiz-modal-content">
+                <button
+                className ="quiz-close-btn"
+                onClick={() => setShowQuiz(false)}
+                >
+                  x
+                </button>
+                <h2>Quiz</h2>
+                {quiz.map((q, index)=>(
+                  <div key={index} className ="quiz-question">
+                    <h4>{q.question}</h4>
+                    {q.options.map((option, i) =>(
+                      <div key={i}>
+                        <label>
+                          <input
+                          type="radio"
+                          name={`q-${index}`}
+                          value={option}
+                          onChange={() => setAnswers({...answers, [index]: option})}
+                          />
+                          {option}
+                        </label>
+                        </div>
 
+                    ))}
+                    </div>
+                ))}
+                <button
+                className="submit-quiz-button"
+                onClick={handleSubmitQuiz}
+                >
+                  Submit Quiz
+                </button>
+                </div>
+              </div>
+          )}
+          
       <ChatBox messages={messages} isTyping={isTyping} chatBoxRef={chatBoxRef} />
-
       <InputArea
         user={user}
         userInput={userInput}
@@ -256,7 +325,7 @@ function App() {
       />
 
       {showUploadModal && (
-        <UploadModal toggleUploadModal={toggleUploadModal} setUploadSuccess={setUploadSuccess} />
+        <UploadModal toggleUploadModal={toggleUploadModal} setUploadSuccess={setUploadSuccess}/>
       )}
 
       {uploadSuccess && <div className="success-message">Files uploaded successfully!</div>}

@@ -7,7 +7,7 @@ const path = require('path');
 // ─── CONFIG ──────────────────────────────────────────────────────────────────
 
 const CHARS_PER_TOKEN = 4;
-const MAX_TOKENS_PER_CHUNK = 400;
+const MAX_TOKENS_PER_CHUNK = 200;
 const MAX_CHARS_PER_CHUNK = MAX_TOKENS_PER_CHUNK * CHARS_PER_TOKEN;
 const MIN_CHUNK_CHARS = 50;
 

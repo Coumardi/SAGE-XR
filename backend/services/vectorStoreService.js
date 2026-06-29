@@ -99,7 +99,7 @@ class VectorStoreService {
         return id;
     }
 
-    async queryMemories(query, limit = 5) {
+    async queryMemories(query, limit = 10) {
         await this.initialize();
 
         if (!query || query.trim().length === 0) {
